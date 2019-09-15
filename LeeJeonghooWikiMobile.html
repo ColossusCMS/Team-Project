@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>이정후 - 위키백과 모바일</title>
+
+<meta name = "viewport" content = "width=device-width, initial-scale = 1.0, minimum-scale = 1.0, user-scalable = no" />
+
+<style>
+* { margin : 0;
+padding : 0;
+}
+body { font-family : Gothic, '맑은 고딕', '나눔 고딕'; }
+li { list-style-type : square;
+padding-left : 10px;
+}
+a { text-decoration : none; }
+a:hover { text-decoration : underline; }
+</style>
+
+<style>
+#main_header { height : 45px;
+background : url('http://postfiles13.naver.net/MjAxNzA5MDlfMTI2/MDAxNTA0OTQ4MjA1Mzk3.Ee2x6gAwNqtPUUQQF3aQ5KNd3GPx31HkB8NGRVpilLMg.jQPil5DrPt3UwyW04S2PvJB6Au2hj6oIMMjB_W8X5RQg.PNG.yaahq/header_back.png?type=w966');
+position : relative;
+text-align : center;
+line-height : 45px;
+}
+
+#main_header > h1 { color : gray;
+font-family : 'Arial';
+}
+#main_header > label, #main_header > a { display : block;
+height : 32px;
+position : absolute;
+}
+
+#main_header > label.left { width : 32px;
+left : 5px;
+top : 7px;
+}
+
+#main_header > a.right { width : 32px;
+right : 5px;
+top : 7px;
+}
+</style>
+
+<style>
+#main_header > label.left { background : url('http://postfiles11.naver.net/MjAxNzA5MDlfMjE0/MDAxNTA0OTQ4MjA1Mzg1.ttVwqGW6n0l1WMbo0myAXaXOeXlF4FkrUgYgJuCwEO0g.19FJ5yQd2dPkWyx4t-OOtPvxXVtSu4HyOd-5XfI4MFQg.PNG.yaahq/3line.png?type=w966');
+text-indent : -99999px;
+}
+
+#main_header > a.right { background : url('http://postfiles16.naver.net/MjAxNzA5MDlfMjIy/MDAxNTA0OTQ4MjA1Nzcw.erPuH7FUhmjijgTIAcMwloi2y86iZm2wluvTR18r4qcg.iVdsAXrftMdRUjiVzlG3vBp23z6sqV1Se2Es7pi-VU4g.PNG.yaahq/search.png?type=w966');
+text-indent : -99999px;
+}
+</style>
+
+<style>
+#toggle { display : none; }
+#toggle + #wrap > #toggle_gnb_wrap { display : none; }
+#toggle:checked + #wrap > #toggle_gnb_wrap { display : block; }
+#toggle_gnb_wrap { background : #d5d5d5;
+padding : 15px;
+}
+
+#toggle_gnb > ul { overflow : hidden;
+}
+#toggle_gnb > ul > li { padding : 5px;
+background : #ffffff;
+}
+#toggle_gnb > ul > li > a { display : block;
+padding-left : 15px;
+color : black;
+font-weight : bold;
+}
+#toggle_gnb > ul > li > a > img { padding : 5px 10px 0 0; }
+#toggle_gnb > p > a { font-size : 13px;
+padding-right : 20px;
+}
+</style>
+
+<style>
+.ellipsis { white-space : nowrap;
+overflow : hidden;
+text-overflow : ellipsis;
+padding : 10px 0;
+}
+</style>
+
+<style>
+#section_header > a { padding : 0 10px; }
+#info_article > p { font-style : italic; 
+font-size : 14px;
+padding : 0 10px;
+}
+#main_article { padding : 10px 10px 0 10px; }
+</style>
+
+<style>
+#table_section > table { border : 1px solid black;
+margin : 20px 10px;
+}
+.header_table { background-color : #820024;
+color : white;
+text-align : center;
+}
+</style>
+
+<style>
+.col_1 { padding-left : 10px;
+background : gray;
+color : white;
+font-size : 15px;
+font-weight : bold;
+}
+.col_2 { padding-left : 5px;
+font-size : 15px;
+}
+</style>
+
+<style>
+#amature > h1 { font-size : 25px;
+padding : 10px;
+}
+#amature > p { padding : 10px;
+font-size : 16px;
+}
+</style>
+
+<style>
+#nexen > h1 { font-size : 25px;
+padding : 10px;
+}
+#nexen > p { padding : 10px;
+font-size : 16px;
+}
+#nexen > h3 { padding : 10px;}
+</style>
+
+<style>
+#nickname > h1 { font-size : 25px;
+padding : 10px;
+}
+#nickname > p { padding : 10px;
+font-size : 16px;
+}
+</style>
+
+<style>
+#school > h1 { font-size : 25px;
+padding : 10px;
+}
+#school > ul { list-style-type : square; }
+#school > ul > li { padding : 5px 10px;
+font-size : 16px;
+}
+</style>
+
+<style>
+#prize > h1 { font-size : 25px;
+padding : 10px;
+}
+#prize > ul { list-style-type : square; }
+#prize > ul > li { padding : 5px 10px;
+font-size : 16px;
+}
+</style>
+
+<style>
+#footnote > h1 { font-size : 25px;
+padding : 10px;
+}
+#footnote > ol { list-style-type : square; }
+#footnote > ol > li { padding : 5px 10px;
+font-size : 16px;
+}
+#footnote > img { padding : 10px;
+}
+</style>
+
+<style>
+#main_footer { border-top : 1px solid black;
+padding : 10px;
+background : url('http://postfiles13.naver.net/MjAxNzA5MDlfMTI2/MDAxNTA0OTQ4MjA1Mzk3.Ee2x6gAwNqtPUUQQF3aQ5KNd3GPx31HkB8NGRVpilLMg.jQPil5DrPt3UwyW04S2PvJB6Au2hj6oIMMjB_W8X5RQg.PNG.yaahq/header_back.png?type=w966');
+position : relative;
+}
+#main_footer > h3 { padding : 10px; }
+#main_footer > p { font-size : 15px;
+padding : 10px;
+}
+</style>
+</head>
+<body>
+
+<input id = "toggle" type = "checkbox" />
+<div id = "wrap">
+
+<header id = "main_header">
+<label class = "left" for = "toggle" onclick = "">Toggle</label>
+<h1>WikipediA</h1>
+<a class = "right" href = "#">Search</a>
+</header>
+
+<div id = "toggle_gnb_wrap">
+<div id = "toggle_gnb">
+<ul>
+<li><a href = "#"><img src = "http://postfiles3.naver.net/MjAxNzA5MDlfMTI2/MDAxNTA0OTQ4MjA1NTEz.11ygjE2ED1ijJL8O9Ha1N6WdietlmEcebu7wCrBsS2Eg.VQFZp97RtEfpDtR75jCh0GdVcuHC5HoBbLmaQzDzQdwg.PNG.yaahq/home.png?type=w966">대문</a></li>
+<hr />
+<li><a href = "#"><img src = "http://postfiles5.naver.net/MjAxNzA5MDlfMTg3/MDAxNTA0OTQ4MjA1Mzk2.P38lZK_1oQXgrO5XUsaS3lyAuSkadgdllCqtUYHaDowg.YIeYJRhHtUNDC8mqAaBy01PALSGIjEOC8M0rKQxbsykg.PNG.yaahq/doc2.png?type=w966">임의 문서</a></li>
+<hr />
+<li><a href = "#"><img src = "http://postfiles4.naver.net/MjAxNzA5MDlfMjE3/MDAxNTA0OTQ4MjA1Mzk3.Iknsnj5P2ZIc-KM2eMMO-rzWLRnhOexVfAq8zjHP6pMg._kOauaHTUYKniYHKssvuYzUR-FYpBnZaoiqZR0H3FBMg.PNG.yaahq/gps.png?type=w966">근처</a></li>
+<br />
+<li><a href = "#"><img src = "http://postfiles5.naver.net/MjAxNzA5MDlfMTMz/MDAxNTA0OTQ4MjA1NjMz.IudHSCXX25ShGP-pG02-LyOLNUK5qnvMkmVZNV-E6xUg.C9OCw4Wxm8x-gNAPbUo-ea2wbtZooOpTncJDUH1vYrUg.PNG.yaahq/login.png?type=w966">로그인</a></li>
+<br />
+<li><a href = "#"><img src = "http://postfiles9.naver.net/MjAxNzA5MDlfMTg4/MDAxNTA0OTQ4MjA1NzY5.9U__c4py2Pf3DImSB8PI516Bz1qgbsSLdEilNJR-dpog.h3U75djEOwhFyJMgdpKnCaA8Mhcn50TMbW0dzzYhHlgg.PNG.yaahq/op.png?type=w966">설정</a></li>
+<br />
+</ul>
+<p><a href = "#">위키백과 소개</a><a href = "#">면책 조항</a></p>
+</div>
+</div>
+
+<section id = "main_section">
+
+<header id = "section_header">
+<h1 class = "ellipsis">이정후</h1><hr />
+<a href = "#"><img src = "http://postfiles13.naver.net/MjAxNzA5MDlfMjMx/MDAxNTA0OTQ4MjA1Nzgz.N7cQpeXmIGyShcO5ZdD69j_RVNoEBL-qUr2jsjUobrYg.lOtV2bXfZJLXYW5jmameNf2_vvIabZPs-o5XYWy7QLYg.PNG.yaahq/star.png?type=w966"></a>
+<a href = "#"><img src = "http://postfiles5.naver.net/MjAxNzA5MDlfMTAz/MDAxNTA0OTQ4MjA1Mzk3.hfLC-6Wrw45LkLZavpy6BvGDoDRgnZOHRtppcxbBVNgg.goxFwglaFtJHoem6Ik6D5Z5D2DYz0MiwMXyAWCSueEUg.PNG.yaahq/edit.png?type=w966"></a>
+</header>
+<hr />
+
+<article id = "info_article">
+<p><img src = "http://postfiles7.naver.net/MjAxNzA5MDlfNjgg/MDAxNTA0OTQ4MjA1NTEz.v9hgl1OpvZJ_hyurwii6dhb0wLVwivQvUCziAZ3bZG0g.H9y3lgfJhMhBgPlIEZ3_Xn-tGFFEE8oMYDiPDbGvJ58g.PNG.yaahq/info.png?type=w966" height = "20px">이 문서는 야구 선수에 관한 것입니다. 동명의 배우에 대해서는 <a href = "#">정후</a> 문서를 참조하십시오.</p>
+</article>
+
+<article id = "main_article">
+<b>이정후</b>(<a href = "#">1998년</a> <a href = "#">8월 20일</a> ~ )은 <a href = "#">KBO 리그</a> <a href = "#">넥센 히어로즈</a>의 <a href = "#">외야수</a>이다.
+그의 아버지는 <a href = "#">MBC 스포츠 플러스</a> 해설위원인 <a href = "#">이종범</a>이다. 또 그의 사촌은 <a href = "#">LG 트윈스</a>의 <a href = "#">윤대영</a>이다.
+<a href = "#">이종범</a>이 <a href = "#">주니치 드래건스</a>에서 선수 생활을 하고 있을 때 <a href = "#">주니치 드래건스</a>의 연고지인 <a href = "#">일본</a> <a href = "#">나고야</a>에서 태어났다.
+</article>
+
+<article id = "table_section">
+<table>
+<tr>
+<th colspan = "2" class = "header_table">이정후<br />Lee Jeong-Hoo<br />넥센 히어로즈 No.41</th>
+</tr>
+
+<tbody>
+<tr>
+<td colspan = "2"><img src = "http://postfiles12.naver.net/MjAxNzA5MDlfMTIw/MDAxNTA0OTQ4MjA1NzY5.W3CvtCcNtFlSoE2C3paE1dNkYmc1vPdcpAjz_zsfkUsg.VOtcwuo2iNNwV-RGD-O7vZG5YN1g_vZo5pirNMbvejIg.JPEG.yaahq/ljh.jpg?type=w966" width = "100%"></td>
+</tr>
+
+<tr>
+<td colspan = "2" class = "header_table">기본 정보</td>
+</tr>
+
+<tr>
+<td class = "col_1">국적</td>
+<td class = "col_2"><img src = "http://postfiles13.naver.net/MjAxNzA5MDlfMjA1/MDAxNTA0OTQ4MjA1NTM2.W8d2fPNZYkBfjThSPXzcNVPsi6HqpV2EhGm4n2k72ycg.cu8ogMutRyq7UYhBG62sUNCpvoEpXR5OHj3Ri1VeHiIg.PNG.yaahq/kor.png?type=w966" style = "border : 1px solid black"><a href = "#">대한민국</a></td>
+</tr>
+
+<tr>
+<td class = "col_1">생년월일</td>
+<td class = "col_2">1998년 8월 20일 (19세)</td>
+</tr>
+
+<tr>
+<td class = "col_1">출신지</td>
+<td class = "col_2"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMjgy/MDAxNTA0OTQ4MjA1NTIx.zrpJrJdg9qG6QbBy88O1OiArIsmNbjxGXzJhahnRCzkg.g938AxqyuYLQr7QDRK0X_gaesVB1UjYEJa8PXCnmMeMg.PNG.yaahq/jpn.png?type=w966" style = "border : 1px solid black"><a href = "#">일본</a> <a href = "#">아이치현</a> <a href = "#">나고야</a></td>
+</tr>
+
+<tr>
+<td class = "col_1">신장</td>
+<td class = "col_2">185cm</td>
+</tr>
+
+<tr>
+<td class = "col_1">체중</td>
+<td class = "col_2">78kg</td>
+</tr>
+
+<tr>
+<td colspan = "2" class = "header_table">선수 정보</td>
+</tr>
+
+<tr>
+<td class = "col_1">투구·타석</td>
+<td class = "col_2">우투좌타</td>
+</tr>
+
+<tr>
+<td class = "col_1">수비 위치</td>
+<td class = "col_2"><a href = "#">중견수</a>, <a href = "#">좌익수</a>, <a href = "#">우익수</a>, <a href = "#">유격수</a> (입단 당시)</td>
+</tr>
+
+<tr>
+<td class = "col_1">프로 입단 연도</td>
+<td class = "col_2"><a href = "#">2017년</a></td>
+</tr>
+
+<tr>
+<td class = "col_1">드래프트 순위</td>
+<td class = "col_2"><a href = "#">2017년</a> 1차 지명 (<a href = "#">넥센 히어로즈</a>)</td>
+</tr>
+
+<tr>
+<td class = "col_1">첫 출장</td>
+<td class = "col_2"><a href = "#">KBO</a> / <a href = "#">2017년</a> <a href = "#">3월 31일</a> <a href = "#">고척</a> 대 <a href = "#">LG</a>전 대타</td>
+</tr>
+
+<tr>
+<td class = "col_1">계약금</td>
+<td class = "col_2">2억원</td>
+</tr>
+
+<tr>
+<td class = "col_1">연봉</td>
+<td class = "col_2">2,700만원 (2017년)</td>
+</tr>
+
+<tr>
+<td colspan = "2" class = "header_table">경력</td>
+</tr>
+
+<tr>
+<td colspan = "2">
+<ul>
+<li><a href = "#">넥센 히어로즈</a> (2017년 ~ 현재)</li>
+</ul>
+</td>
+</tr>
+
+</tbody>
+</table>
+</article>
+
+<article id = "amature">
+<h1>아마추어 시절</h1><hr />
+<p>2014년 휘문고에 입학한 1학년 때부터 주전자리를 차지했으며 중견수로 활동하며 봉황대기 결승에서 2안타와 타점을 기록하는등 휘문고 우승에 큰 기여를 하였다.
+1학년때부터 주전으로 활동했으며 3할 3푼을 기록했다.
+2015시즌 2학년때는 더욱더 성장해 톱타자로 무려 타율 5할 2푼을 기록하는 등 1차지명 후보로 떠올랏다.
+2016년 3학년 때는 4번타자의 중책을 맡으면서 야심차게 타격폼도 바꾸고 유격수로 전향했지만 수비에서 자주 실책을 저지르고 전반기에 손가락 부상 등으로 부진하였다.
+하지만 중반시점부터 서서히 살아나며 4할대의 타율을 기록했고 봉황대기에선 톱타자로 4할대 후반의 맹타를 기록하며 휘문고 우승에 큰 기여를 하였다.
+청소년 대표에 뽑혀서도 여전히 맹타를 휘둘렀는데 중견수와 1루수를 보며 1번타자로 타율 6할과 최다타점을 기록하는 등 유일하게 한국 선수들 중 청소년 대표 올스타 TOP 10에 들기도 하였다.
+<a href = "#">고형욱</a> 스카우터 팀장과 넥센 스카우터들은 그를 무등중학교 때부터 지켜보았다고 언급하였는데 아직 신체조건이나 체격조건이 완성되지 않은 고 3임에도 불구하고 메이저리그 웬만한 선수들과 견줘도 밀리지 않는 배트스피드를 가장 큰 장점으로 뽑았다.
+그 밖에 삼진을 당하지 않는 좋은 선구안, 어떤 코스든 쳐낼 수 있는 뛰어난 컨택능력, 빠른 발, 좋은 어깨, 뛰어난 센스 등 툴적인 면에서 높게 평가해 스카우터 내부회의에서 만장일치로 1차지명으로 뽑았다고 언급했다.
+<a href = "#">네센 히어로즈</a>에선 <a href = "#">강정호</a>, <a href = "#">박병호</a> 등 야수쪽에서 슈퍼스타들이 대거 빠진터라 차세대 슈퍼스타로 키울 야수로 그를 점찍고 1차지명하였다.
+다만 고교시절부터 너무 마른 몸으로 인해 프로에 적응하려면 오래 걸릴 거라는 평가와 내야 수비에서 송구트라우마로 인해 내야수가 부적합하며, 외야수로 전향해야 한다는 평가를 듣기도 했다.</p>
+</article>
+
+<article id = "nexen">
+<h1><a href = "#">넥센 히어로즈</a> 시절</h1><hr />
+<p>2017년 신인 드래프트에서 1차 지명되었다.
+<a href = "#">KBO 리그</a> 최초의 부자 1차지명으로 화제를 모았다.<sup><a id = "01" href = "#1">[1]</a></sup></p>
+<h3>2017시즌</h3>
+<p>2017 시즌 일본 마무리캠프, 미국 전지훈련 때부터 큰 주목을 받았다.
+아마추어 시절의 평가 그대로 빠른 배트스피드, 좋은 선구안, 맞았다하면 죄다 정타로 뻗는 타구질 등을 보여 주었다.
+시즌을 시작하기도 전에 연습경기에서 연일 호타를 보이자 넥센팬들에게 큰 기대감을 심어주었다.
+고졸 선수답지 않다, 넥센의 미래, 넥센의 차세대 프랜차이즈 스타라는 소릴 들었다.
+시범경기에서도 여전히 뜨거운 타격 감각을 보여줬는데 팀과 <a href = "#">장정석</a> 감독의 시범경기 첫 승을 이끌기도 했다.<sup><a id = "02" href = "#2">[2]</a></sup>
+비록 시범경기지만 갓 고교를 졸업한 신인 타자답지 않게 팀이 지고 있는데 대타로 등장해서 역전타를 터뜨린다든지<sup><a id = "03" href = "#3">[3]</a></sup> 동점타를 터뜨린다는지<sup><a id = "04" href = "#4">[4]</a></sup>
+클러치 상황때마다 좋은 모습을 보여주며 스타 탄생을 알렸고, 상대한 각 팀 감독들에게 찬사를 들으며,<sup><a id = "05" href = "#5">[5]</a></sup><sup><a id = "06" href = "#6">[6]</a></sup> 프로야구에 엄청난 돌풍과 화제를 일으키고 있다.
+시범경기 12경기에 모두 출전한 그는 규정타석에 2타석이 부족하긴 했지만 고졸 첫 해임에도 불구하고 타율 0.455, 33타수 15안타, 4타점, 5득점, 1도루를 기록하며 장외타격왕에 올랐다.<sup><a id = "07" href = "#7">[7]</a></sup><sup><a id = "08" href = "#8">[8]</a></sup>
+시범경기가 끝난 후에도 모 베테랑 선수에게 십수년간 봐온 신인 야수들 가운데 가장 높게 평가받기도 했으며,<sup><a id = "09" href = "#9">[9]</a></sup>
+설문조사에서도 각 팀 선수들이 뽑은 신인왕 1순위<sup><a id = "010" href = "#10">[10]</a></sup><sup><a id = "011" href = "#11">[11]</a></sup> 및 기자들이 뽑은 신인왕 1순위에 뽑혔다.<sup><a id = "012" href = "#12">[12]</a></sup>
+<a href = "#">2017년</a> <a href = "#">3월 31일</a> <a href = "#">LG 트윈스</a>와의 개막전 첫 경기에 출전하는 영광을 안았다.
+<a href = "#">2017년</a> <a href = "#">4월 4일</a> <a href = "#">롯데 자이언츠</a>와의 경기에서 첫 안타를 기록하였는데, 3타수 3안타 1볼넷으로 100% 출루를 이끌어 내 시범경기에서의 성적이 우연이 아니었음을 증명하였다.
+<a href = "#">2017년</a> <a href = "#">4월 8일</a> <a href = "#">두산 베어스</a>와의 경기에서 데뷔 첫 홈런(투런 홈런)을 기록하였고, 9회에 승부에 쐐기를 박는 쓰리런 홈런을 추가해 멀티 홈런까지 기록하며 MVP급 활약을 하였다.
+<a href = "#">2017년</a> <a href = "#">8월 10일</a> <a href = "#">두산 베어스</a>와의 경기에서 고졸 신인 최다 안타 기록을 갱신하였고, <a href = "#">2017년</a> <a href = "#">9월 5일</a> <a href = "#">kt 위즈</a>와의 경기에서 역대 신인 최다 안타 기록을 경신하였다.</p>
+</article>
+
+<article id = "nickname">
+<h1>별명</h1><hr />
+<p>아버지인 <a href = "#">이종범</a>이 '바람의 아들'이라는 별명을 가지고 있어 '바람의 손자'라고 불린다.
+올해 데뷔한 신인임에도 3할대의 타율을 유지하며 주목할만한 플레이를 보여주고 있어 '슈퍼 루키'라고도 불린다.
+<a href = "#">넥센</a>의 막내라는 뜻의 '넥둥이'라고 불리기도 한다.</p>
+</article>
+
+<article id = "school">
+<h1>출신 학교</h1><hr />
+<ul>
+<li><a href = "#">광주서석초등학교</a></li>
+<li><a href = "#">무등중학교</a>(전학) -> <a href = "#">휘문중학교</a>(졸업)</li>
+<li><a href = "#">휘문고등학교</a></li>
+</ul>
+</article>
+
+<article id = "prize">
+<h1>수상경력</h1><hr />
+<ul>
+<li>2015년 고교 주말리그 서울권A 도루상, 타격상</li>
+</ul>
+</article>
+
+<article id = "footnote">
+<h1>각주</h1><hr />
+<ol>
+<li id = "1"><a href = "#01"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a> <a href = "#">"피는 못속여. 이종범-이정후 KBO리그 최초 부자 1차 지명"</a> 2017년 3월 30일에 확인함.</li>
+<li id = "2"><a href = "#02"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a><a href = "#">"이정후 역전 결승타, 시범경기 첫 승 안겼다."</a> 2017년 3월 30일에 확인함.</li>
+<li id = "3"><a href = "#03"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a><a href = "#">"'이정후 역전 결승타' 넥센, 두산 꺾고 시범경기 첫 승"</a> 2017년 3월 30일에 확인함.</li>
+<li id = "4"><a href = "#04"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a><a href = "#">"'이정후 4안타 폭발' 넥센, 롯데와 8-8 무승부"</a> 2017년 3월 30일에 확인함.</li>
+<li id = "5"><a href = "#05"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a><a href = "#">"[핫플레이어] 김경문도 인정한 '바람의 손자' 이정후 폭풍타"</a> 2017년 3월 30일에 확인함.</li>
+<li id = "6"><a href = "#06"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a><a href = "#">"김성근 감독 "넥센 이정후, 괜찮았다.. 스타 되겠더라""</a> 2017년 3월 30일에 확인함.</li>
+<li id = "7"><a href = "#07"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a><a href = "#">"'바람의 손자' 이정후, 장외 타격왕에 올라..."</a> 2017년 3월 30일에 확인함.</li>
+<li id = "8"><a href = "#08"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a><a href = "#">"돋보인 이정후의 타격, 시범경기 안타 1위"</a> 2017년 3월 30일에 확인함.</li>
+<li id = "9"><a href = "#09"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a><a href = "#">"이정후를 향한 감독·아버지·야구인의 시선"</a> 2017년 3월 30일에 확인함.</li>
+<li id = "10"><a href = "#010"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a><a href = "#">"다승왕은 '니느님', 신인왕은 '바람의 손자'</a> 2017년 3월 30일에 확인함.</li>
+<li id = "11"><a href = "#011"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a><a href = "#">"[개막특집 설문] '바람의 손자' 이정후가 터진다, 대박 FA 중 이대호가 최고"</a> 2017년 3월 30일에 확인함.</li>
+<li id = "12"><a href = "#012"><img src = "http://postfiles6.naver.net/MjAxNzA5MDlfMTYz/MDAxNTA0OTQ4MjA1Nzg0.QpZ9gmruJI8fIOizLMFM42EpyePXqN9O1ry1F_QWr-Eg.LmxXBYUCwntiMs23Fi_2pR6_FMzRfyFle8Hj6f218P4g.PNG.yaahq/up.png?type=w966"></a><a href = "#">"[개막특집] 담당기자 전망, "두산 우승-넥센 5강-MVP 최형우""</a> 2017년 3월 30일에 확인함.</li>
+</ol>
+</article>
+</section>
+
+<footer id = "main_footer">
+<h3>WikipediA</h3><hr />
+<p>별도로 명시하지 않은 경우, 내용은 <a href = "#">CC BY-SA 3.0</a>에 따라 사용할 수 있습니다.</p>
+<p><a href = "#">개인정보</a> · <a href = "#">데스크톱</a></p>
+</footer>
+</div>
+
+</body>
+</html>

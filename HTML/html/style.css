@@ -1,0 +1,46 @@
+body {
+    text-align: center;
+    width: 100%;
+}
+
+header {
+    background-color: pink;
+    padding: 30px;
+    height: 50px;
+}
+
+nav, section, aside {
+    height: 200px;
+    float: left;
+}
+
+nav {
+    background-color: skyblue;
+    padding: 30px;
+    width: 20%;
+}
+
+section {
+    background-color: aquamarine;
+    padding: 30px;
+}
+
+aside {
+    background-color: greenyellow;
+    padding: 30px;
+    width: 20%;
+}
+
+footer {
+    background-color: brown;
+    padding: 30px;
+    height: 50px;
+    position: relative;
+    clear: both;
+}
+
+article {
+    width: 90%;
+    background-color: red;
+    margin: 20px;
+}

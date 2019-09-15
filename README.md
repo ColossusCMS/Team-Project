@@ -5,3 +5,5 @@
 - 구성원들의 프로필 등을 입력해 저장.
 - 게시판 운용
 - 휴가나 연가, 반차 등을 사이트를 통해 신청할 수 있다.
+
+아이디어 확인 : http://htmlpreview.github.io/?https://github.com/ColossusCMS/TeamProject/blob/master/HTML/html/index.html

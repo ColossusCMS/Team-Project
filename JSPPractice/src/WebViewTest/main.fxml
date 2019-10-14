@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WebViewTest.MainController">
+   <left>
+      <AnchorPane prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ToggleButton fx:id="notice" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" selected="true" style="-fx-border-color: black;" text="알림" userData="notice">
+               <toggleGroup>
+                  <ToggleGroup fx:id="category" />
+               </toggleGroup>
+            </ToggleButton>
+            <ToggleButton fx:id="user" layoutY="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: black;" text="사용자 목록" toggleGroup="$category" userData="user" />
+            <ToggleButton fx:id="chat" layoutY="200.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: black;" text="채팅" toggleGroup="$category" userData="chat" />
+            <ToggleButton fx:id="board" layoutY="300.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: black;" text="게시판" toggleGroup="$category" userData="board" />
+            <Button fx:id="schedule" layoutY="550.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="일정" />
+         </children>
+      </AnchorPane>
+   </left>
+   <center>
+      <WebView fx:id="mainPage" prefHeight="-1.0" prefWidth="275.0" BorderPane.alignment="CENTER" />
+   </center>
+   <right>
+      <WebView fx:id="userPage" prefHeight="-1.0" prefWidth="125.0" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

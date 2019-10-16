@@ -8,25 +8,35 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 /*
-프로젝트 제목 : 로그인
-버전 : 0.9.0
-작성 : 최문석
+프로젝트 주제 : 사내 SNS
+모듈 이름 : 로그인
+클래스 이름 : LoginDao
+버전 : 1.0.0
+해당 클래스 작성 : 최문석
 
-필요 Java파일
-- Main.java (로그인 화면이 실행되는 메인 클래스)
-- LoginDao.java (데이터베이스 접속, 데이터 불러오기)
-- LoginController.java (사용자 등록창 컨트롤러)
+필요 전체 Java파일
+- LoginMain.java (로그인 화면이 실행되는 메인 클래스)
+- LoginDao.java (데이터베이스 접속, 데이터 불러오기, 데이터 삽입 등)
+- LoginController.java (로그인 창 컨트롤러)
+- SignUpController.java (사용자 등록 창 컨트롤러)
+- FindAccountController.java (계정 찾기 창 컨트롤러)
+- User.java (사용자 등록에 사용하는 사용자 정보 클래스[사용자의 모든 정보를 담고 있음])
+- UserData.java (계정 찾기에서 사용하는 사용자 정보 클래스[사용자번호, 이름, 이메일, 비밀번호])
 
-필요 fxml파일 :
-- login.fxml (로그인창 fxml)
-- chkDialog.fxml (안내 다이얼로그 fxml)
+필요 fxml파일
+- login.fxml (로그인 창 fxml)
+- signUp.fxml (사용자등록 창 fxml)
+- findAccount.fxml (계정 찾기 창 fxml)
 
-주요 기능
-- 로그인을 위한 사용자 정보 입력(사원번호, 비밀번호),
-- 데이터베이스에서 사용자 정보를 가져오기 위한 데이터베이스 연동,
-- 해당하는 데이터가 존재하는지 체크를 위해 데이터베이스로부터 값을 읽어옴
-- 모든 조건을 만족한다면 로그인에 성공하고 다음 화면으로 넘어감
-- 사용자 등록 버튼이나 계정 찾기 버튼을 누르면 해당하는 창을 새로 띄움
+필요 import 사용자 정의 package
+- EncryptionDecryption.PasswordEncryption (비밀번호를 암호화하고 복호화하는 메서드를 포함하고 있음)
+- ChkDialogModule.ChkDialogMain (안내문 출력을 위한 임시 다이얼로그를 생성하는 패키지)
+- SendMail.SendMail (메일 보내는 메서드를 포함하고 있음)
+
+해당 클래스 주요 기능
+- 데이터베이스에 접속
+- 로그인을 시도하거나 중복된 사용자 번호 체크 또는 이메일 확인을 위해 데이터베이스에서 검색해 결과를 가져옴
+- 사용자 등록 창에서 입력한 정보들을 데이터베이스로 전달해 저장
  */
 public class LoginDao {
 	private Connection conn;
@@ -75,6 +85,7 @@ public class LoginDao {
 		return null;
 	}
 	
+	//확인 메일을 보내기 위해 데이터베이스에서 사용자 정보를 검색하고 결과를 가져옴
 	public UserData chkUserNameMail(String userName, String userMail) {
 		String sql = "select userno, username, userpw, usermail from login where username = ? and usermail = ?;";
 		PreparedStatement pstmt = null;
@@ -101,6 +112,7 @@ public class LoginDao {
 		return null;
 	}
 	
+	//사용자번호가 중복인지 데이터베이스에서 확인하는 메서드
 	public boolean loadUserNo(String userNo) {
 		String sql = "select userno from login where userno = ?;";
 		PreparedStatement pstmt = null;
@@ -124,6 +136,7 @@ public class LoginDao {
 		return false;
 	}
 	
+	//데이터베이스에 사용자 정보를 등록하는 메서드
 	public void insertUserData(User user) {
 		String sql = "insert into login values (?, ?, ?, ?, ?, ?, ?, null, 0);";
 		String encPassword = PasswordEncryption.pwEncryption(user.getPassword());

@@ -10,7 +10,20 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+/*
+프로젝트 주제 : 사내 SNS
+모듈 이름 : 메일 송신
+클래스 이름 : SendMail
+버전 : 1.0.0
+해당 클래스 작성 : 최문석, 심대훈
 
+필요 전체 Java파일
+- SendMail.java (로그인 화면이 실행되는 메인 클래스)
+
+해당 클래스 주요 기능
+- 계정 찾기를 원하는 사용자에게 안내 메일을 보내기 위해 smtp서버에 접속
+- 데이터베이스에서 해당 사용자의 정보를 받아와서 사용자의 메일로 해당 정보를 송신
+ */
 public class SendMail {
 	private final String id = "yaahqjp";
 	private final String pw = "pmxiljjcqrqrlsqd";

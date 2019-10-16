@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<!--
+프로젝트 제목 : 로그인
+버전 : 0.9.0
+작성 : 김도엽, 최문석
+
+필요 Java파일
+- Main.java (로그인 화면이 실행되는 메인 클래스)
+- LoginDao.java (데이터베이스 접속, 데이터 불러오기)
+- LoginController.java (사용자 등록창 컨트롤러)
+
+필요 fxml파일 :
+- login.fxml (로그인창 fxml)
+- chkDialog.fxml (안내 다이얼로그 fxml)
+
+주요 기능
+- 로그인을 위한 사용자 정보 입력(사원번호, 비밀번호),
+- 데이터베이스에서 사용자 정보를 가져오기 위한 데이터베이스 연동,
+- 해당하는 데이터가 존재하는지 체크를 위해 데이터베이스로부터 값을 읽어옴
+- 모든 조건을 만족한다면 로그인에 성공하고 다음 화면으로 넘어감
+- 사용자 등록 버튼이나 계정 찾기 버튼을 누르면 해당하는 창을 새로 띄움
+ -->
+
+<AnchorPane prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginModule.LoginController">
+   <children>
+      <TextField fx:id="userNoField" layoutX="64.0" layoutY="196.0" prefHeight="23.0" prefWidth="173.0" promptText="사원번호" />
+      <PasswordField fx:id="passwordField" layoutX="64.0" layoutY="227.0" prefHeight="23.0" prefWidth="173.0" promptText="비밀번호" />
+      <Button fx:id="loginBtn" layoutX="106.0" layoutY="276.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="89.0" text="로그인" />
+      <Button fx:id="signUpBtn" layoutX="74.0" layoutY="452.0" mnemonicParsing="false" text="회원등록" />
+      <Button fx:id="findAccountBtn" layoutX="163.0" layoutY="452.0" mnemonicParsing="false" text="계정찾기" />
+   </children>
+</AnchorPane>

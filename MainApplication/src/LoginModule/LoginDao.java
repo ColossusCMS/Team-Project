@@ -11,7 +11,7 @@ import java.sql.SQLException;
 프로젝트 주제 : 사내 SNS
 모듈 이름 : 로그인
 클래스 이름 : LoginDao
-버전 : 1.0.0
+버전 : 1.1.0
 해당 클래스 작성 : 최문석
 
 필요 전체 Java파일
@@ -37,6 +37,13 @@ import java.sql.SQLException;
 - 데이터베이스에 접속
 - 로그인을 시도하거나 중복된 사용자 번호 체크 또는 이메일 확인을 위해 데이터베이스에서 검색해 결과를 가져옴
 - 사용자 등록 창에서 입력한 정보들을 데이터베이스로 전달해 저장
+
+버전 변경 사항
+1.1.0
+- DAO 인스턴스를 필요시에만 생성해 페이지 이동 간의 로딩 시간을 줄임.
+- 사용자 등록창에서 이메일 중복체크 버튼 추가 및 이메일 중복체크 액션 추가
+- LoginDao 클래스에 이메일 체크하는 메서드 추가
+- 변수 및 메서드 이름 통일화
  */
 public class LoginDao {
 	private Connection conn;
@@ -113,7 +120,7 @@ public class LoginDao {
 	}
 	
 	//사용자번호가 중복인지 데이터베이스에서 확인하는 메서드
-	public boolean loadUserNo(String userNo) {
+	public boolean chkUserNo(String userNo) {
 		String sql = "select userno from login where userno = ?;";
 		PreparedStatement pstmt = null;
 		try {
@@ -121,6 +128,30 @@ public class LoginDao {
 			pstmt.setString(1, userNo);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {	//만약 db로 검색했는데 결과가 나왔다면(중복된 사원번호가 존재한다는 의미)
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+            try {
+                if (pstmt != null && !pstmt.isClosed())
+                    pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+		return false;
+	}
+	
+	//사용자번호가 중복인지 데이터베이스에서 확인하는 메서드
+	public boolean chkUserMail(String userMail) {
+		String sql = "select userno from login where usermail = ?;";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userMail);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {	//만약 db로 검색했는데 결과가 나왔다면(중복된 이메일이 존재한다는 의미)
 				return true;
 			}
 		} catch (SQLException e) {

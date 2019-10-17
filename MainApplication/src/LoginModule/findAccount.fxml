@@ -9,9 +9,9 @@
 <!-- 
 프로젝트 주제 : 사내 SNS
 모듈 이름 : 로그인
-fxml 이름 : FindAccountController
-버전 : 1.0.0
-해당 fxml 작성 : 최문석, 심대훈
+fxml 이름 : findAccount
+버전 : 1.1.0
+해당 fxml 작성 : 심대훈
  -->
 <AnchorPane prefHeight="500.0" prefWidth="300.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginModule.FindAccountController">
     <children>
@@ -20,8 +20,8 @@ fxml 이름 : FindAccountController
             <Font size="25.0" />
          </font>
       </Label>
-        <TextField fx:id="userName" layoutX="26.0" layoutY="239.0" prefHeight="23" prefWidth="253.0" promptText="이름" />
-      <TextField fx:id="userMail" layoutX="26.0" layoutY="273.0" prefHeight="23" prefWidth="253.0" promptText="등록한 이메일" />
+        <TextField fx:id="txtFieldUserName" layoutX="26.0" layoutY="239.0" prefHeight="23" prefWidth="253.0" promptText="이름" />
+      <TextField fx:id="txtFieldUserName" layoutX="26.0" layoutY="273.0" prefHeight="23" prefWidth="253.0" promptText="등록한 이메일" />
         <Button fx:id="btnReg" layoutX="180.0" layoutY="463.0" onAction="#handleBtnRegAction" text="보내기" />
         <Button fx:id="btnCancel" layoutX="246.0" layoutY="463.0" onAction="#handleBtnCancelAction" text="취소" />
         <Separator layoutX="13.0" layoutY="445.0" prefHeight="11.0" prefWidth="274.0" />

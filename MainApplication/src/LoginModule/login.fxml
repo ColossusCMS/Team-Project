@@ -7,16 +7,16 @@
 <!-- 
 프로젝트 주제 : 사내 SNS
 모듈 이름 : 로그인
-fxml 이름 : FindAccountController
-버전 : 1.0.0
-해당 fxml 작성 : 최문석, 김도엽
+fxml 이름 : login
+버전 : 1.1.0
+해당 fxml 작성 : 김도엽
  -->
 <AnchorPane prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginModule.LoginController">
    <children>
-      <TextField fx:id="userNoField" layoutX="64.0" layoutY="196.0" prefHeight="23.0" prefWidth="173.0" promptText="사원번호" />
-      <PasswordField fx:id="passwordField" layoutX="64.0" layoutY="227.0" prefHeight="23.0" prefWidth="173.0" promptText="비밀번호" />
-      <Button fx:id="loginBtn" layoutX="106.0" layoutY="276.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="89.0" text="로그인" />
-      <Button fx:id="signUpBtn" layoutX="74.0" layoutY="452.0" mnemonicParsing="false" text="회원등록" />
-      <Button fx:id="findAccountBtn" layoutX="163.0" layoutY="452.0" mnemonicParsing="false" text="계정찾기" />
+      <TextField fx:id="fieldUserNo" layoutX="64.0" layoutY="196.0" prefHeight="23.0" prefWidth="173.0" promptText="사원번호" />
+      <PasswordField fx:id="fieldPassword" layoutX="64.0" layoutY="227.0" prefHeight="23.0" prefWidth="173.0" promptText="비밀번호" />
+      <Button fx:id="btnLogin" layoutX="106.0" layoutY="276.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="89.0" text="로그인" />
+      <Button fx:id="btnSignUp" layoutX="74.0" layoutY="452.0" mnemonicParsing="false" text="회원등록" />
+      <Button fx:id="btnFindAccount" layoutX="163.0" layoutY="452.0" mnemonicParsing="false" text="계정찾기" />
    </children>
 </AnchorPane>

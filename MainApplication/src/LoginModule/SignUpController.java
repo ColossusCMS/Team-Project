@@ -32,7 +32,7 @@ import javafx.stage.Stage;
 프로젝트 주제 : 사내 SNS
 모듈 이름 : 로그인
 클래스 이름 : SignUpController
-버전 : 1.0.0
+버전 : 1.1.0
 해당 클래스 작성 : 최문석
 
 필요 전체 Java파일
@@ -54,41 +54,50 @@ import javafx.stage.Stage;
 - ChkDialogModule.ChkDialogMain (안내문 출력을 위한 임시 다이얼로그를 생성하는 패키지)
 - SendMail.SendMail (메일 보내는 메서드를 포함하고 있음)
 
-해당 클래스 주요 기능
-- 
+해당 클래스 주요 기능 요약
+- singUp.fxml의 주 컨트롤러로 사용자 등록 창을 생성하고 입력받은 값들의 상태를 체크,
+- 데이터베이스로 접속해 입력한 값들을 데이터베이스에 저장함.
+
+버전 변경 사항
+1.1.0
+- DAO 인스턴스를 필요시에만 생성해 페이지 이동 간의 로딩 시간을 줄임.
+- 사용자 등록창에서 이메일 중복체크 버튼 추가 및 이메일 중복체크 액션 추가
+- LoginDao 클래스에 이메일 체크하는 메서드 추가
+- 변수 및 메서드 이름 통일화
  */
 public class SignUpController implements Initializable {
-	@FXML private TextField userNo, userName, userTel, userMail, imgPath;
-	@FXML private Button overlapChk, imgBtn, submitBtn, cancelBtn;
-	@FXML private PasswordField password, passwordChk;
-	@FXML private Label pwChkLbl;
-	@FXML private ImageView imgView;
-	@FXML private ComboBox<String> dept;
+	@FXML private TextField fieldUserNo, fieldUserName, fieldUserTel, fieldUserMail, fieldImgPath;
+	@FXML private Button btnUserNoChk, btnImg, btnSubmit, btnCancel, btnUserMailChk;
+	@FXML private PasswordField fieldPassword, fieldPasswordChk;
+	@FXML private Label lblPwChk;
+	@FXML private ImageView viewImg;
+	@FXML private ComboBox<String> comboBoxDept;
 	
 	private ObservableList<String> comboList = FXCollections.observableArrayList("개발1팀", "개발2팀", "영업1팀", "영업2팀", "기획팀", "디자인팀", "경영팀", "인사팀");
-	LoginDao ld = new LoginDao();
+	LoginDao loginDao;
 	int overlapChkNum = 0;	//중복체크 여부 확인을 위한 변수
 	Pattern telPattern = Pattern.compile("(010)-\\d{4}-\\d{4}");	//휴대폰 번호 패턴
 	Pattern mailPattern = Pattern.compile("[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}");	//이메일 패턴
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		dept.setItems(comboList);
-		overlapChk.setOnAction(event -> overlapChk());
-		imgBtn.setOnAction(event -> loadImg());
-		submitBtn.setOnAction(event -> submit());
-		cancelBtn.setOnAction(event -> cancel());
+		comboBoxDept.setItems(comboList);
+		btnUserNoChk.setOnAction(event -> handleBtnUserNoChkAction());
+		btnUserMailChk.setOnAction(event -> handleBtnUserMailChkAction());
+		btnImg.setOnAction(event -> handleBtnImgAction());
+		btnSubmit.setOnAction(event -> handleBtnSubmitAction());
+		btnCancel.setOnAction(event -> handleBtnCancelAction());
 		
-		imgPath.setEditable(false);
+		fieldImgPath.setEditable(false);
 		
 		//만약 중복체크를 하고나서 사원번호를 새로 입력하면 다시 중복체크 버튼을 원상복구시켜야 해야하니
 		//속성 감시를 해서 값이 바뀐다면 버튼을 원복시킴
-		userNo.textProperty().addListener(new ChangeListener<String>() {
+		fieldUserNo.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if(!oldValue.equals(newValue)) {
-					overlapChk.setText("중복체크");
-					overlapChk.setDisable(false);
+					btnUserNoChk.setText("중복체크");
+					btnUserNoChk.setDisable(false);
 					overlapChkNum = 0;
 				}
 			}
@@ -96,37 +105,63 @@ public class SignUpController implements Initializable {
 		
 		//비밀번호확인 필드의 속성을 항상 체크하면서 앞서 입력한 비밀번호와 동일한지 계속해서 체크
 		//만약 같아진다면 일치한다고 출력하고 그렇지 않으면 불일치로 계속 출력
-		passwordChk.textProperty().addListener(new ChangeListener<String>() {
+		fieldPasswordChk.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if(newValue.equals(password.getText())) {
-					pwChkLbl.setText("일치");
-					pwChkLbl.setTextFill(Color.GREEN);
+				if(newValue.equals(fieldPassword.getText())) {
+					lblPwChk.setText("일치");
+					lblPwChk.setTextFill(Color.GREEN);
 				}
 				else {
-					pwChkLbl.setText("불일치");
-					pwChkLbl.setTextFill(Color.RED);
+					lblPwChk.setText("불일치");
+					lblPwChk.setTextFill(Color.RED);
 				}
 			}
 		});
 	}
 	
-	//중복체크 버튼을 눌렀을 때의 이벤트
-	public void overlapChk() {
-		if(userNo.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
+	//사원번호 중복체크 버튼을 눌렀을 때의 이벤트
+	public void handleBtnUserNoChkAction() {
+		loginDao = new LoginDao();
+		if(fieldUserNo.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
 			ChkDialogMain.chkDialog("사원번호를 입력하세요.");
 		}
 		else {	//그게 아니라면 정상적으로 진행
-			boolean overlap = ld.loadUserNo(userNo.getText());	//DB에서 중복되는 번호가 있는지 체크함
+			boolean overlap = loginDao.chkUserNo(fieldUserNo.getText());	//DB에서 중복되는 번호가 있는지 체크함
 			if(overlap) {		//만약 true라면 중복된 값이 있다는 뜻이니 사용할 수 없다는 다이얼로그를 띄움
 				ChkDialogMain.chkDialog("이미 등록된 사원번호입니다.");
-				userNo.clear();
+				fieldUserNo.clear();
 				overlapChkNum = 0;
 			}
 			else {					//false라면 중복되는 값이 없다는 뜻이니 중복체크 버튼의 텍스트를 사용가능으로 바꿔줌
-				overlapChk.setText("사용가능");
+				btnUserNoChk.setText("사용가능");
 //				overlapChk.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW, CornerRadii.EMPTY, Insets.EMPTY	)));
-				overlapChk.setDisable(true);
+				btnUserNoChk.setDisable(true);
+				overlapChkNum = 1;
+			}
+		}
+	}
+	
+	//이메일 중복체크 버튼을 눌렀을 때의 이벤트
+	public void handleBtnUserMailChkAction() {
+		loginDao = new LoginDao();
+		if(fieldUserMail.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
+			ChkDialogMain.chkDialog("이메일을 입력하세요.");
+		}
+		else if(!mailPattern.matcher(fieldUserMail.getText()).matches()) {	//만약 이메일 형식에 맞지 않다면 다이얼로그를 띄움
+			ChkDialogMain.chkDialog("이메일 형식에 맞지 않습니다.");
+		}
+		else {	//그게 아니라면 정상적으로 진행
+			boolean overlap = loginDao.chkUserMail(fieldUserMail.getText());	//DB에서 중복되는 이메일이 있는지 체크함
+			if(overlap) {		//만약 true라면 중복된 값이 있다는 뜻이니 사용할 수 없다는 다이얼로그를 띄움
+				ChkDialogMain.chkDialog("이미 등록된 이메일입니다.");
+				fieldUserMail.clear();
+				overlapChkNum = 0;
+			}
+			else {					//false라면 중복되는 값이 없다는 뜻이니 중복체크 버튼의 텍스트를 사용가능으로 바꿔줌
+				btnUserMailChk.setText("사용가능");
+//				overlapChk.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW, CornerRadii.EMPTY, Insets.EMPTY	)));
+				btnUserMailChk.setDisable(true);
 				overlapChkNum = 1;
 			}
 		}
@@ -134,7 +169,7 @@ public class SignUpController implements Initializable {
 	
 	//찾기 버튼을 누르면 이미지를 찾기위한 열기 다이얼로그가 띄워짐
 	//파일을 선택하면 해당 디렉토리부터 파일명까지 imgPath에 자동으로 입력이 됨
-	public void loadImg() {
+	public void handleBtnImgAction() {
 		//파일 열기 다이얼로그를 불러옴
 		FileChooser imgChooser = new FileChooser();
 		//선택 가능한 확장자 지정(대표 이미지 확장자)
@@ -142,7 +177,7 @@ public class SignUpController implements Initializable {
 				new ExtensionFilter("모든 이미지 파일(*.jpg, *.png, *.gif)", "*.jpg", "*.png", "*.gif")
 			);
 		//파일 열기 다이얼로그를 띄울 위치
-		File selectedFile = imgChooser.showOpenDialog((Stage)imgBtn.getScene().getWindow());
+		File selectedFile = imgChooser.showOpenDialog((Stage)btnImg.getScene().getWindow());
 		try {
 			//파일 읽어오기
 			FileInputStream fis = new FileInputStream(selectedFile);
@@ -150,11 +185,11 @@ public class SignUpController implements Initializable {
 			//이미지 생성
 			Image img = new Image(bis);
 			//경로 필드에 선택한 이미지의 경로를 출력하고
-			imgPath.setText(selectedFile.getAbsolutePath());
+			fieldImgPath.setText(selectedFile.getAbsolutePath());
 			//이미지뷰에 선택한 이미지를 띄움
-			imgView.setImage(img);
-			imgView.setFitHeight(133);
-			imgView.setFitWidth(100);
+			viewImg.setImage(img);
+			viewImg.setFitHeight(133);
+			viewImg.setFitWidth(100);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -170,11 +205,12 @@ public class SignUpController implements Initializable {
 	//2_4. 전화번호 형식에 맞게 입력했는지
 	//2_5. 이메일 형식에 맞게 입력했는지 (패턴 정규식을 활용해 체크한다.)
 	//3. 모두 만족한다면 DB로 데이터를 전송
-	public void submit() {
+	public void handleBtnSubmitAction() {
+		loginDao = new LoginDao();
 		//필수항목을 체크한다.
 		//만약 입력하지 않은 값이 있다면 다시 입력하라고 다이얼로그를 띄움
-		if(userNo.getText().isEmpty() || userName.getText().isEmpty() || password.getText().isEmpty() || userTel.getText().isEmpty()
-				|| userMail.getText().isEmpty()) {
+		if(fieldUserNo.getText().isEmpty() || fieldUserName.getText().isEmpty() || fieldPassword.getText().isEmpty() || fieldUserTel.getText().isEmpty()
+				|| fieldUserMail.getText().isEmpty()) {
 			ChkDialogMain.chkDialog("필수항목을 입력하세요.");
 		}
 		//중복체크했는지 안했는지 체크
@@ -182,27 +218,27 @@ public class SignUpController implements Initializable {
 			ChkDialogMain.chkDialog("중복체크를 하세요.");
 		}
 		//비밀번호가 일치하는지
-		else if(pwChkLbl.getText().equals("불일치")) {
+		else if(lblPwChk.getText().equals("불일치")) {
 			ChkDialogMain.chkDialog("비밀번호를 확인하세요.");
 		}
 		//소속 부서를 선택했는지
-		else if(dept.getSelectionModel().getSelectedItem() == null) {
+		else if(comboBoxDept.getSelectionModel().getSelectedItem() == null) {
 			ChkDialogMain.chkDialog("소속을 선택하세요.");
 		}
 		//전화번호 형식에 맞는지
-		else if(!telPattern.matcher(userTel.getText()).matches()) {
+		else if(!telPattern.matcher(fieldUserTel.getText()).matches()) {
 			ChkDialogMain.chkDialog("전화번호 형식에 맞지 않습니다.");
 		}
 		//메일형식에 맞는지
-		else if(!mailPattern.matcher(userMail.getText()).matches()) {
+		else if(!mailPattern.matcher(fieldUserMail.getText()).matches()) {
 			ChkDialogMain.chkDialog("이메일 형식에 맞지 않습니다.");
 		}
 		//모두 만족했다면 데이터베이스에 저장한다.
 		else {
-			User user = new User(userNo.getText(), userName.getText(), password.getText(), userMail.getText(), userTel.getText(), imgPath.getText(), dept.getSelectionModel().getSelectedItem().toString());
-			ld.insertUserData(user);
+			User user = new User(fieldUserNo.getText(), fieldUserName.getText(), fieldPassword.getText(), fieldUserMail.getText(), fieldUserTel.getText(), fieldImgPath.getText(), comboBoxDept.getSelectionModel().getSelectedItem().toString());
+			loginDao.insertUserData(user);
 			ChkDialogMain.chkDialog("등록이 완료되었습니다.");
-			Stage stage = (Stage)submitBtn.getScene().getWindow();
+			Stage stage = (Stage)btnSubmit.getScene().getWindow();
 			try {
 				Parent loginDialog = FXMLLoader.load(getClass().getResource("login.fxml"));
 				Scene scene = new Scene(loginDialog);
@@ -215,8 +251,8 @@ public class SignUpController implements Initializable {
 	}
 	
 	//취소 버튼을 누르면 사용자 등록창을 닫음
-	public void cancel() {
-		Stage stage = (Stage)cancelBtn.getScene().getWindow();
+	public void handleBtnCancelAction() {
+		Stage stage = (Stage)btnCancel.getScene().getWindow();
 		try {
 			Parent loginDialog = FXMLLoader.load(getClass().getResource("login.fxml"));
 			Scene scene = new Scene(loginDialog);

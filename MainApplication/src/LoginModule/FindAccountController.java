@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 프로젝트 주제 : 사내 SNS
 모듈 이름 : 로그인
 클래스 이름 : FindAccountController
-버전 : 1.0.0
+버전 : 1.1.0
 해당 클래스 작성 : 최문석, 심대훈
 
 필요 전체 Java파일
@@ -41,14 +41,20 @@ import javafx.stage.Stage;
 
 해당 클래스 주요 기능
 - 
+
+버전 변경 사항
+1.1.0
+- DAO 인스턴스를 필요시에만 생성해 페이지 이동 간의 로딩 시간을 줄임.
+- 사용자 등록창에서 이메일 중복체크 버튼 추가 및 이메일 중복체크 액션 추가
+- LoginDao 클래스에 이메일 체크하는 메서드 추가
+- 변수 및 메서드 이름 통일화
  */
 public class FindAccountController implements Initializable {
 	//이름, 이메일
-    @FXML private TextField userName, userMail;
+    @FXML private TextField txtFieldUserName, txtFieldUserMail;
     @FXML private Button btnReg, btnCancel;
     
-    LoginDao ld = new LoginDao();
-    UserData ud;
+    LoginDao loginDao;		//DB 접속 시 사용
     
     @Override
     public void initialize(URL loc, ResourceBundle resources) {
@@ -63,18 +69,19 @@ public class FindAccountController implements Initializable {
     //2_2. 만약 매칭이 안된다면(결과가 null이면) 사용자 없다고 다이얼로그
     //3. 메일보내기까지 완료했으면 다시 로그인창으로 전환
     public void handleBtnRegAction() {
-        if(userName.getText().isEmpty() || userMail.getText().isEmpty()) {	//필드에 공백이 있다면
-        	if(userName.getText().isEmpty()) {
+    	loginDao = new LoginDao();
+        if(txtFieldUserName.getText().isEmpty() || txtFieldUserMail.getText().isEmpty()) {	//필드에 공백이 있다면
+        	if(txtFieldUserName.getText().isEmpty()) {
         		ChkDialogMain.chkDialog("이름을 입력하세요.");
-        		userName.requestFocus();
+        		txtFieldUserName.requestFocus();
         	}
         	else {
         		ChkDialogMain.chkDialog("이메일을 입력하세요.");
-        		userMail.requestFocus();
+        		txtFieldUserMail.requestFocus();
         	}
         }
         else {
-        	ud = ld.chkUserNameMail(userName.getText(), userMail.getText());
+        	UserData ud = loginDao.chkUserNameMail(txtFieldUserName.getText(), txtFieldUserMail.getText());
         	//chk가 true라면 값이 맞다는 뜻이니 메일을 보낸다.
         	//그 다음 메일을 보냈다는 다이얼로그를 띄우고 로그인창으로 전환
         	if(ud != null) {
@@ -86,8 +93,8 @@ public class FindAccountController implements Initializable {
         	//만약 값이 존재하지 않는다면 해당 사용자가 없다는 다이얼로그
         	else {
         		ChkDialogMain.chkDialog("해당 사용자 정보가\n존재하지 않습니다.");
-        		userName.clear();
-        		userMail.clear();
+        		txtFieldUserName.clear();
+        		txtFieldUserMail.clear();
         	}
         }
     }

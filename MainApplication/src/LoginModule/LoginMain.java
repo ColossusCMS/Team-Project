@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 프로젝트 주제 : 사내 SNS
 모듈 이름 : 로그인
 클래스 이름 : LoginMain
-버전 : 1.0.0
+버전 : 1.1.0
 해당 클래스 작성 : 최문석, 김도엽
 
 필요 전체 Java파일
@@ -32,7 +32,15 @@ import javafx.stage.Stage;
 - SendMail.SendMail (메일 보내는 메서드를 포함하고 있음)
 
 해당 클래스 주요 기능
-- 
+- 프로그램이 실행되었을 때 가장 먼저 등장하는 로그인 창을 띄움
+- 프로그램의 시작점
+
+버전 변경 사항
+1.1.0
+- DAO 인스턴스를 필요시에만 생성해 페이지 이동 간의 로딩 시간을 줄임.
+- 사용자 등록창에서 이메일 중복체크 버튼 추가 및 이메일 중복체크 액션 추가
+- LoginDao 클래스에 이메일 체크하는 메서드 추가
+- 변수 및 메서드 이름 통일화
  */
 public class LoginMain extends Application {
     @Override

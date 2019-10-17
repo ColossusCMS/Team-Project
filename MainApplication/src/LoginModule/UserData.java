@@ -2,8 +2,8 @@ package LoginModule;
 /*
 프로젝트 주제 : 사내 SNS
 모듈 이름 : 로그인
-클래스 이름 : FindAccountController
-버전 : 1.0.0
+클래스 이름 : UserData
+버전 : 1.1.0
 해당 클래스 작성 : 최문석
 
 필요 전체 Java파일
@@ -27,6 +27,13 @@ package LoginModule;
 
 해당 클래스 주요 기능
 - 
+
+버전 변경 사항
+1.1.0
+- DAO 인스턴스를 필요시에만 생성해 페이지 이동 간의 로딩 시간을 줄임.
+- 사용자 등록창에서 이메일 중복체크 버튼 추가 및 이메일 중복체크 액션 추가
+- LoginDao 클래스에 이메일 체크하는 메서드 추가
+- 변수 및 메서드 이름 통일화
  */
 public class UserData {
 	private String userNo;

@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 프로젝트 주제 : 사내 SNS
 모듈 이름 : 로그인
 클래스 이름 : LoginController
-버전 : 1.0.0
+버전 : 1.1.0
 해당 클래스 작성 : 최문석, 김도엽
 
 필요 전체 Java파일
@@ -44,27 +44,34 @@ import javafx.stage.Stage;
 
 해당 클래스 주요 기능
 - 
+
+버전 변경 사항
+1.1.0
+- DAO 인스턴스를 필요시에만 생성해 페이지 이동 간의 로딩 시간을 줄임.
+- 사용자 등록창에서 이메일 중복체크 버튼 추가 및 이메일 중복체크 액션 추가
+- LoginDao 클래스에 이메일 체크하는 메서드 추가
+- 변수 및 메서드 이름 통일화
  */
 public class LoginController implements Initializable {	
-	@FXML private Button loginBtn, findAccountBtn, signUpBtn;
-	@FXML private TextField userNoField;
-	@FXML private PasswordField passwordField;
+	@FXML private Button btnLogin, btnFindAccount, btnSignUp;
+	@FXML private TextField fieldUserNo;
+	@FXML private PasswordField fieldPassword;
 	
-	LoginDao ld = new LoginDao();
+	LoginDao loginDao = new LoginDao();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loginBtn.setOnAction(event -> loginSubmit());
-		findAccountBtn.setOnAction(event -> findAccount());
-		signUpBtn.setOnAction(event -> signUp());
+		btnLogin.setOnAction(event -> handleBtnLoginAction());
+		btnFindAccount.setOnAction(event -> handleBtnFindAccountAction());
+		btnSignUp.setOnAction(event -> handleBtnSignUpAction());
 		
 		//비밀번호를 입력하고 로그인 버튼을 누르지않고 엔터키를 눌러서 로그인을 시도할 수 있게 만듦.
-		passwordField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		fieldPassword.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				KeyCode keyCode = event.getCode();
 				if(keyCode.equals(KeyCode.ENTER)) {
-					loginSubmit();
+					handleBtnLoginAction();
 				}
 			}
 		});
@@ -75,21 +82,21 @@ public class LoginController implements Initializable {
 	//2. 비밀번호를 입력하지 않았다면 비밀번호를 입력하라는 다이얼로그 띄움
 	//3_1. 만약 사원번호나 비밀번호 둘 중 하나라도 틀렸다면(리턴값으로 null을 받음) 계정을 확인하라는 다이얼로그 띄움
 	//3_2. 로그인에 성공했다면(리턴값으로 이름을 받음) 사용자 이름을 띄우면서 로그인에 성공했다는 다이얼로그 띄움
-	public void loginSubmit() {
+	public void handleBtnLoginAction() {
 		String labelText = new String();
-		if(userNoField.getText().isEmpty() || passwordField.getText().isEmpty()) {	//사원번호, 비밀번호 둘 중 하나라도 입력하지 않았다면
-			if(userNoField.getText().isEmpty()) {
+		if(fieldUserNo.getText().isEmpty() || fieldPassword.getText().isEmpty()) {	//사원번호, 비밀번호 둘 중 하나라도 입력하지 않았다면
+			if(fieldUserNo.getText().isEmpty()) {
 				labelText = "사원번호를 입력하세요.";
-				userNoField.requestFocus();
+				fieldUserNo.requestFocus();
 			}
 			else {
 				labelText = "비밀번호를 입력하세요.";
-				passwordField.requestFocus();
+				fieldPassword.requestFocus();
 			}
 			ChkDialogMain.chkDialog(labelText);
 		}
 		else {	//값을 입력했다면 일단 넘어감
-			String name = ld.chkUserData(userNoField.getText(), passwordField.getText());
+			String name = loginDao.chkUserData(fieldUserNo.getText(), fieldPassword.getText());
 			if(name == null) {	//입력한 정보가 맞지 않다는 뜻
 				labelText = "일치하는 회원정보가 없습니다.";
 				ChkDialogMain.chkDialog(labelText);
@@ -103,8 +110,8 @@ public class LoginController implements Initializable {
 	
 	//계정찾기 버튼을 눌렀을 때
 	//계정찾기 창으로 전환됨
-	public void findAccount() {
-		Stage stage = (Stage)findAccountBtn.getScene().getWindow();
+	public void handleBtnFindAccountAction() {
+		Stage stage = (Stage)btnFindAccount.getScene().getWindow();
 		try {
 			Parent findAccountDialog = FXMLLoader.load(getClass().getResource("findAccount.fxml"));
 			Scene scene = new Scene(findAccountDialog);
@@ -118,8 +125,8 @@ public class LoginController implements Initializable {
 	
 	//사용자등록 버튼을 눌렀을 때
 	//사용자등록 창으로 전환됨
-	public void signUp() {
-		Stage stage = (Stage)signUpBtn.getScene().getWindow();
+	public void handleBtnSignUpAction() {
+		Stage stage = (Stage)btnSignUp.getScene().getWindow();
 		try {
 			Parent signUpDialog = FXMLLoader.load(getClass().getResource("signUp.fxml"));
 			Scene scene = new Scene(signUpDialog);

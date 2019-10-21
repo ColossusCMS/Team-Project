@@ -1,6 +1,8 @@
-package LoginModule;
+package Dao;
 
 import EncryptionDecryption.PasswordEncryption;
+import LoginModule.User;
+import LoginModule.UserData;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -49,8 +51,8 @@ public class LoginDao {
 	private Connection conn;
 	private static final String USERNAME = "sample";
 	private static final String PASSWORD = "9999";
-	private static final String URL = "jdbc:mysql://125.185.21.163:3306/sampledb";
-//	private static final String URL = "jdbc:mysql://192.168.219.14:3306/sampledb";
+//	private static final String URL = "jdbc:mysql://125.185.21.163:3306/sampledb";
+	private static final String URL = "jdbc:mysql://192.168.219.14:3306/sampledb";
 	
 	UserData ud;
 	

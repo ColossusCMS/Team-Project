@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import ChkDialogModule.ChkDialogMain;
+import Dao.LoginDao;
 import SendMail.SendMail;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

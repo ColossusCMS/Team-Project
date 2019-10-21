@@ -1,9 +1,12 @@
 package LoginModule;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import ChkDialogModule.ChkDialogMain;
+import Dao.LoginDao;
+import IdSaveLoadModule.IdSaveLoad;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -102,8 +105,20 @@ public class LoginController implements Initializable {
 				ChkDialogMain.chkDialog(labelText);
 			}
 			else {	//그게 아니라면 입력한 정보가 올바름
-				labelText = name + "님\n어서오세요!";
-				ChkDialogMain.chkDialog(labelText);
+//				labelText = name + "님\n어서오세요!";
+//				ChkDialogMain.chkDialog(labelText);
+				Stage stage = (Stage)btnLogin.getScene().getWindow();
+				try {
+					Parent mainPane = FXMLLoader.load(getClass().getResource("/MainModule/main.fxml"));
+					Scene scene = new Scene(mainPane);
+					stage.setScene(scene);
+					stage.setResizable(false);
+					stage.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				//사용자번호를 텍스트파일로 저장
+				IdSaveLoad.saveUserId(fieldUserNo.getText());
 			}
 		}
 	}

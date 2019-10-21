@@ -43,6 +43,7 @@ public class ChkDialogMain {
 			Button dialogBtn = (Button)parent.lookup("#dialogBtn");
 			dialogBtn.setOnAction(e -> chkDialog.hide());
 			chkDialog.initModality(Modality.APPLICATION_MODAL);
+			chkDialog.setAlwaysOnTop(true);
 			chkDialog.setResizable(false);
 			chkDialog.setScene(scene);
 			chkDialog.show();

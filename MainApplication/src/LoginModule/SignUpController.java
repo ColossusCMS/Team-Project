@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import ChkDialogModule.ChkDialogMain;
+import Dao.LoginDao;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

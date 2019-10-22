@@ -9,33 +9,17 @@ import java.sql.SQLException;
 
 import BoardModule.Board;
 import BoardModule.BoardTableView;
+import InitializePackage.InitializeDao;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
 public class BoardDao {
-	private Connection conn;
-	private static final String USERNAME = "sample";
-	private static final String PASSWORD = "9999";
-//	private static final String URL = "jdbc:mysql://125.185.21.163:3306/sampledb";
-	private static final String URL = "jdbc:mysql://192.168.219.14:3306/sampledb";
-
-	public BoardDao() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-			System.out.println("드라이버 로딩 성공");
-		} catch (Exception e) {
-			System.out.println("드라이버 로드 실패");
-			e.printStackTrace();
-		}
-	}
-	
 	//게시판 내용을 다 저장하는 메서드
 	public boolean insertBbsContent(Board board) {
 		String sql = "insert into bbs values(null, ?, ?, ?, ?, ?, ?, default);";
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, board.getBbsHeader());
 			pstmt.setString(2, board.getBbsTitle());
 			pstmt.setInt(3, board.getUserId());
@@ -61,7 +45,7 @@ public class BoardDao {
 		String sql = "update bbs set bbsheader = ?, bbstitle = ?, bbscontent = ? where bbsid = ? and userid = ? and bbspw = ?;";
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, board.getBbsHeader());
 			pstmt.setString(2, board.getBbsTitle());
 			pstmt.setString(3, board.getBbsContent());
@@ -86,7 +70,7 @@ public class BoardDao {
 		String sql = "select * from bbs where bbsid = ?;";
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setInt(1, bbsId);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
@@ -107,14 +91,14 @@ public class BoardDao {
 	}
 	
 	public void loadAllBbsList(TableView<BoardTableView> viewTable, ObservableList<BoardTableView> list) {
-		String sql = "select * from bbs order by bbsid desc;";
+		String sql = "select b.bbsid, b.bbsheader, b.bbstitle, l.username, b.bbsdate from bbs b inner join login l on b.userid = l.userno order by b.bbsid desc;";
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = InitializeDao.conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			list.clear();
 			while(rs.next()) {
-				list.add(new BoardTableView(rs.getString("bbsid"), rs.getString("bbsheader"), rs.getString("bbstitle"), rs.getString("userid"), rs.getString("bbsdate")));
+				list.add(new BoardTableView(rs.getString("b.bbsid"), rs.getString("b.bbsheader"), rs.getString("b.bbstitle"), rs.getString("l.username"), rs.getString("b.bbsdate")));
 			}
 			viewTable.setItems(list);
 		} catch (Exception e) {
@@ -133,7 +117,7 @@ public class BoardDao {
 		String sql = "select bbsid, bbsheader, bbstitle, userid, bbsdate from bbs where bbsheader = ?;";
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, bbsHeader);
 			ResultSet rs = pstmt.executeQuery();
 			list.clear();
@@ -158,7 +142,7 @@ public class BoardDao {
 	//자바 안에서 프로시저 call하는 방법
 	public void callProcedure() {
 		try {
-			CallableStatement cs = conn.prepareCall("call prod()");
+			CallableStatement cs = InitializeDao.conn.prepareCall("call prod()");
 			cs.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

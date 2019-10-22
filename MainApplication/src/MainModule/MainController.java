@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import BoardModule.BoardController;
 import BoardModule.BoardTableView;
 import Dao.BoardDao;
+import Dao.LoginDao;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -43,7 +44,30 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+/*
+프로젝트 주제 : 사내 SNS
+프로그램 버전 : 0.7.0
+모듈 이름 : 메인 화면
+클래스 이름 : MainController
+모듈버전 : 0.5.0
+해당 클래스 작성 : 최문석
 
+필요 전체 Java파일
+- MainController.java (로그인 이후 등장하는 프로그램의 메인화면)
+
+필요 fxml파일
+- main.fxml (메인화면 창 fxml)
+
+필요 import 사용자 정의 package
+- 
+
+해당 클래스 주요 기능
+- 
+
+버전 변경 사항
+1.0.0
+- 
+ */
 public class MainController implements Initializable {	
 	@FXML
 	private ToggleButton toggleBtnNotice, toggleBtnUser, toggleBtnChat, toggleBtnBoard;
@@ -65,9 +89,9 @@ public class MainController implements Initializable {
 	Background notSelectedBack = new Background(notSelectedFill);
 	
 	ObservableList<BoardTableView> list = FXCollections.observableArrayList();
-	ObservableList<String> comboList = FXCollections.observableArrayList("전체게시판","자유게시판","경리팀","개발팀");
+	ObservableList<String> comboList = FXCollections.observableArrayList();
 	BoardDao bd = new BoardDao();
-	
+	LoginDao ld = new LoginDao();
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//왼쪽 영역 버튼 초기화
@@ -81,6 +105,12 @@ public class MainController implements Initializable {
 		paneBoard.setVisible(false);
 		btnSchedule.setOnMouseClicked(event -> schedule());
 		
+		groupCategory.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+			@Override
+			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+				click(newValue.getUserData().toString());
+			}
+		});
 		
 		//오른쪽 영역 부분
 		
@@ -113,10 +143,10 @@ public class MainController implements Initializable {
 		col1.setStyle("-fx-pref-width:40; -fx-border-width:1; -fx-pref-height:40; -fx-font-size:10px; -fx-alignment:center");
 		col1.setCellValueFactory(new PropertyValueFactory<BoardTableView, String>("boardHeader"));
 		TableColumn<BoardTableView, String> col2 = new TableColumn<BoardTableView, String>();
-		col2.setStyle("-fx-pref-width:190; -fx-border-width:1; -fx-pref-height:40; -fx-font-size:15px; -fx-alignment:center-left");
+		col2.setStyle("-fx-pref-width:180; -fx-border-width:1; -fx-pref-height:40; -fx-font-size:15px; -fx-alignment:center-left");
 		col2.setCellValueFactory(new PropertyValueFactory<BoardTableView, String>("boardTitle"));
 		TableColumn<BoardTableView, BoardTableView> col3 = new TableColumn<BoardTableView, BoardTableView>();
-		col3.setStyle("-fx-pref-width:75; -fx-border-width:1; -fx-pref-height:40; -fx-alignment:center-left");
+		col3.setStyle("-fx-pref-width:85; -fx-border-width:1; -fx-pref-height:40; -fx-alignment:center-left");
 		
 		col3.setCellValueFactory(new Callback<CellDataFeatures<BoardTableView, BoardTableView>, ObservableValue<BoardTableView>>() {
 	          @SuppressWarnings("rawtypes")
@@ -163,15 +193,9 @@ public class MainController implements Initializable {
 		viewBoardList.setItems(list);
 		
 		//필터용 콤보박스 생성하는 부분
+		ld.loadDept(comboFilter, comboList);
 		comboFilter.setItems(comboList);
 		comboFilter.getSelectionModel().selectFirst();
-		
-		groupCategory.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-			@Override
-			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-				click(newValue.getUserData().toString());
-			}
-		});
 		
 		bd.loadAllBbsList(viewBoardList, list);
 		comboFilter.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {

@@ -1,36 +1,28 @@
 package Dao;
 
-import EncryptionDecryption.PasswordEncryption;
-import LoginModule.User;
-import LoginModule.UserData;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import EncryptionDecryption.PasswordEncryption;
+import InitializePackage.InitializeDao;
+import LoginModule.User;
+import LoginModule.UserData;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
 /*
 프로젝트 주제 : 사내 SNS
-모듈 이름 : 로그인
+프로그램 버전 : 0.7.0
+모듈 이름 : 로그인 데이터베이스 클래스
+모듈 버전 : 1.1.0
 클래스 이름 : LoginDao
-버전 : 1.1.0
 해당 클래스 작성 : 최문석
 
 필요 전체 Java파일
-- LoginMain.java (로그인 화면이 실행되는 메인 클래스)
 - LoginDao.java (데이터베이스 접속, 데이터 불러오기, 데이터 삽입 등)
-- LoginController.java (로그인 창 컨트롤러)
-- SignUpController.java (사용자 등록 창 컨트롤러)
-- FindAccountController.java (계정 찾기 창 컨트롤러)
-- User.java (사용자 등록에 사용하는 사용자 정보 클래스[사용자의 모든 정보를 담고 있음])
-- UserData.java (계정 찾기에서 사용하는 사용자 정보 클래스[사용자번호, 이름, 이메일, 비밀번호])
-
-필요 fxml파일
-- login.fxml (로그인 창 fxml)
-- signUp.fxml (사용자등록 창 fxml)
-- findAccount.fxml (계정 찾기 창 fxml)
 
 필요 import 사용자 정의 package
+- InitializePackage.InitializeDao (데이터 베이스 접속 초기화)
 - EncryptionDecryption.PasswordEncryption (비밀번호를 암호화하고 복호화하는 메서드를 포함하고 있음)
 - ChkDialogModule.ChkDialogMain (안내문 출력을 위한 임시 다이얼로그를 생성하는 패키지)
 - SendMail.SendMail (메일 보내는 메서드를 포함하고 있음)
@@ -42,31 +34,12 @@ import java.sql.SQLException;
 
 버전 변경 사항
 1.1.0
-- DAO 인스턴스를 필요시에만 생성해 페이지 이동 간의 로딩 시간을 줄임.
-- 사용자 등록창에서 이메일 중복체크 버튼 추가 및 이메일 중복체크 액션 추가
-- LoginDao 클래스에 이메일 체크하는 메서드 추가
-- 변수 및 메서드 이름 통일화
+- 데이터베이스 접속 부분을 삭제하고 static 변수를 호출해 데이터베이스 재접속 및 지연 방지
+- 이메일 체크하는 메서드 추가
  */
 public class LoginDao {
-	private Connection conn;
-	private static final String USERNAME = "sample";
-	private static final String PASSWORD = "9999";
-//	private static final String URL = "jdbc:mysql://125.185.21.163:3306/sampledb";
-	private static final String URL = "jdbc:mysql://192.168.219.14:3306/sampledb";
-	
 	UserData ud;
-	
-	public LoginDao() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-			System.out.println("드라이버 로딩 성공");
-		} catch (Exception e) {
-			System.out.println("드라이버 로드 실패");
-			e.printStackTrace();
-		}
-	}
-	
+
 	//로그인을 시도했을 때 DB에서 검색해서 동일한 값이 있는지 체크해줌
 	//있으면 true, 없으면 false리턴
 	public String chkUserData(String userNo, String password) {
@@ -74,7 +47,7 @@ public class LoginDao {
 		String encPassword = PasswordEncryption.pwEncryption(password);
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, userNo);
 			pstmt.setString(2, encPassword);
 			ResultSet rs = pstmt.executeQuery();
@@ -99,7 +72,7 @@ public class LoginDao {
 		String sql = "select userno, username, userpw, usermail from login where username = ? and usermail = ?;";
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, userName);
 			pstmt.setString(2, userMail);
 			ResultSet rs = pstmt.executeQuery();
@@ -126,7 +99,7 @@ public class LoginDao {
 		String sql = "select userno from login where userno = ?;";
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, userNo);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {	//만약 db로 검색했는데 결과가 나왔다면(중복된 사원번호가 존재한다는 의미)
@@ -150,7 +123,7 @@ public class LoginDao {
 		String sql = "select userno from login where usermail = ?;";
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, userMail);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {	//만약 db로 검색했는데 결과가 나왔다면(중복된 이메일이 존재한다는 의미)
@@ -175,7 +148,7 @@ public class LoginDao {
 		String encPassword = PasswordEncryption.pwEncryption(user.getPassword());
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUserNo());
 			pstmt.setString(2, user.getUserName());
 			pstmt.setString(3, encPassword);
@@ -194,5 +167,21 @@ public class LoginDao {
                 e.printStackTrace();
             }
         }
+	}
+	
+	//부서 리스트 가져오는 메서드
+	public void loadDept(ComboBox<String> dept, ObservableList<String> list) {
+		String sql = "select deptname from dept;";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = InitializeDao.conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				list.add(rs.getString("deptname"));
+			}
+			dept.setItems(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

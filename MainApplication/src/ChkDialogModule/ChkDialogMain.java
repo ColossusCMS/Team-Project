@@ -13,9 +13,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 /*
 프로젝트 주제 : 사내 SNS
+프로그램 버전 : 0.7.0
 모듈 이름 : 안내용 다이얼로그
+모듈 버전 : 1.0.0
 클래스 이름 : ChkDialogMain
-버전 : 1.0.0
 해당 클래스 작성 : 최문석
 
 필요 전체 Java파일

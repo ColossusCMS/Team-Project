@@ -32,6 +32,7 @@ public class BoardWriteController implements Initializable {
 		btnReg.setOnAction(event -> handleBtnRegAction());
 		btnCancel.setOnAction(event -> handleBtnCancelAction());
 		
+		//부서 테이블 긁어올것
 		ObservableList<String> comboList = FXCollections.observableArrayList("전체", "경리팀", "개발팀", "경영팀", "인사팀");
 		comboHeader.setItems(comboList);	
 	}

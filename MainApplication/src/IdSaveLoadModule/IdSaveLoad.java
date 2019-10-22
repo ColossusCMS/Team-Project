@@ -9,6 +9,24 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import EncryptionDecryption.PasswordEncryption;
+/*
+프로젝트 주제 : 사내 SNS
+프로그램 버전 : 0.7.0
+모듈 이름 : 사용자번호 저장, 불러오기
+모듈 버전 : 1.0.0
+클래스 이름 : IdSaveLoad
+해당 클래스 작성 : 최문석
+
+필요 전체 Java파일
+- IdSaveLoad.java (사용자 번호를 해당 경로에 저장하고 불러옴.)
+
+해당 클래스 주요 기능
+- 현재 로그인한 사용자의 정보를 항상 가지고 있기 위해
+- 설정한 경로에 사용자 번호를 텍스트 파일로 저장함.
+- 저장할 때에는 사용자 번호를 암호화해서 저장하고 프로그램에서 가져올 때는 복호화해서 가져옴
+- 프로그램이 완전히 종료되면 저장했던 사용자 번호를 지움.
+ */
 
 //로그인된 계정을 프로그램이 실행되는 동안에는 계속 가지고 있기 위해서
 //사원번호를 txt파일로 지정한 폴더에 저장해둠.
@@ -18,8 +36,10 @@ public class IdSaveLoad {
 	public static void saveUserId(String id) {
 //		String path = System.getProperty("user.home") + "/Documents/MySNS/id.txt";
 //		String path = "e:/MySNS/id.txt";
-		File filePath = new File("e:/MySNS/");
-		File fileName = new File("e:/MySNS/id.txt");
+//		File filePath = new File("e:/MySNS/");
+//		File fileName = new File("e:/MySNS/id.txt");
+		File filePath = new File("c:/MySNS/");
+		File fileName = new File("c:/MySNS/id.txt");
 		try {
 			if(!filePath.exists()) {
 				filePath.mkdirs();
@@ -29,6 +49,8 @@ public class IdSaveLoad {
 			}
 			FileOutputStream fos = new FileOutputStream(fileName);
 			Writer writer = new OutputStreamWriter(fos);
+			//텍스트파일에 저장할 때 암호화해서 저장한다.
+			id = PasswordEncryption.pwEncryption(id);
 			writer.write(id);
 			writer.flush();
 			writer.close();
@@ -43,7 +65,7 @@ public class IdSaveLoad {
 	public static String loadUserId() {
 //		String path = System.getProperty("user.home") + "/Documents/MySNS/id.txt";
 		String path = "e:/MySNS/id.txt";
-		String file = new String();
+		String id = new String();
 		FileReader fr = null;
 		BufferedReader br = null;
 		StringWriter sw = null;
@@ -56,11 +78,12 @@ public class IdSaveLoad {
 				sw.write(ch);
 			}
 			br.close();
-			file = sw.toString();
+			//복호화해서 id를 가져옴
+			id = PasswordEncryption.pwDecryption(sw.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return file;
+		return id;
 	}
 	
 	//로그아웃이나 프로그램을 완전히 종료할 경우 저장했던 사용자번호를 지우고 txt파일을 초기화함

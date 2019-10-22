@@ -21,8 +21,11 @@ public class BoardModifyController implements Initializable {
 	@FXML private Button btnModify, btnCancel;
 	@FXML private ComboBox<String> comboHeader;
 	@FXML private PasswordField fieldPw;
+	
 	Board board;
-	BoardDao bd = new BoardDao();;
+	BoardDao bd = new BoardDao();
+	//이 부분도 데이터베이스에서 긁어올 것
+	//부서 테이블 사용
 	ObservableList<String> comboList = FXCollections.observableArrayList("전체 게시판","자유게시판","경리부","개발부");
 	int userId;
 	String bbsPw, bbsDate;

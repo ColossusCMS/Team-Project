@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableView?>
@@ -8,6 +11,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+
+<!-- 
+프로젝트 주제 : 사내 SNS
+프로그램 버전 : 0.7.0
+모듈 이름 : 메인 화면
+모듈 버전 : 0.5.0
+fxml 이름 : main
+해당 fxml 작성 : 최문석
+ -->
 
 <BorderPane prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainModule.MainController">
    <left>
@@ -18,9 +30,9 @@
                   <ToggleGroup fx:id="groupCategory" />
                </toggleGroup>
             </ToggleButton>
-            <ToggleButton fx:id="toggleBtnUser" layoutY="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: black;" text="사용자 목록" toggleGroup="$category" userData="user" />
-            <ToggleButton fx:id="toggleBtnChat" layoutY="200.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: black;" text="채팅" toggleGroup="$category" userData="chat" />
-            <ToggleButton fx:id="toggleBtnBoard" layoutY="300.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: black;" text="게시판" toggleGroup="$category" userData="board" />
+            <ToggleButton fx:id="toggleBtnUser" layoutY="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: black;" text="사용자 목록" toggleGroup="$groupCategory" userData="user" />
+            <ToggleButton fx:id="toggleBtnChat" layoutY="200.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: black;" text="채팅" toggleGroup="$groupCategory" userData="chat" />
+            <ToggleButton fx:id="toggleBtnBoard" layoutY="300.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: black;" text="게시판" toggleGroup="$groupCategory" userData="board" />
             <Button fx:id="btnSchedule" layoutY="550.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="일정" />
          </children>
       </AnchorPane>

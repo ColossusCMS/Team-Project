@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Dao.BoardDao;
+import Dao.LoginDao;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,23 +16,23 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class BoardController implements Initializable {
-	
 	@FXML
 	private Button btnCancel, btnModify, btnDelete;
 	@FXML
 	private Label lblHeader, lblWriter, lblDate, lblTitle, lblContent;
 	
-	public static String BBS_ID;
+	public static String BBS_ID;	//게시물 번호를 Dao클래스로 전달하기 위한 변수
+	
 	BoardDao dao = new BoardDao();
 	Board board;
-
+	
 	@Override
 	public void initialize(URL loc, ResourceBundle resources) {
 		btnCancel.setOnAction(event -> handleBtnCancelAction());
 		btnModify.setOnAction(event -> handleBtnModifyAction());
 		btnDelete.setOnAction(event -> handleBtnDeleteAction());
 		
-//		board = dao.loadAllBbsContent(this.getBbsId());
+//		board = dao.loadAllBbsContent(this.getBbsId());	//나중에 userId타입을 int에서 String으로 변경할 예정
 		board = dao.loadAllBbsContent(Integer.parseInt(BBS_ID));
 		lblHeader.setText(board.getBbsHeader());
 		lblWriter.setText(board.getUserId() + "");

@@ -12,9 +12,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 /*
 프로젝트 주제 : 사내 SNS
+프로그램 버전 : 0.7.0
 모듈 이름 : 메일 송신
+모듈 버전 : 1.0.0
 클래스 이름 : SendMail
-버전 : 1.0.0
 해당 클래스 작성 : 최문석, 심대훈
 
 필요 전체 Java파일

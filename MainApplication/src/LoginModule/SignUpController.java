@@ -31,14 +31,14 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 /*
 프로젝트 주제 : 사내 SNS
+프로그램 버전 : 0.7.0
 모듈 이름 : 로그인
+모듈 버전 : 1.1.1
 클래스 이름 : SignUpController
-버전 : 1.1.0
 해당 클래스 작성 : 최문석
 
-필요 전체 Java파일
+필요 모듈 Java파일
 - LoginMain.java (로그인 화면이 실행되는 메인 클래스)
-- LoginDao.java (데이터베이스 접속, 데이터 불러오기, 데이터 삽입 등)
 - LoginController.java (로그인 창 컨트롤러)
 - SignUpController.java (사용자 등록 창 컨트롤러)
 - FindAccountController.java (계정 찾기 창 컨트롤러)
@@ -51,6 +51,7 @@ import javafx.stage.Stage;
 - findAccount.fxml (계정 찾기 창 fxml)
 
 필요 import 사용자 정의 package
+- Dao.LoginDao (로그인 정보를 데이터 베이스로 처리할 수 있는 메서드)
 - EncryptionDecryption.PasswordEncryption (비밀번호를 암호화하고 복호화하는 메서드를 포함하고 있음)
 - ChkDialogModule.ChkDialogMain (안내문 출력을 위한 임시 다이얼로그를 생성하는 패키지)
 - SendMail.SendMail (메일 보내는 메서드를 포함하고 있음)
@@ -59,12 +60,16 @@ import javafx.stage.Stage;
 - singUp.fxml의 주 컨트롤러로 사용자 등록 창을 생성하고 입력받은 값들의 상태를 체크,
 - 데이터베이스로 접속해 입력한 값들을 데이터베이스에 저장함.
 
-버전 변경 사항
+모듈 버전 변경 사항
 1.1.0
 - DAO 인스턴스를 필요시에만 생성해 페이지 이동 간의 로딩 시간을 줄임.
 - 사용자 등록창에서 이메일 중복체크 버튼 추가 및 이메일 중복체크 액션 추가
 - LoginDao 클래스에 이메일 체크하는 메서드 추가
 - 변수 및 메서드 이름 통일화
+
+1.1.1
+- Dao 인스턴스 통합 (데이터 베이스 초기화 클래스 생성)
+- 콤보박스의 내용을 데이터베이스와 연동
  */
 public class SignUpController implements Initializable {
 	@FXML private TextField fieldUserNo, fieldUserName, fieldUserTel, fieldUserMail, fieldImgPath;
@@ -74,15 +79,15 @@ public class SignUpController implements Initializable {
 	@FXML private ImageView viewImg;
 	@FXML private ComboBox<String> comboBoxDept;
 	
-	private ObservableList<String> comboList = FXCollections.observableArrayList("개발1팀", "개발2팀", "영업1팀", "영업2팀", "기획팀", "디자인팀", "경영팀", "인사팀");
-	LoginDao loginDao;
+	private ObservableList<String> comboList = FXCollections.observableArrayList();
+	LoginDao loginDao = new LoginDao();
 	int overlapChkNum = 0;	//중복체크 여부 확인을 위한 변수
 	Pattern telPattern = Pattern.compile("(010)-\\d{4}-\\d{4}");	//휴대폰 번호 패턴
 	Pattern mailPattern = Pattern.compile("[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}");	//이메일 패턴
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		comboBoxDept.setItems(comboList);
+		loginDao.loadDept(comboBoxDept, comboList);
 		btnUserNoChk.setOnAction(event -> handleBtnUserNoChkAction());
 		btnUserMailChk.setOnAction(event -> handleBtnUserMailChkAction());
 		btnImg.setOnAction(event -> handleBtnImgAction());
@@ -123,7 +128,6 @@ public class SignUpController implements Initializable {
 	
 	//사원번호 중복체크 버튼을 눌렀을 때의 이벤트
 	public void handleBtnUserNoChkAction() {
-		loginDao = new LoginDao();
 		if(fieldUserNo.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
 			ChkDialogMain.chkDialog("사원번호를 입력하세요.");
 		}
@@ -145,7 +149,6 @@ public class SignUpController implements Initializable {
 	
 	//이메일 중복체크 버튼을 눌렀을 때의 이벤트
 	public void handleBtnUserMailChkAction() {
-		loginDao = new LoginDao();
 		if(fieldUserMail.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
 			ChkDialogMain.chkDialog("이메일을 입력하세요.");
 		}
@@ -207,7 +210,6 @@ public class SignUpController implements Initializable {
 	//2_5. 이메일 형식에 맞게 입력했는지 (패턴 정규식을 활용해 체크한다.)
 	//3. 모두 만족한다면 DB로 데이터를 전송
 	public void handleBtnSubmitAction() {
-		loginDao = new LoginDao();
 		//필수항목을 체크한다.
 		//만약 입력하지 않은 값이 있다면 다시 입력하라고 다이얼로그를 띄움
 		if(fieldUserNo.getText().isEmpty() || fieldUserName.getText().isEmpty() || fieldPassword.getText().isEmpty() || fieldUserTel.getText().isEmpty()

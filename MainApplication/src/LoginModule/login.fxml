@@ -6,9 +6,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <!-- 
 프로젝트 주제 : 사내 SNS
+프로그램 버전 : 0.7.0
 모듈 이름 : 로그인
+모듈 버전 : 1.1.0
 fxml 이름 : login
-버전 : 1.1.0
 해당 fxml 작성 : 김도엽
  -->
 <AnchorPane prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginModule.LoginController">

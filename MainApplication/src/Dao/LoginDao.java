@@ -4,12 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import ClassPackage.User;
+import ClassPackage.UserData;
 import EncryptionDecryption.PasswordEncryption;
 import InitializePackage.InitializeDao;
-import LoginModule.User;
-import LoginModule.UserData;
-import javafx.collections.ObservableList;
-import javafx.scene.control.ComboBox;
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
@@ -42,9 +40,9 @@ public class LoginDao {
 
 	//로그인을 시도했을 때 DB에서 검색해서 동일한 값이 있는지 체크해줌
 	//있으면 true, 없으면 false리턴
-	public String chkUserData(String userNo, String password) {
-		String sql = "select username from login where userno = ? and userpw = ?;";
-		String encPassword = PasswordEncryption.pwEncryption(password);
+	public String chkUserData(String userNo, String userPassword) {
+		String sql = "select username from usertbl where userno = ? and userpassword = ?;";
+		String encPassword = PasswordEncryption.pwEncryption(userPassword);
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
@@ -69,7 +67,7 @@ public class LoginDao {
 	
 	//확인 메일을 보내기 위해 데이터베이스에서 사용자 정보를 검색하고 결과를 가져옴
 	public UserData chkUserNameMail(String userName, String userMail) {
-		String sql = "select userno, username, userpw, usermail from login where username = ? and usermail = ?;";
+		String sql = "select userno, username, userpassword, usermail from usertbl where username = ? and usermail = ?;";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
@@ -77,7 +75,7 @@ public class LoginDao {
 			pstmt.setString(2, userMail);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {	//검색했는데 만약 값이 출력이 되었다면 정보가 맞다는 뜻이니 true를 리턴함
-				String decPassword = PasswordEncryption.pwDecryption(rs.getString("userpw"));
+				String decPassword = PasswordEncryption.pwDecryption(rs.getString("userpassword"));
 				ud = new UserData(rs.getString("userno"), rs.getString("username"), decPassword, rs.getString("usermail"));
 				return ud;
 			}
@@ -96,7 +94,7 @@ public class LoginDao {
 	
 	//사용자번호가 중복인지 데이터베이스에서 확인하는 메서드
 	public boolean chkUserNo(String userNo) {
-		String sql = "select userno from login where userno = ?;";
+		String sql = "select userno from usertbl where userno = ?;";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
@@ -120,7 +118,7 @@ public class LoginDao {
 	
 	//사용자번호가 중복인지 데이터베이스에서 확인하는 메서드
 	public boolean chkUserMail(String userMail) {
-		String sql = "select userno from login where usermail = ?;";
+		String sql = "select userno from usertbl where usermail = ?;";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
@@ -142,10 +140,34 @@ public class LoginDao {
 		return false;
 	}
 	
+	//전화번호 중복인지 체크하는 메서드
+	public boolean chkUserTel(String userTel) {
+		String sql = "select userno from usertbl where usertel = ?;";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = InitializeDao.conn.prepareStatement(sql);
+			pstmt.setString(1, userTel);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {	//만약 db로 검색했는데 결과가 나왔다면(중복된 전화번호가 존재한다는 의미)
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+            try {
+                if (pstmt != null && !pstmt.isClosed())
+                    pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+		return false;
+	}
+	
 	//데이터베이스에 사용자 정보를 등록하는 메서드
 	public void insertUserData(User user) {
-		String sql = "insert into login values (?, ?, ?, ?, ?, ?, ?, null, 0);";
-		String encPassword = PasswordEncryption.pwEncryption(user.getPassword());
+		String sql = "insert into usertbl values (?, ?, ?, ?, ?, ?, ?, default, ?, default);";
+		String encPassword = PasswordEncryption.pwEncryption(user.getUserPassword());
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
@@ -154,8 +176,9 @@ public class LoginDao {
 			pstmt.setString(3, encPassword);
 			pstmt.setString(4, user.getUserMail());
 			pstmt.setString(5, user.getUserTel());
-			pstmt.setString(6, user.getImgPath());
-			pstmt.setString(7, user.getDept());
+			pstmt.setString(6, user.getUserImgPath());
+			pstmt.setString(7, user.getUserDept());
+			pstmt.setString(8, user.getUserStatusMsg());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -167,21 +190,5 @@ public class LoginDao {
                 e.printStackTrace();
             }
         }
-	}
-	
-	//부서 리스트 가져오는 메서드
-	public void loadDept(ComboBox<String> dept, ObservableList<String> list) {
-		String sql = "select deptname from dept;";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = InitializeDao.conn.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {
-				list.add(rs.getString("deptname"));
-			}
-			dept.setItems(list);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ClassPackage.Board;
 import Dao.BoardDao;
-import Dao.LoginDao;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,7 +24,7 @@ public class BoardController implements Initializable {
 	public static String BBS_ID;	//게시물 번호를 Dao클래스로 전달하기 위한 변수
 	
 	BoardDao dao = new BoardDao();
-	Board board;
+	Board board;	//게시물의 모든 내용을 담기 위한 클래스
 	
 	@Override
 	public void initialize(URL loc, ResourceBundle resources) {
@@ -32,13 +32,12 @@ public class BoardController implements Initializable {
 		btnModify.setOnAction(event -> handleBtnModifyAction());
 		btnDelete.setOnAction(event -> handleBtnDeleteAction());
 		
-//		board = dao.loadAllBbsContent(this.getBbsId());	//나중에 userId타입을 int에서 String으로 변경할 예정
-		board = dao.loadAllBbsContent(Integer.parseInt(BBS_ID));
-		lblHeader.setText(board.getBbsHeader());
-		lblWriter.setText(board.getUserId() + "");
-		lblDate.setText(board.getBbsDate());
-		lblTitle.setText(board.getBbsTitle());
-		lblContent.setText(board.getBbsContent());
+		board = dao.loadAllBoardContent(BBS_ID);	//게시물 열람을 했을 때 해당하는 모든 내용을 가져오기 위해 매개변수로 게시물 번호를 보냄
+		lblHeader.setText(board.getBoardHeader());
+		lblWriter.setText(board.getBoardUserNo());
+		lblDate.setText(board.getBoardDate());
+		lblTitle.setText(board.getBoardTitle());
+		lblContent.setText(board.getBoardContent());
 	}
 	
 	public void handleBtnModifyAction() {
@@ -56,7 +55,8 @@ public class BoardController implements Initializable {
 	//삭제는 데이터베이스에서 삭제하는 것이 아니라
 	//데이터베이스의 삭제 여부를 알려주는 bbsAvailable을 1에서 0으로 변경만 함
 	public void handleBtnDeleteAction() {
-		
+		//여기 만들어야 됨
+		String str = new String();
 	}
 
 	public void handleBtnCancelAction() {

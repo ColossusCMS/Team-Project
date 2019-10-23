@@ -7,7 +7,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import ChkDialogModule.ChkDialogMain;
+import ClassPackage.User;
+import CreateDialogModule.ChkDialogMain;
+import Dao.DeptDao;
 import Dao.LoginDao;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -70,26 +72,33 @@ import javafx.stage.Stage;
 1.1.1
 - Dao 인스턴스 통합 (데이터 베이스 초기화 클래스 생성)
 - 콤보박스의 내용을 데이터베이스와 연동
+
+1.1.2
+- 전화번호 중복체크 버튼, 기능 추가
  */
 public class SignUpController implements Initializable {
 	@FXML private TextField fieldUserNo, fieldUserName, fieldUserTel, fieldUserMail, fieldImgPath;
-	@FXML private Button btnUserNoChk, btnImg, btnSubmit, btnCancel, btnUserMailChk;
+	@FXML private Button btnUserNoChk, btnImg, btnSubmit, btnCancel, btnUserMailChk, btnUserTelChk;
 	@FXML private PasswordField fieldPassword, fieldPasswordChk;
 	@FXML private Label lblPwChk;
 	@FXML private ImageView viewImg;
 	@FXML private ComboBox<String> comboBoxDept;
 	
 	private ObservableList<String> comboList = FXCollections.observableArrayList();
-	LoginDao loginDao = new LoginDao();
+	
+	LoginDao loginDao = new LoginDao();	//로그인시 사용하는 Dao
+	DeptDao deptDao = new DeptDao();	//부서정보 가져올 때 사용하는 Dao
+	
 	int overlapChkNum = 0;	//중복체크 여부 확인을 위한 변수
 	Pattern telPattern = Pattern.compile("(010)-\\d{4}-\\d{4}");	//휴대폰 번호 패턴
 	Pattern mailPattern = Pattern.compile("[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}");	//이메일 패턴
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loginDao.loadDept(comboBoxDept, comboList);
+		deptDao.loadDept(comboBoxDept, comboList);
 		btnUserNoChk.setOnAction(event -> handleBtnUserNoChkAction());
 		btnUserMailChk.setOnAction(event -> handleBtnUserMailChkAction());
+		btnUserTelChk.setOnAction(event -> handleBtnUserTelChkAction());
 		btnImg.setOnAction(event -> handleBtnImgAction());
 		btnSubmit.setOnAction(event -> handleBtnSubmitAction());
 		btnCancel.setOnAction(event -> handleBtnCancelAction());
@@ -171,6 +180,30 @@ public class SignUpController implements Initializable {
 		}
 	}
 	
+	//전화번호 중복체크 버튼을 눌렀을 때의 이벤트
+	public void handleBtnUserTelChkAction() {
+		if(fieldUserMail.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
+			ChkDialogMain.chkDialog("전화번호를 입력하세요.");
+		}
+		else if(!mailPattern.matcher(fieldUserMail.getText()).matches()) {	//만약 전화번호 형식에 맞지 않다면 다이얼로그를 띄움
+			ChkDialogMain.chkDialog("전화번호 형식에 맞지 않습니다.");
+		}
+		else {	//그게 아니라면 정상적으로 진행
+			boolean overlap = loginDao.chkUserTel(fieldUserTel.getText());	//DB에서 중복되는 전화번호가 있는지 체크함
+			if(overlap) {		//만약 true라면 중복된 값이 있다는 뜻이니 사용할 수 없다는 다이얼로그를 띄움
+				ChkDialogMain.chkDialog("이미 등록된 전화번호입니다.");
+				fieldUserTel.clear();
+				overlapChkNum = 0;
+			}
+			else {					//false라면 중복되는 값이 없다는 뜻이니 중복체크 버튼의 텍스트를 사용가능으로 바꿔줌
+				btnUserTelChk.setText("사용가능");
+//					overlapChk.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW, CornerRadii.EMPTY, Insets.EMPTY	)));
+				btnUserTelChk.setDisable(true);
+				overlapChkNum = 1;
+			}
+		}
+	}	
+	
 	//찾기 버튼을 누르면 이미지를 찾기위한 열기 다이얼로그가 띄워짐
 	//파일을 선택하면 해당 디렉토리부터 파일명까지 imgPath에 자동으로 입력이 됨
 	public void handleBtnImgAction() {
@@ -228,17 +261,20 @@ public class SignUpController implements Initializable {
 		else if(comboBoxDept.getSelectionModel().getSelectedItem() == null) {
 			ChkDialogMain.chkDialog("소속을 선택하세요.");
 		}
-		//전화번호 형식에 맞는지
-		else if(!telPattern.matcher(fieldUserTel.getText()).matches()) {
-			ChkDialogMain.chkDialog("전화번호 형식에 맞지 않습니다.");
-		}
-		//메일형식에 맞는지
-		else if(!mailPattern.matcher(fieldUserMail.getText()).matches()) {
-			ChkDialogMain.chkDialog("이메일 형식에 맞지 않습니다.");
-		}
+		
+		//중복체크시 형식을 확인하기 때문에 주석 내용은 안 쓰일 수도 있음.
+//		//전화번호 형식에 맞는지
+//		else if(!telPattern.matcher(fieldUserTel.getText()).matches()) {
+//			ChkDialogMain.chkDialog("전화번호 형식에 맞지 않습니다.");
+//		}
+//		//메일형식에 맞는지
+//		else if(!mailPattern.matcher(fieldUserMail.getText()).matches()) {
+//			ChkDialogMain.chkDialog("이메일 형식에 맞지 않습니다.");
+//		}
+		
 		//모두 만족했다면 데이터베이스에 저장한다.
 		else {
-			User user = new User(fieldUserNo.getText(), fieldUserName.getText(), fieldPassword.getText(), fieldUserMail.getText(), fieldUserTel.getText(), fieldImgPath.getText(), comboBoxDept.getSelectionModel().getSelectedItem().toString());
+			User user = new User(fieldUserNo.getText(), fieldUserName.getText(), fieldPassword.getText(), fieldUserMail.getText(), fieldUserTel.getText(), fieldImgPath.getText(), comboBoxDept.getSelectionModel().getSelectedItem().toString(), "", "", 0);
 			loginDao.insertUserData(user);
 			ChkDialogMain.chkDialog("등록이 완료되었습니다.");
 			Stage stage = (Stage)btnSubmit.getScene().getWindow();

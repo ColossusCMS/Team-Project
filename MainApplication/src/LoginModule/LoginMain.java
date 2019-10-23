@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
 모듈 이름 : 로그인
-모듈 버전 : 1.1.1
+모듈 버전 : 1.1.2
 클래스 이름 : LoginMain
 해당 클래스 작성 : 최문석, 김도엽
 
@@ -46,13 +46,15 @@ import javafx.stage.Stage;
 1.1.1
 - Dao 인스턴스 통합 (데이터 베이스 초기화 클래스 생성)
 - 콤보박스의 내용을 데이터베이스와 연동
+
+1.1.2
+- 전화번호 중복체크 버튼, 기능 추가
  */
 public class LoginMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
     	Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         Scene scene = new Scene(root);
-//		scene.getStylesheets().add(getClass().getResource("project.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

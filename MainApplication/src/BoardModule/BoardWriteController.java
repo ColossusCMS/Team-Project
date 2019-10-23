@@ -4,8 +4,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
-import BoardModule.Board;
-import ChkDialogModule.ChkDialogMain;
+import ClassPackage.Board;
+import CreateDialogModule.ChkDialogMain;
 import Dao.BoardDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,8 +33,8 @@ public class BoardWriteController implements Initializable {
 		btnCancel.setOnAction(event -> handleBtnCancelAction());
 		
 		//부서 테이블 긁어올것
-		ObservableList<String> comboList = FXCollections.observableArrayList("전체", "경리팀", "개발팀", "경영팀", "인사팀");
-		comboHeader.setItems(comboList);	
+		ObservableList<String> deptList = FXCollections.observableArrayList();
+		comboHeader.setItems(deptList);	
 	}
 	
 	public void handleBtnRegAction() {
@@ -49,7 +49,7 @@ public class BoardWriteController implements Initializable {
 		}
 		else {	//모두 만족한다면 db로 전송
 			bd = new BoardDao();
-			boolean write = bd.insertBbsContent(new Board(comboHeader.getSelectionModel().getSelectedItem().toString(), fieldTitle.getText(), 1234, "20191112", txtAreaContent.getText(), fieldPw.getText()));
+			boolean write = bd.insertBbsContent(new Board(null, comboHeader.getSelectionModel().getSelectedItem().toString(), fieldTitle.getText(), txtAreaContent.getText(), fieldPw.getText(), "userno", "20191112", "file", null));
 			if(write == true) {
 				ChkDialogMain.chkDialog("게시물을 등록했습니다.");
 				btnReg.getScene().getWindow().hide();
@@ -61,7 +61,7 @@ public class BoardWriteController implements Initializable {
 	}
 	
 	public void handleBtnCancelAction() {
+		String str = new String();
 		bd = new BoardDao();
-		bd.callProcedure();
 	}
 }

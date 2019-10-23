@@ -1,13 +1,13 @@
-package LoginModule;
+package ClassPackage;
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
 모듈 이름 : 로그인
-모듈 버전 : 1.1.0
-클래스 이름 : User
+모듈 버전 : 1.1.1
+클래스 이름 : UserData
 해당 클래스 작성 : 최문석
 
-필요 모듈 Java파일
+필요모듈 Java파일
 - LoginMain.java (로그인 화면이 실행되는 메인 클래스)
 - LoginController.java (로그인 창 컨트롤러)
 - SignUpController.java (사용자 등록 창 컨트롤러)
@@ -27,7 +27,7 @@ package LoginModule;
 - SendMail.SendMail (메일 보내는 메서드를 포함하고 있음)
 
 해당 클래스 주요 기능
-- 사용자 등록 창에서 입력받은 모든 정보를 하나의 클래스로 만들어 데이터베이스로 전송할 때 사용
+- 
 
 모듈 버전 변경 사항
 1.1.0
@@ -40,81 +40,41 @@ package LoginModule;
 - Dao 인스턴스 통합 (데이터 베이스 초기화 클래스 생성)
 - 콤보박스의 내용을 데이터베이스와 연동
  */
-public class User {
+public class UserData {
 	private String userNo;
 	private String userName;
-	private String password;
+	private String userPw;
 	private String userMail;
-	private String userTel;
-	private String imgPath;
-	private String dept;
 	
-	public User() {}
-	
-	public User(String userNo, String userName, String password, String userMail, String userTel, String imgPath, String dept) {
-		super();
+	public UserData(String userNo, String userName, String userPw, String userMail) {
 		this.userNo = userNo;
 		this.userName = userName;
-		this.password = password;
+		this.userPw = userPw;
 		this.userMail = userMail;
-		this.userTel = userTel;
-		this.imgPath = imgPath;
-		this.dept = dept;
 	}
-
+	
 	public String getUserNo() {
 		return userNo;
 	}
-
 	public void setUserNo(String userNo) {
 		this.userNo = userNo;
 	}
-
 	public String getUserName() {
 		return userName;
 	}
-
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
-	public String getPassword() {
-		return password;
+	public String getUserPw() {
+		return userPw;
 	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUserPw(String userPw) {
+		this.userPw = userPw;
 	}
-
-	public String getUserTel() {
-		return userTel;
-	}
-
-	public void setUserTel(String userTel) {
-		this.userTel = userTel;
-	}
-
 	public String getUserMail() {
 		return userMail;
 	}
-
 	public void setUserMail(String userMail) {
 		this.userMail = userMail;
-	}
-
-	public String getImgPath() {
-		return imgPath;
-	}
-
-	public void setImgPath(String imgPath) {
-		this.imgPath = imgPath;
-	}
-
-	public String getDept() {
-		return dept;
-	}
-
-	public void setDept(String dept) {
-		this.dept = dept;
 	}
 }

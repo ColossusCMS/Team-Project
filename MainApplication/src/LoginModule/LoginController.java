@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import ChkDialogModule.ChkDialogMain;
+import CreateDialogModule.ChkDialogMain;
 import Dao.LoginDao;
 import IdSaveLoadModule.IdSaveLoad;
 import javafx.event.EventHandler;

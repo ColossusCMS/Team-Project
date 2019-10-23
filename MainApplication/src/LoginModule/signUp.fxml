@@ -18,7 +18,7 @@
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
 모듈 이름 : 로그인
-모듈 버전 : 1.1.0
+모듈 버전 : 1.1.2
 fxml 이름 : signUp
 해당 fxml 작성 : 최문석
  -->
@@ -37,6 +37,7 @@ fxml 이름 : signUp
       <TextField fx:id="fieldUserName" layoutX="13.0" layoutY="148.0" prefHeight="25.0" prefWidth="212.0" promptText="이름" />
       <ComboBox fx:id="comboBoxDept" layoutX="13.0" layoutY="182.0" prefHeight="25.0" prefWidth="212.0" promptText="부서를 선택하세요." />
       <TextField fx:id="fieldUserTel" layoutX="13.0" layoutY="216.0" prefHeight="25.0" prefWidth="212.0" promptText="전화번호( - 포함)" />
+      <Button fx:id="btnUserTelChk" layoutX="230.0" layoutY="217.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="64.0" text="중복체크" />
       <TextField fx:id="fieldUserMail" layoutX="13.0" layoutY="250.0" prefHeight="25.0" prefWidth="212.0" promptText="이메일" />
       <Button fx:id="btnUserMailChk" layoutX="230.0" layoutY="251.0" mnemonicParsing="false" text="중복체크" />
       <Button fx:id="btnImg" layoutX="122.0" layoutY="345.0" mnemonicParsing="false" text="찾기" />

@@ -3,7 +3,7 @@ package BoardModule;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import BoardModule.Board;
+import ClassPackage.Board;
 import Dao.BoardDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
- 
+//게시물 수정 부분 수정 필요
 public class BoardModifyController implements Initializable {
 	@FXML private TextField fieldTitle;
 	@FXML private TextArea txtAreaContent;
@@ -26,33 +26,34 @@ public class BoardModifyController implements Initializable {
 	BoardDao bd = new BoardDao();
 	//이 부분도 데이터베이스에서 긁어올 것
 	//부서 테이블 사용
-	ObservableList<String> comboList = FXCollections.observableArrayList("전체 게시판","자유게시판","경리부","개발부");
-	int userId;
-	String bbsPw, bbsDate;
+	ObservableList<String> deptList = FXCollections.observableArrayList();
+	String userNo, boardPassword, boardDate, boardFile;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) { 
-		board = bd.loadAllBbsContent(1);
-		comboHeader.setItems(comboList);
+		board = bd.loadAllBoardContent("1");
+		comboHeader.setItems(deptList);
 //		fieldTitle.setText(board.getBbsTitle());
 //		txtAreaContent.setText(board.getBbsContent());
 //		comboHeader.getSelectionModel().select(board.getBbsHeader());
 //		fieldPw.setText(board.getBbsPassword());
 		
-		btnModify.setOnAction(event -> this.handleBtnModifyAction());
+		btnModify.setOnAction(event -> handleBtnModifyAction());
 		btnCancel.setOnAction(event -> handleBtnCancelAction());
 		
-		fieldTitle.setText(board.getBbsTitle());
-		fieldPw.setText(board.getBbsPassword());
-		txtAreaContent.setText(board.getBbsContent());
-		comboHeader.getSelectionModel().select(board.getBbsHeader());
-		userId = board.getUserId();
-		bbsPw = board.getBbsPassword();
-		bbsDate = board.getBbsDate();
+		fieldTitle.setText(board.getBoardTitle());
+		fieldPw.setText(board.getBoardPassword());
+		txtAreaContent.setText(board.getBoardContent());
+		comboHeader.getSelectionModel().select(board.getBoardHeader());
+		userNo = board.getBoardUserNo();
+		boardPassword = board.getBoardPassword();
+		boardDate = board.getBoardDate();
+		boardFile = board.getBoardFile();
 	}
 	
 	public void handleBtnModifyAction() {
-		board = new Board(comboHeader.getSelectionModel().getSelectedItem().toString(), fieldTitle.getText(), userId, bbsDate, txtAreaContent.getText(), bbsPw);
+		String str = new String();
+		board = new Board(comboHeader.getSelectionModel().getSelectedItem().toString(), fieldTitle.getText(), txtAreaContent.getText(), boardDate, boardFile);
 		bd.updateBbsContent(board);
 	}
 	

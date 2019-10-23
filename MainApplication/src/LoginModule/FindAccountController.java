@@ -3,7 +3,8 @@ package LoginModule;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import ChkDialogModule.ChkDialogMain;
+import ClassPackage.UserData;
+import CreateDialogModule.ChkDialogMain;
 import Dao.LoginDao;
 import SendMail.SendMail;
 import javafx.fxml.FXML;

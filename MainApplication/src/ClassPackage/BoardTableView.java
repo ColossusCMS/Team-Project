@@ -1,27 +1,28 @@
-package BoardModule;
+package ClassPackage;
 
 import javafx.beans.property.SimpleStringProperty;
+//테이블뷰 전용
 //테이블뷰에서 리스트를 띄우기 출력하기 위해서
 //SimpleStringProperty를 사용함.
 public class BoardTableView {
-	private SimpleStringProperty boardId;
+	private SimpleStringProperty boardNo;
 	private SimpleStringProperty boardHeader;
 	private SimpleStringProperty boardTitle;
 	private SimpleStringProperty boardWriter;
 	private SimpleStringProperty boardDate;
 	
-	public BoardTableView(String boardId, String boardHeader, String boardTitle, String boardWriter, String boardDate) {
-		this.boardId = new SimpleStringProperty(boardId);
+	public BoardTableView(String boardNo, String boardHeader, String boardTitle, String boardWriter, String boardDate) {
+		this.boardNo = new SimpleStringProperty(boardNo);
 		this.boardHeader = new SimpleStringProperty(boardHeader);
 		this.boardTitle = new SimpleStringProperty(boardTitle);
 		this.boardWriter = new SimpleStringProperty(boardWriter);
 		this.boardDate = new SimpleStringProperty(boardDate);
 	}
-	public String getBoardId() {
-		return boardId.get();
+	public String getBoardNo() {
+		return boardNo.get();
 	}
-	public void setBoardId(String boardId) {
-		this.boardId.set(boardId);
+	public void setBoardNo(String boardNo) {
+		this.boardNo.set(boardNo);
 	}
 	public String getBoardHeader() {
 		return boardHeader.get();

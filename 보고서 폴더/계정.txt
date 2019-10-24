@@ -14,3 +14,7 @@ SFTP 포트번호 : 2222
 SFTP
 아이디 : pi
 비밀번호 : yaahq90
+
+FTP
+아이디 : yaahq
+비밀번호 : q1w2e3r4!

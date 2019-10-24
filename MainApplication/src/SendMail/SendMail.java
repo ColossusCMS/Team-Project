@@ -67,7 +67,7 @@ public class SendMail {
 			message.setSubject("아이디와 비밀번호 안내입니다.");
 			
 			//내용부분
-			String bodyMsg = "안녕하세요. 000님!\nSNS 관리자입니다.\n문의하신 사원번호와 비밀번호 안내입니다.\n\n"
+			String bodyMsg = "안녕하세요. " + name + "님!\nSNS 관리자입니다.\n문의하신 사원번호와 비밀번호 안내입니다.\n\n"
 					+ "사원번호 : " + userNo + "\n비밀번호 : " + userPw + "\n\n오늘도 좋은 하루 되세요.\n감사합니다.";
 			message.setText(bodyMsg);
 			

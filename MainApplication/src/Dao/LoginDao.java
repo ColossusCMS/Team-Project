@@ -12,12 +12,12 @@ import InitializePackage.InitializeDao;
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
 모듈 이름 : 로그인 데이터베이스 클래스
-모듈 버전 : 1.1.0
+모듈 버전 : 0.7.0
 클래스 이름 : LoginDao
 해당 클래스 작성 : 최문석
 
 필요 전체 Java파일
-- LoginDao.java (데이터베이스 접속, 데이터 불러오기, 데이터 삽입 등)
+- LoginDao.java (사용자 테이블 데이터베이스 접속, 데이터 불러오기, 데이터 삽입 등)
 
 필요 import 사용자 정의 package
 - InitializePackage.InitializeDao (데이터 베이스 접속 초기화)
@@ -31,12 +31,11 @@ import InitializePackage.InitializeDao;
 - 사용자 등록 창에서 입력한 정보들을 데이터베이스로 전달해 저장
 
 버전 변경 사항
-1.1.0
-- 데이터베이스 접속 부분을 삭제하고 static 변수를 호출해 데이터베이스 재접속 및 지연 방지
-- 이메일 체크하는 메서드 추가
+1.0.0
+
  */
 public class LoginDao {
-	UserData ud;
+	UserData userData;
 
 	//로그인을 시도했을 때 DB에서 검색해서 동일한 값이 있는지 체크해줌
 	//있으면 true, 없으면 false리턴
@@ -76,8 +75,8 @@ public class LoginDao {
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {	//검색했는데 만약 값이 출력이 되었다면 정보가 맞다는 뜻이니 true를 리턴함
 				String decPassword = PasswordEncryption.pwDecryption(rs.getString("userpassword"));
-				ud = new UserData(rs.getString("userno"), rs.getString("username"), decPassword, rs.getString("usermail"));
-				return ud;
+				userData = new UserData(rs.getString("userno"), rs.getString("username"), decPassword, rs.getString("usermail"));
+				return userData;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

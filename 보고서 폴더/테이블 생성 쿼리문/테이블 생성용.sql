@@ -14,12 +14,14 @@ create table usertbl(
     adminAvailable int default 0
   --  foreign key (userdept) references depttbl(deptname)
 );
+select * from usertbl;
 
 drop table if exists depttbl;
 create table depttbl(
 	deptno varchar(2) not null primary key,
     deptname varchar(4) not null
 );
+insert into depttbl values ('10', '개발'), ('20', '경영'), ('30', '인사'), ('40', '영업') ,('50', '디자인');
 
 drop table if exists boardtbl;
 create table boardtbl(

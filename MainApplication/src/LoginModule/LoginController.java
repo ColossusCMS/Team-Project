@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
 모듈 이름 : 로그인
-모듈 버전 : 1.1.1
+모듈 버전 : 1.1.2
 클래스 이름 : LoginController
 해당 클래스 작성 : 최문석, 김도엽
 
@@ -47,7 +47,10 @@ import javafx.stage.Stage;
 - SendMail.SendMail (메일 보내는 메서드를 포함하고 있음)
 
 해당 클래스 주요 기능
-- 
+- 로그인 메인화면 컨트롤러
+- 사용자가 사용자번호와 비밀번호를 입력하고 로그인을 시도하면 데이터베이스에서 일치하는지 확인한 후
+- 일치한다면 메인화면으로 전환하고 그렇지 않다면 에러를 띄워준다.
+- 사용자 등록 또는 계정 찾기 버튼을 누를 경우 해당하는 페이지로 전환
 
 모듈 버전 변경 사항
 1.1.0
@@ -59,6 +62,9 @@ import javafx.stage.Stage;
 1.1.1
 - Dao 인스턴스 통합 (데이터 베이스 초기화 클래스 생성)
 - 콤보박스의 내용을 데이터베이스와 연동
+
+1.1.2
+- 전화번호 중복체크 버튼, 기능 추가
  */
 public class LoginController implements Initializable {	
 	@FXML private Button btnLogin, btnFindAccount, btnSignUp;

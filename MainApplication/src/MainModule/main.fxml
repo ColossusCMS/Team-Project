@@ -19,7 +19,7 @@
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
 모듈 이름 : 메인 화면
-모듈 버전 : 0.5.0
+모듈 버전 : 0.6.0
 fxml 이름 : main
 해당 fxml 작성 : 최문석
  -->
@@ -43,9 +43,9 @@ fxml 이름 : main
    <right>
       <AnchorPane prefHeight="650.0" prefWidth="95.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
       	<children>
-     	 <TableView fx:id="viewSIdeUserList" layoutX="1.0" layoutY="99.0" prefHeight="554.0" prefWidth="95.0" />
-			<ComboBox fx:id="comboSideFilter" layoutX="5.0" layoutY="39.0" prefHeight="23.0" prefWidth="85.0" promptText="부서" />
-			<TextField fx:id="fieldSideFilter" layoutX="8.0" layoutY="69.0" prefHeight="23.0" prefWidth="81.0" promptText="이름 검색" />
+     	 <TableView fx:id="tblViewSideUserList" layoutX="1.0" layoutY="99.0" prefHeight="554.0" prefWidth="95.0" />
+			<ComboBox fx:id="comboBoxSideFilter" layoutX="5.0" layoutY="39.0" prefHeight="23.0" prefWidth="85.0" promptText="부서" />
+			<TextField fx:id="txtFieldSideFilter" layoutX="8.0" layoutY="69.0" prefHeight="23.0" prefWidth="81.0" promptText="이름 검색" />
 			<Label layoutX="8.0" layoutY="14.0" text="사용자 목록">
                <font>
                   <Font size="15.0" />
@@ -56,12 +56,10 @@ fxml 이름 : main
    <center>
    <StackPane prefHeight="200.0" prefWidth="300.0">
       <children>
-            <AnchorPane fx:id="paneNotice" prefHeight="200.0" />
-            <AnchorPane fx:id="paneUser" prefHeight="200.0" />
-            <AnchorPane fx:id="paneChat" prefHeight="200.0" />
-         <AnchorPane fx:id="paneBoard" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="anchorPaneNotice" prefHeight="200.0" />
+            <AnchorPane fx:id="anchorPaneUser" prefHeight="200.0">
             <children>
-      <TabPane fx:id="paneUserList" layoutX="-2.0" layoutY="221.0" prefHeight="429.0" prefWidth="305.0" tabClosingPolicy="UNAVAILABLE" />
+      <TabPane fx:id="tabPaneUser" layoutX="-2.0" layoutY="221.0" prefHeight="429.0" prefWidth="305.0" tabClosingPolicy="UNAVAILABLE" />
       <AnchorPane layoutY="89.0" prefHeight="133.0" prefWidth="305.0" style="-fx-border-color: black;">
          <children>
             <Label layoutX="7.0" layoutY="2.0" text="내 프로필">
@@ -70,7 +68,7 @@ fxml 이름 : main
                </font>
             </Label>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#eeeeee" height="90.0" layoutX="8.0" layoutY="33.0" stroke="BLACK" strokeType="INSIDE" width="290.0" />
-            <ImageView fx:id="viewUserImg" fitHeight="72.0" fitWidth="75.0" layoutX="16.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgViewUserImg" fitHeight="72.0" fitWidth="75.0" layoutX="16.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
 
             </ImageView>
             <Label fx:id="lblMyDept" alignment="CENTER_RIGHT" layoutX="105.0" layoutY="53.0" prefHeight="16.0" prefWidth="58.0" text="디자인팀">
@@ -88,11 +86,11 @@ fxml 이름 : main
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblMyGreet" alignment="TOP_LEFT" layoutX="104.0" layoutY="79.0" prefHeight="37.0" prefWidth="188.0" text="여기는 알림말" />
+            <Label fx:id="lblMyStatusMsg" alignment="TOP_LEFT" layoutX="104.0" layoutY="79.0" prefHeight="37.0" prefWidth="188.0" text="여기는 알림말" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="stackedPane" layoutX="8.0" layoutY="122.0" prefHeight="90.0" prefWidth="290.0" />
-      <TextField fx:id="fieldCenterFilter" layoutX="6.0" layoutY="55.0" prefHeight="23.0" prefWidth="290.0" promptText="이름으로 검색" />
+      <AnchorPane fx:id="anchorPaneStackedPane" layoutX="8.0" layoutY="122.0" prefHeight="90.0" prefWidth="290.0" />
+      <TextField fx:id="txtFieldUserFilter" layoutX="6.0" layoutY="55.0" prefHeight="23.0" prefWidth="290.0" promptText="이름으로 검색" />
       <Button fx:id="btnUserRefresh" layoutX="207.0" layoutY="14.0" mnemonicParsing="false" text="목록 새로고침" />
       <Label layoutX="12.0" layoutY="13.0" text="등록된 사용자 목록">
          <font>
@@ -100,6 +98,20 @@ fxml 이름 : main
          </font>
       </Label>
    </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPaneChat" prefHeight="200.0" />
+         <AnchorPane fx:id="anchorPaneBoard" BorderPane.alignment="CENTER">
+         <children>
+               <AnchorPane prefHeight="50.0" prefWidth="305.0">
+                  <children>
+                     <ComboBox fx:id="comboBoxBoardFilter" layoutX="7.0" layoutY="13.0" prefHeight="25.0" prefWidth="133.0" />
+                        <Button fx:id="btnBoardRefresh" layoutX="150.0" layoutY="13.0" mnemonicParsing="false" text="목록 새로고침" />
+                     <Button fx:id="btnWrite" layoutX="253.0" layoutY="13.0" mnemonicParsing="false" text="글쓰기" />
+                  </children>
+               </AnchorPane>
+               <TableView fx:id="tblViewBoardList" layoutY="50.0" prefHeight="600.0" prefWidth="305.0">
+            </TableView>
+            </children>
          </AnchorPane>
       </children>
       </StackPane>

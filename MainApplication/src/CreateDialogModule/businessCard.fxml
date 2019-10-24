@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="paneProfile" prefHeight="210.0" prefWidth="400.0" style="-fx-border-color: black; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserInfoTab.BusinessCardController">
+<AnchorPane fx:id="paneProfile" prefHeight="210.0" prefWidth="400.0" style="-fx-border-color: black; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreateDialogModule.BusinessCardController">
    <children>
       <ImageView fx:id="viewImg" fitHeight="150.0" fitWidth="130.0" layoutX="249.0" layoutY="28.0" pickOnBounds="true">
          <image>

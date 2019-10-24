@@ -35,7 +35,7 @@ import javafx.stage.Stage;
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
 모듈 이름 : 로그인
-모듈 버전 : 1.1.1
+모듈 버전 : 1.1.2
 클래스 이름 : SignUpController
 해당 클래스 작성 : 최문석
 
@@ -95,7 +95,8 @@ public class SignUpController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		deptDao.loadDept(comboBoxDept, comboList);
+		deptDao.loadAllDept(comboList);
+		comboBoxDept.setItems(comboList);
 		btnUserNoChk.setOnAction(event -> handleBtnUserNoChkAction());
 		btnUserMailChk.setOnAction(event -> handleBtnUserMailChkAction());
 		btnUserTelChk.setOnAction(event -> handleBtnUserTelChkAction());
@@ -182,10 +183,10 @@ public class SignUpController implements Initializable {
 	
 	//전화번호 중복체크 버튼을 눌렀을 때의 이벤트
 	public void handleBtnUserTelChkAction() {
-		if(fieldUserMail.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
+		if(fieldUserTel.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
 			ChkDialogMain.chkDialog("전화번호를 입력하세요.");
 		}
-		else if(!mailPattern.matcher(fieldUserMail.getText()).matches()) {	//만약 전화번호 형식에 맞지 않다면 다이얼로그를 띄움
+		else if(!telPattern.matcher(fieldUserTel.getText()).matches()) {	//만약 전화번호 형식에 맞지 않다면 다이얼로그를 띄움
 			ChkDialogMain.chkDialog("전화번호 형식에 맞지 않습니다.");
 		}
 		else {	//그게 아니라면 정상적으로 진행
@@ -288,6 +289,9 @@ public class SignUpController implements Initializable {
 			}
 		}
 	}
+	
+	//사용자가 이미지를 선택했다면 해당 이미지를 서버로 전송하고
+	//그 주소를 
 	
 	//취소 버튼을 누르면 사용자 등록창을 닫음
 	public void handleBtnCancelAction() {

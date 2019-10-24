@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
 모듈 이름 : 로그인
-모듈 버전 : 1.1.1
+모듈 버전 : 1.1.2
 클래스 이름 : FindAccountController
 해당 클래스 작성 : 최문석, 심대훈
 
@@ -55,13 +55,16 @@ import javafx.stage.Stage;
 1.1.1
 - Dao 인스턴스 통합 (데이터 베이스 초기화 클래스 생성)
 - 콤보박스의 내용을 데이터베이스와 연동
+
+1.1.2
+- 전화번호 중복체크 버튼, 기능 추가
  */
 public class FindAccountController implements Initializable {
 	//이름, 이메일
     @FXML private TextField txtFieldUserName, txtFieldUserMail;
     @FXML private Button btnReg, btnCancel;
     
-    LoginDao loginDao;		//DB 접속 시 사용
+    LoginDao loginDao = new LoginDao();;		//DB 접속 시 사용
     
     @Override
     public void initialize(URL loc, ResourceBundle resources) {
@@ -76,8 +79,7 @@ public class FindAccountController implements Initializable {
     //2_2. 만약 매칭이 안된다면(결과가 null이면) 사용자 없다고 다이얼로그
     //3. 메일보내기까지 완료했으면 다시 로그인창으로 전환
     public void handleBtnRegAction() {
-    	loginDao = new LoginDao();
-        if(txtFieldUserName.getText().isEmpty() || txtFieldUserMail.getText().isEmpty()) {	//필드에 공백이 있다면
+        if(txtFieldUserName.getText().equals("") || txtFieldUserMail.getText().equals("")) {	//필드에 공백이 있다면
         	if(txtFieldUserName.getText().isEmpty()) {
         		ChkDialogMain.chkDialog("이름을 입력하세요.");
         		txtFieldUserName.requestFocus();

@@ -2,23 +2,13 @@ package ClassPackage;
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
-모듈 이름 : 로그인
-모듈 버전 : 1.1.1
+모듈 이름 : 클래스 패키지
+모듈 버전 : 1.1.2
 클래스 이름 : UserData
 해당 클래스 작성 : 최문석
 
 필요모듈 Java파일
-- LoginMain.java (로그인 화면이 실행되는 메인 클래스)
-- LoginController.java (로그인 창 컨트롤러)
-- SignUpController.java (사용자 등록 창 컨트롤러)
-- FindAccountController.java (계정 찾기 창 컨트롤러)
-- User.java (사용자 등록에 사용하는 사용자 정보 클래스[사용자의 모든 정보를 담고 있음])
 - UserData.java (계정 찾기에서 사용하는 사용자 정보 클래스[사용자번호, 이름, 이메일, 비밀번호])
-
-필요 fxml파일
-- login.fxml (로그인 창 fxml)
-- signUp.fxml (사용자등록 창 fxml)
-- findAccount.fxml (계정 찾기 창 fxml)
 
 필요 import 사용자 정의 package
 - Dao.LoginDao (로그인 정보를 데이터 베이스로 처리할 수 있는 메서드)
@@ -39,6 +29,9 @@ package ClassPackage;
 1.1.1
 - Dao 인스턴스 통합 (데이터 베이스 초기화 클래스 생성)
 - 콤보박스의 내용을 데이터베이스와 연동
+
+1.1.2
+- 사용자 직급, 상태 메시지용, 관리자확인 변수 추가
  */
 public class UserData {
 	private String userNo;

@@ -11,10 +11,13 @@ create table usertbl(
     userdept varchar(10) not null,
     userposition varchar(5) default '사원',
     userStatusMsg varchar(60),
+    userLoginStatus int default 0,
     adminAvailable int default 0
   --  foreign key (userdept) references depttbl(deptname)
 );
 select * from usertbl;
+
+alter table usertbl add userLoginStatus int default 0 after userstatusmsg;
 
 drop table if exists depttbl;
 create table depttbl(

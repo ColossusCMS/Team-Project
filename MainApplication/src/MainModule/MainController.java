@@ -158,7 +158,6 @@ public class MainController implements Initializable {
 		anchorPaneUser.setVisible(false);
 		anchorPaneChat.setVisible(false);
 		anchorPaneBoard.setVisible(false);
-		btnSchedule.setOnMouseClicked(event -> schedule());
 		
 		//왼쪽 영역 토글 버튼 그룹화
 		groupCategory.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
@@ -262,6 +261,7 @@ public class MainController implements Initializable {
 		
 		
 		// 일정 탭 부분
+		btnSchedule.setOnAction(event -> handleBtnScheduleAction());
 	}
 	
 	//오른쪽 영역 테이블 생성 메서드
@@ -597,8 +597,8 @@ public class MainController implements Initializable {
 	
 	public String loadUserNo() {
 //		String path = System.getProperty("user.home") + "/Documents/MySNS/id.txt;		//윈10에서 내 문서에 있는 파일 찾으러 갈 수 있는 경로
-		String path = "c:/MySNS/id.txt";
-//		String path = "e:/MySNS/id.txt";
+//		String path = "c:/MySNS/id.txt";
+		String path = "e:/MySNS/id.txt";
 		String id = new String();
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -643,6 +643,7 @@ public class MainController implements Initializable {
 			Parent readBoardWindow = FXMLLoader.load(getClass().getResource("/BoardModule/boardWrite.fxml"));
 			Scene scene = new Scene(readBoardWindow);
 			stage.setScene(scene);
+			stage.setResizable(false);
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -714,7 +715,16 @@ public class MainController implements Initializable {
 	}
 	
 	//일정 버튼을 눌렀을 때 동작
-	public void schedule() {
-
+	public void handleBtnScheduleAction() {
+		Stage stage = new Stage(StageStyle.UTILITY);
+		try {
+			Parent readBoardWindow = FXMLLoader.load(getClass().getResource("/ScheduleModule/schedule.fxml"));
+			Scene scene = new Scene(readBoardWindow);
+			stage.setResizable(false);
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="267.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Calendar.CreateScheduleController">
+<AnchorPane prefHeight="267.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScheduleModule.CreateScheduleController">
    <children>
       <TextField fx:id="txtFieldTitle" layoutX="12.0" layoutY="57.0" prefHeight="25.0" prefWidth="170.0" promptText="일정 제목" />
       <TextArea fx:id="txtAreaContent" layoutX="12.0" layoutY="90.0" prefHeight="137.0" prefWidth="170.0" promptText="일정 상세 내용" />

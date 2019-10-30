@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import ClassPackage.DayOff;
 import ClassPackage.Reg;
 import InitializePackage.InitializeDao;
 import javafx.collections.ObservableList;
@@ -157,6 +158,29 @@ public class ScheduleDao {
 					groupList.add(rs.getString(1));
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null && !pstmt.isClosed()) {
+					pstmt.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	public void entryDayOff(DayOff dayoff) {
+		String sql = "insert into dayofftbl values(null, ?, ?, ?, ?);";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = InitializeDao.conn.prepareStatement(sql);
+			pstmt.setString(1, dayoff.getDoUserNo());
+			pstmt.setString(2, dayoff.getDoStart());
+			pstmt.setString(3, dayoff.getDoEnd());
+			pstmt.setString(4, dayoff.getDoContent());
+			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

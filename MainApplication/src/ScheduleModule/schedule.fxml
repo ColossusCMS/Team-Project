@@ -138,7 +138,7 @@
             </Label>
          </children>
       </GridPane>
-      <Button fx:id="btnDayOffAttend" layoutX="608.0" layoutY="7.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="휴가신청">
+      <Button fx:id="btnDayOffApply" layoutX="608.0" layoutY="7.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="휴가신청">
          <font>
             <Font size="13.0" />
          </font>

@@ -34,7 +34,7 @@ import javafx.stage.StageStyle;
 public class ScheduleController implements Initializable {
 	@FXML RadioButton radioBtnAll, radioBtnPrivate, radioBtnGroup;
 	@FXML ToggleGroup radioGroupSchedule;
-	@FXML Button btnPrevMonth, btnNextMonth, btnDayOffAttend;
+	@FXML Button btnPrevMonth, btnNextMonth, btnDayOffApply;
 	@FXML GridPane gridPaneCalendar;
 	@FXML Label lblYear, lblMonth, lblMonthTxt;
 	
@@ -73,6 +73,8 @@ public class ScheduleController implements Initializable {
 				createCalendar();
 			};
 		});
+		
+		btnDayOffApply.setOnAction(event -> handleBtnDayOffApplyAction());
 	}
 	
 	public void inputListDays(YearMonth yearMonth) {
@@ -209,6 +211,19 @@ public class ScheduleController implements Initializable {
 		Stage stage = new Stage(StageStyle.UNDECORATED);
 		try {
 			Parent anotherPane = FXMLLoader.load(getClass().getResource("createSchedule.fxml"));
+			Scene scene = new Scene(anotherPane);
+			stage.setScene(scene);
+			stage.setResizable(false);
+			stage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void handleBtnDayOffApplyAction() {
+		Stage stage = new Stage(StageStyle.UNDECORATED);
+		try {
+			Parent anotherPane = FXMLLoader.load(getClass().getResource("dayOffApply.fxml"));
 			Scene scene = new Scene(anotherPane);
 			stage.setScene(scene);
 			stage.setResizable(false);

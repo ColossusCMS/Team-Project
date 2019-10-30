@@ -597,8 +597,8 @@ public class MainController implements Initializable {
 	
 	public String loadUserNo() {
 //		String path = System.getProperty("user.home") + "/Documents/MySNS/id.txt;		//윈10에서 내 문서에 있는 파일 찾으러 갈 수 있는 경로
-//		String path = "c:/MySNS/id.txt";
-		String path = "e:/MySNS/id.txt";
+		String path = "c:/MySNS/id.txt";
+//		String path = "e:/MySNS/id.txt";
 		String id = new String();
 		FileReader fr = null;
 		BufferedReader br = null;

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -57,7 +59,7 @@ fxml 이름 : main
    <StackPane prefHeight="200.0" prefWidth="300.0">
       <children>
             <AnchorPane fx:id="anchorPaneNotice" prefHeight="200.0" />
-            <AnchorPane fx:id="anchorPaneUser" prefHeight="200.0">
+            <AnchorPane fx:id="anchorPaneUser" prefHeight="200.0" visible="false">
             <children>
       <TabPane fx:id="tabPaneUser" layoutX="-2.0" layoutY="221.0" prefHeight="429.0" prefWidth="305.0" tabClosingPolicy="UNAVAILABLE" />
       <AnchorPane layoutY="89.0" prefHeight="133.0" prefWidth="305.0" style="-fx-border-color: black;">
@@ -99,8 +101,12 @@ fxml 이름 : main
       </Label>
    </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorPaneChat" prefHeight="200.0" />
-         <AnchorPane fx:id="anchorPaneBoard" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="anchorPaneChat" prefHeight="200.0">
+               <children>
+                  <Button fx:id="btnOpenChat" layoutX="31.0" layoutY="266.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="전체 채팅" />
+                  <Button fx:id="btnDeptChat" layoutX="174.0" layoutY="266.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="부서 채팅" />
+               </children></AnchorPane>
+         <AnchorPane fx:id="anchorPaneBoard" visible="false" BorderPane.alignment="CENTER">
          <children>
                <AnchorPane prefHeight="50.0" prefWidth="305.0">
                   <children>

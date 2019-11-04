@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ChatClientModule.ChatController">
+   <bottom>
+      <HBox prefHeight="34.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="txtFieldInput" prefHeight="43.0" prefWidth="221.0" />
+            <Button fx:id="btnSend" mnemonicParsing="false" prefHeight="38.0" prefWidth="79.0" text="전송" />
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <TextArea fx:id="txtArea" prefHeight="297.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+   </center>
+   <top>
+      <HBox prefHeight="39.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblRoomTitle" contentDisplay="CENTER" prefHeight="39.0" prefWidth="231.0" text="Label" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnSendFile" mnemonicParsing="false" prefHeight="39.0" prefWidth="69.0" text="파일전송" />
+         </children>
+      </HBox>
+   </top>
+   <opaqueInsets>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </opaqueInsets>
+</BorderPane>

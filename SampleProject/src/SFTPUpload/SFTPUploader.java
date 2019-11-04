@@ -97,8 +97,8 @@ public class SFTPUploader {
 	
 	public static void main(String[] args) {
 		String localPath = "c:/MySNS/";
-		String remotePathUp = "/home/pi/MySNS/UploadedFiles/Images";
-		String remotePathDown = "/home/pi/MySNS/UploadedFiles/Images/";
+		String remotePathUp = "/home/pi/MySNS/UploadedFiles/Files";
+//		String remotePathDown = "/home/pi/MySNS/UploadedFiles/Images/";
 		
 //		String host = "192.168.219.14";
 		String host = "125.185.21.163";
@@ -109,8 +109,8 @@ public class SFTPUploader {
 		System.out.println("서버 접속 중");
 		try {
 			SFTPUploader sftpUploader = new SFTPUploader(host, port, id, pw);
-			sftpUploader.upload(localPath + "미니어처.png", remotePathUp);
-			sftpUploader.download(remotePathDown + "미니어처.png", localPath);
+			sftpUploader.upload(localPath + "ProjectChatServer.zip", remotePathUp);
+//			sftpUploader.download(remotePathDown + "미니어처.png", localPath);
 		} catch (Exception e) {
 			System.out.println(e);
 		}

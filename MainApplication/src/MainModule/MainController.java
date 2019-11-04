@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import BoardModule.BoardController;
+import ChatClientModule.ChatController;
 import ClassPackage.BoardTableView;
 import ClassPackage.User;
 import CreateDialogModule.ChkDialogMain;
@@ -109,7 +110,7 @@ public class MainController implements Initializable {
 	@FXML private Label lblMyDept, lblMyName, lblMyPosition, lblMyStatusMsg;
 	
 	//채팅
-	
+	@FXML private Button btnOpenChat, btnDeptChat;
 	
 	//게시판
 	@FXML private Button btnWrite, btnBoardRefresh;	//게시물 탭 글쓰기, 새로고침 버튼
@@ -235,7 +236,8 @@ public class MainController implements Initializable {
 		
 		
 		// 채팅방 탭 부분
-
+		btnOpenChat.setOnAction(event -> handleBtnChatAction(btnOpenChat.getText()));
+		btnDeptChat.setOnAction(event -> handleBtnChatAction(btnDeptChat.getText()));
 		
 		
 		// 게시판 탭 부분
@@ -641,6 +643,48 @@ public class MainController implements Initializable {
 		Stage stage = new Stage(StageStyle.UTILITY);
 		try {
 			Parent readBoardWindow = FXMLLoader.load(getClass().getResource("/BoardModule/boardWrite.fxml"));
+			Scene scene = new Scene(readBoardWindow);
+			stage.setScene(scene);
+			stage.setResizable(false);
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//채팅방을 선택하고 채팅을 실행하는 메서드
+	public void handleBtnChatAction(String btnName) {
+		User user = userInfoDao.selectMyInfo(USER_NO);
+		ChatController.name = user.getUserName();
+		ChatController.dept = "";
+		String engName = "";
+		if(btnName.equals("전체 채팅")) {
+			engName = "all";
+		}
+		else {
+			String deptName = user.getUserDept();
+			switch(deptName) {
+			case "개발":
+				engName = "dev";
+				break;
+			case "경영":
+				engName = "opt";
+				break;
+			case "인사":
+				engName = "hr";
+				break;
+			case "영업":
+				engName = "sales";
+				break;
+			case "디자인":
+				engName = "design";
+				break;
+			}
+		}
+		ChatController.dept = engName;
+		Stage stage = new Stage(StageStyle.UTILITY);
+		try {
+			Parent readBoardWindow = FXMLLoader.load(getClass().getResource("/ChatClientModule/chat.fxml"));
 			Scene scene = new Scene(readBoardWindow);
 			stage.setScene(scene);
 			stage.setResizable(false);

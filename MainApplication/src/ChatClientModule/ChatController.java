@@ -21,8 +21,8 @@ public class ChatController implements Initializable {
 	@FXML Label lblRoomTitle;
 	
 	Socket socket;
-//	String ip = "125.185.21.163";
-	String ip = "192.168.0.43";
+	String ip = "125.185.21.163";
+//	String ip = "192.168.0.43";
 	public static String name;
 	public static String dept;
 	int port = 9991;

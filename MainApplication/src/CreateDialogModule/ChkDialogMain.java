@@ -70,4 +70,20 @@ public class ChkDialogMain {
 			e.printStackTrace();
 		}
 	}
+	
+	//공지사항을 띄우는 창
+	public static void noticeDialog() {
+		Stage noticeDialog = new Stage(StageStyle.UTILITY);
+		Parent another;
+		try {
+			another = FXMLLoader.load(ChkDialogMain.class.getResource("noticeDialog.fxml"));
+			Scene scene = new Scene(another);
+			noticeDialog.setScene(scene);
+			noticeDialog.setResizable(false);
+			noticeDialog.initModality(Modality.APPLICATION_MODAL);
+			noticeDialog.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

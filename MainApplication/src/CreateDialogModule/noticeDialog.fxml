@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="133.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreateDialogModule.NoticeDialogController">
+   <children>
+      <Button fx:id="btnClose" layoutX="130.0" layoutY="103.0" mnemonicParsing="false" text="확인" />
+      <Label fx:id="lblTitle" layoutX="12.0" layoutY="7.0" prefHeight="21.0" prefWidth="276.0" text="Label">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblContent" alignment="TOP_LEFT" layoutX="12.0" layoutY="34.0" prefHeight="60.0" prefWidth="276.0" text="Label" wrapText="true">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

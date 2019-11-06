@@ -58,7 +58,35 @@ fxml 이름 : main
    <center>
    <StackPane prefHeight="200.0" prefWidth="300.0">
       <children>
-            <AnchorPane fx:id="anchorPaneNotice" prefHeight="200.0" />
+            <AnchorPane fx:id="anchorPaneNotice" prefHeight="200.0">
+               <children>
+                  <VBox prefHeight="655.0" prefWidth="305.0">
+                     <children>
+                        <HBox fx:id="boxMainNotice" alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="305.0" style="-fx-background-color: beige;">
+                           <children>
+                              <Label style="-fx-padding: 5;" text="공지사항" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <VBox alignment="CENTER_RIGHT" prefHeight="119.0" prefWidth="225.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Button fx:id="btnFold" mnemonicParsing="false" prefHeight="15.0" prefWidth="40.0" text="접기" />
+                                    <Label fx:id="lblMainNoticeTitle" prefHeight="30.0" prefWidth="236.0" style="-fx-padding: 5;" text="공지사항 제목입니다.">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblMainNoticeContent" alignment="TOP_LEFT" prefHeight="62.0" prefWidth="240.0" style="-fx-padding: 5;" text="공지사항 내용입니다." wrapText="true" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Button fx:id="btnNoticeRefresh" mnemonicParsing="false" prefHeight="27.0" prefWidth="306.0" text="새로고침" />
+                        <TableView fx:id="tblViewNotice" prefHeight="506.0" prefWidth="305.0" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+               </children></AnchorPane>
             <AnchorPane fx:id="anchorPaneUser" prefHeight="200.0" visible="false">
             <children>
       <TabPane fx:id="tabPaneUser" layoutX="-2.0" layoutY="221.0" prefHeight="429.0" prefWidth="305.0" tabClosingPolicy="UNAVAILABLE" />
@@ -101,7 +129,7 @@ fxml 이름 : main
       </Label>
    </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorPaneChat" prefHeight="200.0">
+            <AnchorPane fx:id="anchorPaneChat" prefHeight="200.0" visible="false">
                <children>
                   <Button fx:id="btnOpenChat" layoutX="31.0" layoutY="266.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="전체 채팅" />
                   <Button fx:id="btnDeptChat" layoutX="174.0" layoutY="266.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="부서 채팅" />

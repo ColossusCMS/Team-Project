@@ -10,11 +10,13 @@ import java.util.ResourceBundle;
 import BoardModule.BoardController;
 import ChatClientModule.ChatController;
 import ClassPackage.BoardTableView;
+import ClassPackage.Notice;
 import ClassPackage.User;
 import CreateDialogModule.ChkDialogMain;
 import Dao.BoardDao;
 import Dao.DeptDao;
 import Dao.LoginDao;
+import Dao.NoticeDao;
 import Dao.UserInfoDao;
 import EncryptionDecryption.PasswordEncryption;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -99,7 +101,11 @@ public class MainController implements Initializable {
 	@FXML private AnchorPane anchorPaneNotice, anchorPaneUser, anchorPaneChat, anchorPaneBoard;
 	
 	//알림
-	
+	@FXML private Label lblMainNoticeTitle, lblMainNoticeContent;
+	@FXML private Button btnNoticeRefresh;
+	@FXML private TableView<Notice> tblViewNotice;
+	@FXML private Button btnFold;
+	@FXML private HBox boxMainNotice;
 	
 	//사용자정보
 	@FXML private AnchorPane anchorPaneStackedPane;	//내 정보 카드 더블 클릭 때 사용
@@ -127,14 +133,17 @@ public class MainController implements Initializable {
 	LoginDao loginDao = new LoginDao();
 	UserInfoDao userInfoDao = new UserInfoDao();
 	DeptDao deptDao = new DeptDao();
+	NoticeDao noticeDao = new NoticeDao();
 	
 	User myProfile;	//현재 접속중인 유저의 정보를 가져오는 변수
 	public static String USER_NO;	//현재 접속중인 사용자 번호를 가져오는 변수
 	
-	
 	//오른쪽 영역에서 사용하는 리스트
 	ObservableList<User> sideTblViewUserList = FXCollections.observableArrayList();	//오른쪽 영역 테이블뷰 사용자 목록 리스트
 	ObservableList<String> sideComboBoxList = FXCollections.observableArrayList();	//오른쪽 영역 콤보박스 필터용 리스트
+	
+	//알림 탭에서 사용하는 리스트
+	ObservableList<Notice> noticeTblViewNoticeList = FXCollections.observableArrayList();
 	
 	//사용자 탭에서 사용하는 리스트
 	ObservableList<User> userTblViewUserList = FXCollections.observableArrayList();	//사용자 탭 테이블에 띄우는 사용자 리스트
@@ -143,7 +152,6 @@ public class MainController implements Initializable {
 	
 	//게시판에서 사용하는 리스트
 	ObservableList<BoardTableView> boardTblViewBoardList = FXCollections.observableArrayList();
-	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -195,10 +203,15 @@ public class MainController implements Initializable {
 			}
 		});
 		
-	
-		
 		// 알림 탭
-
+		btnNoticeRefresh.setOnAction(event -> handleBtnNoticeRefreshAction());
+		btnFold.setOnAction(event -> noticeFold(btnFold));
+		setNotice();
+		boxMainNotice.setOnMouseClicked(event -> {
+			if(event.getClickCount() >= 2) {
+				ChkDialogMain.noticeDialog();
+			}
+		});
 		
 		//사용자 정보 탭
 		//내정보 띄우는 부분
@@ -599,8 +612,8 @@ public class MainController implements Initializable {
 	
 	public String loadUserNo() {
 //		String path = System.getProperty("user.home") + "/Documents/MySNS/id.txt;		//윈10에서 내 문서에 있는 파일 찾으러 갈 수 있는 경로
-//		String path = "c:/MySNS/id.txt";
-		String path = "e:/MySNS/id.txt";
+		String path = "c:/MySNS/id.txt";
+//		String path = "e:/MySNS/id.txt";
 		String id = new String();
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -756,6 +769,101 @@ public class MainController implements Initializable {
 	public void notSelected(ToggleButton btn) {
 		btn.setDisable(false);
 		btn.setBackground(notSelectedBack);
+	}
+	
+	//알림 탭에서 접기, 펼치기 버튼 눌렀을 때
+	public void noticeFold(Button btn) {
+		if(btn.getText().equals("접기")) {	//접기 버튼을 눌렀을 때
+			btn.setText("펼치기");
+			lblMainNoticeContent.setVisible(false);
+			boxMainNotice.setPrefHeight(35.0);
+		}
+		else {	//펼치기 버튼을 눌렀을 때
+			btn.setText("접기");
+			lblMainNoticeContent.setVisible(true);
+			boxMainNotice.setPrefHeight(120.0);
+		}
+	}
+	
+	//공지사항 부분 생성하는 메서드
+	public void setNotice() {
+		Notice notice = noticeDao.getMainNotice();
+		lblMainNoticeTitle.setText(notice.getNoticeTitle());
+		lblMainNoticeContent.setText(notice.getNoticeContent());
+	}
+	
+	//알림 탭 새로고침 버튼 액션
+	public void handleBtnNoticeRefreshAction() {
+		setNotice();
+		
+	}
+	
+	//알림 탭 테이블 생성
+	@SuppressWarnings("unchecked")
+	public void createNoticeTable(TableView<Notice> noticeTable) {
+		TableColumn<Notice, String> classCol = new TableColumn<Notice, String>("구분");
+		classCol.setStyle("-fx-pref-width:40; -fx-border-width:1; -fx-pref-height:40; -fx-font-size:10px; -fx-alignment:center");
+		classCol.setCellValueFactory(new PropertyValueFactory<Notice, String>("noticeClass"));
+		TableColumn<Notice, Notice> noticeContentCol = new TableColumn<Notice, Notice>("알림 내용");
+		noticeContentCol.setStyle("-fx-pref-width:85; -fx-border-width:1; -fx-pref-height:40; -fx-alignment:center-left");
+		//3번째 열은 사용자 지정형태로 만들기 위해서 새로 작업
+		noticeContentCol.setCellValueFactory(new Callback<CellDataFeatures<Notice, Notice>, ObservableValue<Notice>>() {
+			@Override
+			public ObservableValue<Notice> call(
+				CellDataFeatures<Notice, Notice> features) {
+				return new ReadOnlyObjectWrapper<Notice>(features.getValue());
+			}
+		});
+		noticeContentCol.setCellFactory(	new Callback<TableColumn<Notice, Notice>, TableCell<Notice, Notice>>() {
+			@Override
+			public TableCell<Notice, Notice> call(
+					TableColumn<Notice, Notice> param) {
+				return new TableCell<Notice, Notice>() {
+					private VBox box;
+					private Label title;
+					private Label content;
+					{
+						box = new VBox();
+						title = new Label();
+						content = new Label();
+						title.setStyle("-fx-alignment:center_left; -fx-pref-height:20");
+						content.setStyle("-fx-font-size:10px; -fx-alignment:center_left; -fx-pref-height:20");
+						box.getChildren().addAll(title, content);
+						setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+					}
+					@Override
+					protected void updateItem(Notice item, boolean empty) {
+						super.updateItem(item, empty);
+						if (item == null) {
+							setGraphic(null);
+						}
+						else {
+							title.setText(item.getNoticeTitle());
+							content.setText(item.getNoticeContent());
+							setGraphic(box);
+						}
+					}
+				};
+			}
+		});
+		
+		//가로 스크롤 없앰
+		noticeTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);		
+		// 테이블뷰에서 마우스 더블클릭 동작을 구현
+		// 테이블뷰에서 해당 게시물을 더블클릭하면 해당 게시물의 내용을 열람할 수 있음.
+		noticeTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.getClickCount() >= 2) {
+					// 더블클릭을 했다면 게시물 열람 창을 생성
+					
+				}
+			}
+		});
+		
+		noticeDao.getAllNotice(noticeTblViewNoticeList);
+		noticeTable.getColumns().addAll(classCol, noticeContentCol);
+		noticeTable.setItems(noticeTblViewNoticeList);	
 	}
 	
 	//일정 버튼을 눌렀을 때 동작

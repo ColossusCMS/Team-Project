@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import CreateDialogModule.ChkDialogMain;
 import Dao.LoginDao;
 import IdSaveLoadModule.IdSaveLoad;
+import MainModule.MainController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -99,6 +100,7 @@ public class LoginController implements Initializable {
 	//로그인에 실패했다는 다이얼로그 띄움
 	//3_3. 로그인에 성공했다면(리턴값으로 이름을 받음) 사용자 이름을 띄우면서 로그인에 성공했다는 다이얼로그 띄움
 	//3_4. 로그인에 성공하면 데이터베이스에서 해당 사원의 로그인 상태를 0에서 1로 변경
+	//3_5. 만약 해당 사원의 현재 로그인 상태가 1이라면 다른 곳에서 로그인되어 있다는 뜻이니 로그인을 할 수 없다는 다이얼로그 띄움
 	public void handleBtnLoginAction() {
 		String labelText = new String();
 		if(fieldUserNo.getText().isEmpty() || fieldPassword.getText().isEmpty()) {	//사원번호, 비밀번호 둘 중 하나라도 입력하지 않았다면
@@ -114,25 +116,35 @@ public class LoginController implements Initializable {
 		}
 		else {	//값을 입력했다면 일단 넘어감
 			String name = loginDao.chkUserData(fieldUserNo.getText(), fieldPassword.getText());
+			int status = loginDao.getLoginStatus(fieldUserNo.getText());
 			if(name == null) {	//입력한 정보가 맞지 않다는 뜻
-				labelText = "일치하는 회원정보가 없습니다.";
-				ChkDialogMain.chkDialog(labelText);
+				ChkDialogMain.chkDialog("일치하는 회원정보가 없습니다.");
+			}
+			//로그인 상태가 1이라면 중복 로그인을 할 수 없다는 안내
+			else if(status == 1) {
+				ChkDialogMain.chkDialog("이미 로그인되어 있습니다.\n중복로그인은 불가능합니다.");
 			}
 			else {	//그게 아니라면 입력한 정보가 올바름
 //				labelText = name + "님\n어서오세요!";
 //				ChkDialogMain.chkDialog(labelText);
+				//사용자번호를 텍스트파일로 저장
+				IdSaveLoad.saveUserId(fieldUserNo.getText());
+				loginDao.updateLoginStatus(fieldUserNo.getText(), "login");
+				MainController.USER_NO = IdSaveLoad.loadUserId();
 				Stage stage = (Stage)btnLogin.getScene().getWindow();
 				try {
 					Parent mainPane = FXMLLoader.load(getClass().getResource("/MainModule/main.fxml"));
 					Scene scene = new Scene(mainPane);
+					stage.setOnCloseRequest(event -> {
+						loginDao.updateLoginStatus(fieldUserNo.getText(), "logout");
+						IdSaveLoad.resetUserId();
+					});
 					stage.setScene(scene);
 					stage.setResizable(false);
 					stage.show();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				//사용자번호를 텍스트파일로 저장
-				IdSaveLoad.saveUserId(fieldUserNo.getText());
 			}
 		}
 	}

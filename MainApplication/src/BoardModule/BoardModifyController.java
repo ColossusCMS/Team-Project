@@ -1,5 +1,6 @@
 package BoardModule;
  
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -7,6 +8,7 @@ import ClassPackage.Board;
 import CreateDialogModule.ChkDialogMain;
 import Dao.BoardDao;
 import Dao.DeptDao;
+import FTPUploadDownloadModule.FTPUploader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -48,12 +50,15 @@ import javafx.scene.control.TextField;
 모듈 버전 변경 사항
 1.0.0
  */
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 //게시물 수정 부분 수정 필요
 public class BoardModifyController implements Initializable {
-	@FXML private TextField txtFieldTitle;
+	@FXML private TextField txtFieldTitle, txtFieldFilePath;
 	@FXML private TextArea txtAreaContent;
-	@FXML private Button btnModify, btnCancel;
+	@FXML private Button btnModify, btnCancel, btnFileAttach;
 	@FXML private ComboBox<String> comboBoxHeader;
 	@FXML private PasswordField txtFieldPassword;
 	
@@ -74,6 +79,7 @@ public class BoardModifyController implements Initializable {
 		//버튼 세팅
 		btnModify.setOnAction(event -> handleBtnModifyAction());
 		btnCancel.setOnAction(event -> handleBtnCancelAction());
+		btnFileAttach.setOnAction(event -> handleBtnFileAttachAction());
 		
 		//수정이 가능한 부분은 컨트롤로 처리
 		txtFieldTitle.setText(board.getBoardTitle());
@@ -91,6 +97,11 @@ public class BoardModifyController implements Initializable {
 	
 	//수정 버튼 눌렀을 때
 	public void handleBtnModifyAction() {
+		if(!txtFieldFilePath.getText().isEmpty()) {
+			File attachedFile = new File(txtFieldFilePath.getText());
+			String filePath = FTPUploader.uploadFile("file", attachedFile);
+			boardFile = filePath;
+		}
 		board = new Board(Integer.parseInt(BoardController.BBS_ID), comboBoxHeader.getSelectionModel().getSelectedItem().toString(), txtFieldTitle.getText(), txtAreaContent.getText(),
 				txtFieldPassword.getText(), boardUserNo, boardDate, boardFile, 0);
 		boolean modify = boardDao.updateBoardContent(board);
@@ -100,6 +111,17 @@ public class BoardModifyController implements Initializable {
 		}
 		else {	//어딘가 오류가 발생했다면 오류 발생했다고 알림창 띄우고 현재 상태 유지
 			ChkDialogMain.chkDialog("오류가 발생했습니다.");
+		}
+	}
+	
+	public void handleBtnFileAttachAction() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("모든 파일(*.*)", "*.*"));
+		File selectedFile = fileChooser.showOpenDialog((Stage)btnFileAttach.getScene().getWindow());
+		try {
+			txtFieldFilePath.setText(selectedFile.getAbsolutePath());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

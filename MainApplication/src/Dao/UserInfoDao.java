@@ -186,4 +186,24 @@ public class UserInfoDao {
             }
         }
 	}
+	
+	public void updateStatusMsg(String statusMsg, String userId) {
+		String sql = "update usertbl set userstatusmsg = ? where userno = ?";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = InitializeDao.conn.prepareStatement(sql);
+			pstmt.setString(1, statusMsg);
+			pstmt.setString(2, userId);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+            try {
+                if (pstmt != null && !pstmt.isClosed())
+                    pstmt.close();
+            } catch (SQLException e) {                
+                e.printStackTrace();
+            }
+        }
+	}
 }

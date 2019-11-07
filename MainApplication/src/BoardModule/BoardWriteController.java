@@ -1,5 +1,6 @@
 package BoardModule;
  
+import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,6 +10,7 @@ import ClassPackage.Board;
 import CreateDialogModule.ChkDialogMain;
 import Dao.BoardDao;
 import Dao.DeptDao;
+import FTPUploadDownloadModule.FTPUploader;
 import MainModule.MainController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +21,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
@@ -52,11 +57,11 @@ import javafx.scene.control.TextField;
 1.0.0
  */
 public class BoardWriteController implements Initializable {
-	@FXML private TextField txtFieldTitle;
+	@FXML private TextField txtFieldTitle, txtFieldFilePath;
 	@FXML private PasswordField txtFieldPassword;
 	@FXML private ComboBox<String> comboBoxHeader;
 	@FXML private TextArea txtAreaContent;
-	@FXML private Button btnReg, btnCancel;
+	@FXML private Button btnReg, btnCancel, btnFileAttach;
 	
 	BoardDao boardDao = new BoardDao();
 	DeptDao deptDao = new DeptDao();
@@ -70,10 +75,11 @@ public class BoardWriteController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		btnReg.setOnAction(event -> handleBtnRegAction());
 		btnCancel.setOnAction(event -> handleBtnCancelAction());
+		btnFileAttach.setOnAction(event -> handleBtnFileAttachAction());
 		
 		//부서 테이블 긁어올것
 		deptDao.loadAllDept(deptList);
-		comboBoxHeader.setItems(deptList);	
+		comboBoxHeader.setItems(deptList);
 	}
 	
 	public void handleBtnRegAction() {
@@ -87,8 +93,10 @@ public class BoardWriteController implements Initializable {
 			ChkDialogMain.chkDialog("비밀번호를 입력하세요.");
 		}
 		else {	//모두 만족한다면 db로 전송
+			File attachedFile = new File(txtFieldFilePath.getText());
+			String filePath = FTPUploader.uploadFile("file", attachedFile);
 			Date now = new Date();
-			boolean write = boardDao.insertBoardContent(new Board(null, comboBoxHeader.getSelectionModel().getSelectedItem().toString(), txtFieldTitle.getText(), txtAreaContent.getText(), txtFieldPassword.getText(), MainController.USER_NO, sdf.format(now), "file", null));
+			boolean write = boardDao.insertBoardContent(new Board(null, comboBoxHeader.getSelectionModel().getSelectedItem().toString(), txtFieldTitle.getText(), txtAreaContent.getText(), txtFieldPassword.getText(), MainController.USER_NO, sdf.format(now), filePath, null));
 			if(write == true) {
 				ChkDialogMain.chkDialog("게시물을 등록했습니다.");
 				btnReg.getScene().getWindow().hide();
@@ -96,6 +104,17 @@ public class BoardWriteController implements Initializable {
 			else {
 				ChkDialogMain.chkDialog("오류로 인하여 게시물 등록에 실패했습니다.");
 			}
+		}
+	}
+	
+	public void handleBtnFileAttachAction() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("모든 파일(*.*)", "*.*"));
+		File selectedFile = fileChooser.showOpenDialog((Stage)btnFileAttach.getScene().getWindow());
+		try {
+			txtFieldFilePath.setText(selectedFile.getAbsolutePath());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import ClassPackage.Notice;
+import ClassPackage.NoticeTableView;
 import InitializePackage.InitializeDao;
 import javafx.collections.ObservableList;
 
@@ -12,14 +13,14 @@ public class NoticeDao {
 	Notice notice;
 	
 	//공지사항 전체를 가져오는 메서드
-	public void getAllNotice(ObservableList<Notice> list) {
-		String sql = "select * from noticetbl where available = 1 order by noticeno desc;";
+	public void getAllNotice(ObservableList<NoticeTableView> list) {
+		String sql = "select * from noticetbl where noticeavailable = 1 order by noticeno desc;";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
-				
+				list.add(new NoticeTableView(rs.getString("noticeclass"), rs.getString("noticetitle"), rs.getString("noticecontent")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

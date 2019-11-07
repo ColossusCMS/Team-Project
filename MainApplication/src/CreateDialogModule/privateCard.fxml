@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="paneProfile" prefHeight="210.0" prefWidth="400.0" style="-fx-border-color: black; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreateDialogModule.BusinessCardController">
+<AnchorPane fx:id="paneProfile" prefHeight="210.0" prefWidth="400.0" style="-fx-border-color: black; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreateDialogModule.PrivateCardController">
    <children>
       <ImageView fx:id="viewImg" fitHeight="150.0" fitWidth="130.0" layoutX="249.0" layoutY="28.0" pickOnBounds="true">
          <image>
@@ -20,6 +20,7 @@
          </image>
       </ImageView>
       <Button fx:id="btnCancel" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="64.0" text="닫기" />
+      <Button fx:id="btnStatusSave" layoutX="80.0" layoutY="8.0" mnemonicParsing="false" prefWidth="64.0" text="저장" />
       <Label fx:id="lblDept" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="84.0" layoutY="43.0" prefHeight="15.0" prefWidth="120.0" text="개발1팀" textAlignment="RIGHT" />
       <Label fx:id="lblPosition" layoutX="86.0" layoutY="77.0" text="과장">
          <font>
@@ -36,6 +37,6 @@
       </Label>
       <Label fx:id="lblUserMail" layoutX="81.0" layoutY="108.0" text="asdf@naver.com" />
       <Label fx:id="lblUserTel" layoutX="80.0" layoutY="130.0" text="010-1234-5678" />
-      <Label fx:id="lblUserGreet" alignment="TOP_LEFT" layoutX="80.0" layoutY="151.0" prefHeight="52.0" prefWidth="165.0" text="Label" />
+      <TextArea fx:id="txtAreaStatus" layoutX="81.0" layoutY="151.0" prefHeight="58.0" prefWidth="165.0" />
    </children>
 </AnchorPane>

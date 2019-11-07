@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import BoardModule.BoardController;
 import ClassPackage.Board;
 import ClassPackage.BoardTableView;
 import InitializePackage.InitializeDao;
@@ -66,7 +67,7 @@ public class BoardDao {
 	//모든 변수가 아닌 수정할 수 있는 부분만 갱신함.
 	//머리말, 제목, 내용, 파일
 	public boolean updateBoardContent(Board board) {
-		String sql = "update boardtbl set boardheader = ?, boardtitle = ?, boardcontent = ?, boardfile = ? where boardno = ? and boarduserno = ? and boardpassword = ?;";
+		String sql = "update boardtbl set boardheader = ?, boardtitle = ?, boardcontent = ?, boardfile = ? where boardno = ? and boardpassword = ?;";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
@@ -75,8 +76,7 @@ public class BoardDao {
 			pstmt.setString(3, board.getBoardContent());
 			pstmt.setString(4, board.getBoardFile());
 			pstmt.setString(5, board.getBoardNo() + "");
-			pstmt.setString(6, board.getBoardUserNo() + "");
-			pstmt.setString(7, board.getBoardPassword());
+			pstmt.setString(6, board.getBoardPassword());
 			pstmt.executeUpdate();
 			return true;
 		} catch (Exception e) {
@@ -97,7 +97,7 @@ public class BoardDao {
 	//매개변수로 받는 변수는 데이터베이스에서 pk인 게시물번호
 	public Board loadAllBoardContent(String boardNo) {
 		Board board = null;
-		String sql = "select * from boardtbl where boardno = ?;";
+		String sql = "select b.*, u.username, u.userimgpath from boardtbl b inner join usertbl u on b.boarduserno = u.userno where boardno = ?;";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
@@ -105,7 +105,8 @@ public class BoardDao {
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				board = new Board(rs.getInt("boardno"), rs.getString("boardheader"), rs.getString("boardtitle"), rs.getString("boardcontent"),
-						rs.getString("boardpassword"), rs.getString("boarduserno"), rs.getString("boarddate"), rs.getString("boardfile"), rs.getInt("boardavailable"));
+						rs.getString("boardpassword"), rs.getString("username"), rs.getString("boarddate"), rs.getString("boardfile"), rs.getInt("boardavailable"));
+				BoardController.imgPath = rs.getString("userimgpath");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

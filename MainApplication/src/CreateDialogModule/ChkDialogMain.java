@@ -53,14 +53,30 @@ public class ChkDialogMain {
 		}
 	}
 	
-	//내 정보나 등록된 사용자를 선택했을 때
-	//상세정보를 띄워주는 다이얼로그
+	//다른 상세정보를 띄워주는 다이얼로그
 	public static void businessCardDialog(String userNo) {
 		BusinessCardController.userNo = userNo;
 		Stage businessCard = new Stage(StageStyle.UNDECORATED);
 		Parent another;
 		try {
 			another = FXMLLoader.load(ChkDialogMain.class.getResource("businessCard.fxml"));
+			Scene scene = new Scene(another);
+			businessCard.setScene(scene);
+			businessCard.setResizable(false);
+			businessCard.initModality(Modality.APPLICATION_MODAL);
+			businessCard.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//본인 상세정보를 띄워주는 다이얼로그
+	public static void privateCardDialog(String userNo) {
+		PrivateCardController.userNo = userNo;
+		Stage businessCard = new Stage(StageStyle.UNDECORATED);
+		Parent another;
+		try {
+			another = FXMLLoader.load(ChkDialogMain.class.getResource("privateCard.fxml"));
 			Scene scene = new Scene(another);
 			businessCard.setScene(scene);
 			businessCard.setResizable(false);

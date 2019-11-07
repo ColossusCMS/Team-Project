@@ -15,7 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class ChatController implements Initializable {
-	@FXML Button btnSend, btnSendFile;
+	@FXML Button btnSend;
 	@FXML TextArea txtArea;
 	@FXML TextField txtFieldInput;
 	@FXML Label lblRoomTitle;

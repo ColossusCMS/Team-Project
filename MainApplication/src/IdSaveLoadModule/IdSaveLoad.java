@@ -64,7 +64,8 @@ public class IdSaveLoad {
 	//언제든지 가져올 수 있음.
 	public static String loadUserId() {
 //		String path = System.getProperty("user.home") + "/Documents/MySNS/id.txt";
-		String path = "e:/MySNS/id.txt";
+		String path = "c:/MySNS/id.txt";
+//		String path = "e:/MySNS/id.txt";
 		String id = new String();
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -88,7 +89,8 @@ public class IdSaveLoad {
 	
 	//로그아웃이나 프로그램을 완전히 종료할 경우 저장했던 사용자번호를 지우고 txt파일을 초기화함
 	public static void resetUserId() {
-		String path = System.getProperty("user.home") + "/My Documents/MySNS/id.txt";
+//		String path = System.getProperty("user.home") + "/My Documents/MySNS/id.txt";
+		String path = "c:/MySNS/id.txt";
 		File file = new File(path);
 		try {
 			FileWriter fw = new FileWriter(file, false);

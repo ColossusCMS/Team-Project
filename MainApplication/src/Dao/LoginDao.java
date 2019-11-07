@@ -165,7 +165,7 @@ public class LoginDao {
 	
 	//데이터베이스에 사용자 정보를 등록하는 메서드
 	public void insertUserData(User user) {
-		String sql = "insert into usertbl values (?, ?, ?, ?, ?, ?, ?, default, ?, default);";
+		String sql = "insert into usertbl values (?, ?, ?, ?, ?, ?, ?, default, ?, default, default);";
 		String encPassword = PasswordEncryption.pwEncryption(user.getUserPassword());
 		PreparedStatement pstmt = null;
 		try {
@@ -178,6 +178,57 @@ public class LoginDao {
 			pstmt.setString(6, user.getUserImgPath());
 			pstmt.setString(7, user.getUserDept());
 			pstmt.setString(8, user.getUserStatusMsg());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+            try {
+                if (pstmt != null && !pstmt.isClosed())
+                    pstmt.close();
+            } catch (SQLException e) {                
+                e.printStackTrace();
+            }
+        }
+	}
+	
+	//중복 로그인 방지용. userLoginStatus를 가져옴
+	public int getLoginStatus(String userNo) {
+		String sql = "select userloginstatus from usertbl where userno = ?;";
+		int status = 0;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = InitializeDao.conn.prepareStatement(sql);
+			pstmt.setString(1, userNo);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				status = rs.getInt("userloginstatus");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+            try {
+                if (pstmt != null && !pstmt.isClosed())
+                    pstmt.close();
+            } catch (SQLException e) {                
+                e.printStackTrace();
+            }
+        }
+		return status;
+	}
+	
+	//로그인할 때 로그인 상태를 1로, 로그아웃할 때 로그인 상태를 0으로 업데이트하는 메서드
+	public void updateLoginStatus(String userNo, String status) {
+		String sql = "update usertbl set userloginstatus = ? where userno = ?;";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = InitializeDao.conn.prepareStatement(sql);
+			if(status.equals("login")) {	//로그인하는 거라면 0을 1로 바꿔야 함
+				pstmt.setInt(1, 1);
+			}
+			else if(status.equals("logout")) {	//로그아웃하는 거라면 1을 0으로 바꿔야 함
+				pstmt.setInt(1, 0);
+			}
+			pstmt.setString(2, userNo);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

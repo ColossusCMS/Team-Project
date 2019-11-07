@@ -1,9 +1,6 @@
 package MainModule;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -11,6 +8,7 @@ import BoardModule.BoardController;
 import ChatClientModule.ChatController;
 import ClassPackage.BoardTableView;
 import ClassPackage.Notice;
+import ClassPackage.NoticeTableView;
 import ClassPackage.User;
 import CreateDialogModule.ChkDialogMain;
 import Dao.BoardDao;
@@ -18,7 +16,6 @@ import Dao.DeptDao;
 import Dao.LoginDao;
 import Dao.NoticeDao;
 import Dao.UserInfoDao;
-import EncryptionDecryption.PasswordEncryption;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -103,7 +100,7 @@ public class MainController implements Initializable {
 	//알림
 	@FXML private Label lblMainNoticeTitle, lblMainNoticeContent;
 	@FXML private Button btnNoticeRefresh;
-	@FXML private TableView<Notice> tblViewNotice;
+	@FXML private TableView<NoticeTableView> tblViewNotice;
 	@FXML private Button btnFold;
 	@FXML private HBox boxMainNotice;
 	
@@ -143,7 +140,7 @@ public class MainController implements Initializable {
 	ObservableList<String> sideComboBoxList = FXCollections.observableArrayList();	//오른쪽 영역 콤보박스 필터용 리스트
 	
 	//알림 탭에서 사용하는 리스트
-	ObservableList<Notice> noticeTblViewNoticeList = FXCollections.observableArrayList();
+	ObservableList<NoticeTableView> noticeTblViewNoticeList = FXCollections.observableArrayList();
 	
 	//사용자 탭에서 사용하는 리스트
 	ObservableList<User> userTblViewUserList = FXCollections.observableArrayList();	//사용자 탭 테이블에 띄우는 사용자 리스트
@@ -155,7 +152,6 @@ public class MainController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		USER_NO = loadUserNo();
 		myProfile = userInfoDao.selectMyInfo(USER_NO);
 		
 		// 왼쪽 영역 버튼 초기화
@@ -212,6 +208,7 @@ public class MainController implements Initializable {
 				ChkDialogMain.noticeDialog();
 			}
 		});
+		createNoticeTable(tblViewNotice);
 		
 		//사용자 정보 탭
 		//내정보 띄우는 부분
@@ -221,12 +218,13 @@ public class MainController implements Initializable {
 		lblMyStatusMsg.setText(myProfile.getUserStatusMsg());
 		//내정보 이미지 파일 가져오는 곳
 		if(!myProfile.getUserImgPath().isEmpty() && !(myProfile.getUserImgPath() == null)) {
-			imgViewUserImg.setImage(new Image(myProfile.getUserImgPath()));
+			String url = "http://yaahq.dothome.co.kr/" + myProfile.getUserImgPath();
+			imgViewUserImg.setImage(new Image(url));
 		}
 		//내정보 더블클릭 했을 때 동작
 		anchorPaneStackedPane.setOnMouseClicked(event -> {
 			if(event.getClickCount() >= 2) {
-				ChkDialogMain.businessCardDialog(USER_NO);
+				ChkDialogMain.privateCardDialog(USER_NO);
 			}
 		});
 		
@@ -243,10 +241,7 @@ public class MainController implements Initializable {
 			txtFieldSideFilter.clear();
 			userInfoDao.loadAllUser(sideTblViewUserList, USER_NO);
 			createSideTable(tblViewSideUserList);
-		});
-		//내 정보에서 상태메시지 작성할 수 있도록 추가할 것
-		
-		
+		});		
 		
 		// 채팅방 탭 부분
 		btnOpenChat.setOnAction(event -> handleBtnChatAction(btnOpenChat.getText()));
@@ -273,7 +268,6 @@ public class MainController implements Initializable {
 				boardDao.loadFilteredBoardList(boardTblViewBoardList, newValue);	//필터링한 결과만 출력
 			}
 		});
-		
 		
 		// 일정 탭 부분
 		btnSchedule.setOnAction(event -> handleBtnScheduleAction());
@@ -422,7 +416,8 @@ public class MainController implements Initializable {
 					{
 						box = new Pane();
 						imgView = new ImageView();
-						imgView.setFitHeight(75.0);
+						imgView.setFitWidth(75.0);
+						imgView.setPreserveRatio(true);
 						box.getChildren().add(imgView);
 						setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 					}
@@ -434,7 +429,8 @@ public class MainController implements Initializable {
 						}
 						else {
 							//나중에 DB에서 가져와 해당 사용자의 이미지로 대체할 수 있도록
-							imgView.setImage(new Image("File://D:/Java 작업/Private_Project/UserInfoTest/src/UserInfo/DefaultImage.jpg"));
+							String url = "http://yaahq.dothome.co.kr/" + item.getUserImgPath();
+							imgView.setImage(new Image(url));
 							setGraphic(box);
 						}
 					}
@@ -472,7 +468,7 @@ public class MainController implements Initializable {
 						dept.setStyle("-fx-pref-width:70; -fx-pref-height:30; -fx-font-size:15px; -fx-alignment:center_left;");
 						name.setStyle("-fx-pref-width:80; -fx-pref-height:30; -fx-font-size:20px; -fx-alignment:center_left; -fx-font-weight:bold;");
 						position.setStyle("-fx-pref-width:50; -fx-pref-height:30; -fx-font-size:14px; -fx-alignment:center_left;");
-						msg.setStyle("-fx-pref-width:200; -fx-pref-height:30; -fx-font-size:12px; -fx-alignment:center_left; -fx-padding:5");
+						msg.setStyle("-fx-pref-width:200; -fx-pref-height:50; -fx-font-size:12px; -fx-alignment:center_left; -fx-padding:5");
 					}
 					@Override
 					protected void updateItem(User item, boolean empty) {
@@ -606,33 +602,6 @@ public class MainController implements Initializable {
 		boardDao.loadAllBoardList(boardTblViewBoardList);
 		boardTable.getColumns().addAll(headerCol, titleCol, writerDateCol);
 		boardTable.setItems(boardTblViewBoardList);	
-	}
-
-	
-	
-	public String loadUserNo() {
-//		String path = System.getProperty("user.home") + "/Documents/MySNS/id.txt;		//윈10에서 내 문서에 있는 파일 찾으러 갈 수 있는 경로
-		String path = "c:/MySNS/id.txt";
-//		String path = "e:/MySNS/id.txt";
-		String id = new String();
-		FileReader fr = null;
-		BufferedReader br = null;
-		StringWriter sw = null;
-		try {
-			fr = new FileReader(path);
-			br = new BufferedReader(fr);
-			sw = new StringWriter();
-			int ch = 0;
-			while((ch = br.read()) != -1) {
-				sw.write(ch);
-			}
-			br.close();
-			//복호화해서 사용자번호를 가져옴
-			id = PasswordEncryption.pwDecryption(sw.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return id;
 	}
 	
 	//게시판 탭에서 게시물을 더블클릭했을 때 게시물 열람 창을 만드는 메서드
@@ -800,25 +769,25 @@ public class MainController implements Initializable {
 	
 	//알림 탭 테이블 생성
 	@SuppressWarnings("unchecked")
-	public void createNoticeTable(TableView<Notice> noticeTable) {
-		TableColumn<Notice, String> classCol = new TableColumn<Notice, String>("구분");
-		classCol.setStyle("-fx-pref-width:40; -fx-border-width:1; -fx-pref-height:40; -fx-font-size:10px; -fx-alignment:center");
-		classCol.setCellValueFactory(new PropertyValueFactory<Notice, String>("noticeClass"));
-		TableColumn<Notice, Notice> noticeContentCol = new TableColumn<Notice, Notice>("알림 내용");
-		noticeContentCol.setStyle("-fx-pref-width:85; -fx-border-width:1; -fx-pref-height:40; -fx-alignment:center-left");
-		//3번째 열은 사용자 지정형태로 만들기 위해서 새로 작업
-		noticeContentCol.setCellValueFactory(new Callback<CellDataFeatures<Notice, Notice>, ObservableValue<Notice>>() {
+	public void createNoticeTable(TableView<NoticeTableView> noticeTable) {
+		TableColumn<NoticeTableView, String> classCol = new TableColumn<NoticeTableView, String>("구분");
+		classCol.setStyle("-fx-pref-width:60; -fx-border-width:1; -fx-pref-height:40; -fx-font-size:10px; -fx-alignment:center");
+		classCol.setCellValueFactory(new PropertyValueFactory<NoticeTableView, String>("noticeClass"));
+		TableColumn<NoticeTableView, NoticeTableView> noticeContentCol = new TableColumn<NoticeTableView, NoticeTableView>("알림 내용");
+		noticeContentCol.setStyle("-fx-pref-width:240; -fx-border-width:1; -fx-pref-height:40; -fx-alignment:center-left");
+		//사용자 지정형태
+		noticeContentCol.setCellValueFactory(new Callback<CellDataFeatures<NoticeTableView, NoticeTableView>, ObservableValue<NoticeTableView>>() {
 			@Override
-			public ObservableValue<Notice> call(
-				CellDataFeatures<Notice, Notice> features) {
-				return new ReadOnlyObjectWrapper<Notice>(features.getValue());
+			public ObservableValue<NoticeTableView> call(
+				CellDataFeatures<NoticeTableView, NoticeTableView> features) {
+				return new ReadOnlyObjectWrapper<NoticeTableView>(features.getValue());
 			}
 		});
-		noticeContentCol.setCellFactory(	new Callback<TableColumn<Notice, Notice>, TableCell<Notice, Notice>>() {
+		noticeContentCol.setCellFactory(new Callback<TableColumn<NoticeTableView, NoticeTableView>, TableCell<NoticeTableView, NoticeTableView>>() {
 			@Override
-			public TableCell<Notice, Notice> call(
-					TableColumn<Notice, Notice> param) {
-				return new TableCell<Notice, Notice>() {
+			public TableCell<NoticeTableView, NoticeTableView> call(
+					TableColumn<NoticeTableView, NoticeTableView> param) {
+				return new TableCell<NoticeTableView, NoticeTableView>() {
 					private VBox box;
 					private Label title;
 					private Label content;
@@ -832,7 +801,7 @@ public class MainController implements Initializable {
 						setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 					}
 					@Override
-					protected void updateItem(Notice item, boolean empty) {
+					protected void updateItem(NoticeTableView item, boolean empty) {
 						super.updateItem(item, empty);
 						if (item == null) {
 							setGraphic(null);

@@ -1,5 +1,6 @@
 package BoardModule;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -7,13 +8,19 @@ import java.util.ResourceBundle;
 import ClassPackage.Board;
 import CreateDialogModule.ChkDialogMain;
 import Dao.BoardDao;
+import FTPUploadDownloadModule.FTPDownloader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 /*
 프로젝트 주제 : 사내 SNS
@@ -49,8 +56,13 @@ public class BoardController implements Initializable {
 	private Button btnCancel, btnModify, btnDelete;
 	@FXML
 	private Label lblHeader, lblWriter, lblDate, lblTitle, lblContent;
+	@FXML
+	private ImageView imgViewUserImg;
+	@FXML
+	private Hyperlink linkAttachFile;
 	
 	public static String BBS_ID;	//게시물 번호를 Dao클래스로 전달하기 위한 변수
+	public static String imgPath;
 	
 	BoardDao boardDao = new BoardDao();
 	Board board;	//게시물의 모든 내용을 담기 위한 클래스
@@ -71,6 +83,16 @@ public class BoardController implements Initializable {
 		lblDate.setText(board.getBoardDate());
 		lblTitle.setText(board.getBoardTitle());
 		lblContent.setText(board.getBoardContent());
+		String url = "http://yaahq.dothome.co.kr/" + imgPath;
+		imgViewUserImg.setImage(new Image(url));
+		
+		if(board.getBoardFile().equals("")) {
+			linkAttachFile.setVisible(false);
+		}
+		else {
+			linkAttachFile.setVisible(true);
+			setHyperLink();
+		}
 	}
 	
 	public void handleBtnModifyAction() {
@@ -82,6 +104,31 @@ public class BoardController implements Initializable {
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void setHyperLink() {
+		File downloadFile = new File(board.getBoardFile());
+		linkAttachFile.setText(downloadFile.getName());
+		linkAttachFile.setOnAction(e -> {
+			handleSaveFileChooser(board.getBoardFile());
+		});
+	}
+	
+	public void handleSaveFileChooser(String file) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().addAll(
+//				new ExtensionFilter("텍스트 파일(*.txt)", "*.txt"),
+//				new ExtensionFilter("이미지 파일(*.png, *.jpg, *.gif)", "*.png", "*.jpg", "*.gif"),
+//				new ExtensionFilter("오디오 파일(*.mp3)", "*.mp3"),
+				new ExtensionFilter("모든 파일(*.*)", "*.*")
+			);
+		File saveFile = fileChooser.showSaveDialog((Stage)linkAttachFile.getScene().getWindow());
+		if(saveFile != null) {
+			//파일 다운로드하는 부분
+			System.out.println("html/" + file);
+			System.out.println(saveFile.getAbsolutePath());
+			FTPDownloader.receiveFTPServer("html/" + file, saveFile.getAbsolutePath());
 		}
 	}
 	

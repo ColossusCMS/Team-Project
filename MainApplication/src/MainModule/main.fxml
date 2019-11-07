@@ -58,7 +58,7 @@ fxml 이름 : main
    <center>
    <StackPane prefHeight="200.0" prefWidth="300.0">
       <children>
-            <AnchorPane fx:id="anchorPaneNotice" prefHeight="200.0">
+            <AnchorPane fx:id="anchorPaneNotice" prefHeight="200.0" visible="false">
                <children>
                   <VBox prefHeight="655.0" prefWidth="305.0">
                      <children>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -18,15 +19,18 @@
    <center>
       <TextArea fx:id="txtArea" prefHeight="297.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
    </center>
-   <top>
-      <HBox prefHeight="39.0" prefWidth="300.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="lblRoomTitle" contentDisplay="CENTER" prefHeight="39.0" prefWidth="231.0" text="Label" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnSendFile" mnemonicParsing="false" prefHeight="39.0" prefWidth="69.0" text="파일전송" />
-         </children>
-      </HBox>
-   </top>
    <opaqueInsets>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </opaqueInsets>
+   <top>
+      <AnchorPane prefHeight="37.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblRoomTitle" contentDisplay="CENTER" layoutX="13.0" prefHeight="39.0" prefWidth="274.0" text="Label">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </top>
 </BorderPane>

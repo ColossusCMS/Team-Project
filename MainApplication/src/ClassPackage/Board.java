@@ -46,15 +46,6 @@ public class Board {
 	private String boardFile;
 	private Integer boardAvailable;
 	
-//	//게시물 수정에서 사용하는 생성자
-//	public Board(String boardHeader, String boardTitle, String boardContent, String boardDate, String boardFile) {
-//		this.boardHeader = boardHeader;
-//		this.boardTitle = boardTitle;
-//		this.boardContent = boardContent;
-//		this.boardDate = boardDate;
-//		this.boardFile = boardFile;
-//	}
-	
 	public Board(Integer boardNo, String boardHeader, String boardTitle, String boardContent, String boardPassword,
 			String boardUserNo, String boardDate, String boardFile, Integer boardAvailable) {
 		this.boardNo = boardNo;
@@ -67,7 +58,6 @@ public class Board {
 		this.boardFile = boardFile;
 		this.boardAvailable = boardAvailable;
 	}
-	
 	public Integer getBoardNo() {
 		return boardNo;
 	}

@@ -11,6 +11,7 @@ import ClassPackage.User;
 import CreateDialogModule.ChkDialogMain;
 import Dao.DeptDao;
 import Dao.LoginDao;
+import FTPUploadDownloadModule.FTPUploader;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -275,7 +276,9 @@ public class SignUpController implements Initializable {
 		
 		//모두 만족했다면 데이터베이스에 저장한다.
 		else {
-			User user = new User(fieldUserNo.getText(), fieldUserName.getText(), fieldPassword.getText(), fieldUserMail.getText(), fieldUserTel.getText(), fieldImgPath.getText(), comboBoxDept.getSelectionModel().getSelectedItem().toString(), "", "", 0);
+			File imageFile = new File(fieldImgPath.getText());	//선택한 이미지를 File객체로 하나 만듦
+			String imagePath = FTPUploader.uploadFile("image", imageFile);
+			User user = new User(fieldUserNo.getText(), fieldUserName.getText(), fieldPassword.getText(), fieldUserMail.getText(), fieldUserTel.getText(), imagePath, comboBoxDept.getSelectionModel().getSelectedItem().toString(), "", "", 0);
 			loginDao.insertUserData(user);
 			ChkDialogMain.chkDialog("등록이 완료되었습니다.");
 			Stage stage = (Stage)btnSubmit.getScene().getWindow();
@@ -289,9 +292,6 @@ public class SignUpController implements Initializable {
 			}
 		}
 	}
-	
-	//사용자가 이미지를 선택했다면 해당 이미지를 서버로 전송하고
-	//그 주소를 
 	
 	//취소 버튼을 누르면 사용자 등록창을 닫음
 	public void handleBtnCancelAction() {

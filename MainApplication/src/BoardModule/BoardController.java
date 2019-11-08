@@ -24,7 +24,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 /*
 프로젝트 주제 : 사내 SNS
-프로그램 버전 : 0.7.0
+프로그램 버전 : 1.0.0
 모듈 이름 : 게시판
 모듈 버전 : 1.0.0
 클래스 이름 : BoardController
@@ -52,14 +52,10 @@ import javafx.stage.Stage;
 1.0.0
  */
 public class BoardController implements Initializable {
-	@FXML
-	private Button btnCancel, btnModify, btnDelete;
-	@FXML
-	private Label lblHeader, lblWriter, lblDate, lblTitle, lblContent;
-	@FXML
-	private ImageView imgViewUserImg;
-	@FXML
-	private Hyperlink linkAttachFile;
+	@FXML private Button btnCancel, btnModify, btnDelete;
+	@FXML private Label lblHeader, lblWriter, lblDate, lblTitle, lblContent;
+	@FXML private ImageView imgViewUserImg;
+	@FXML private Hyperlink hyperLinkAttachFile;
 	
 	public static String BBS_ID;	//게시물 번호를 Dao클래스로 전달하기 위한 변수
 	public static String imgPath;
@@ -86,11 +82,11 @@ public class BoardController implements Initializable {
 		String url = "http://yaahq.dothome.co.kr/" + imgPath;
 		imgViewUserImg.setImage(new Image(url));
 		
-		if(board.getBoardFile().equals("")) {
-			linkAttachFile.setVisible(false);
+		if(board.getBoardFile().isEmpty()) {
+			hyperLinkAttachFile.setVisible(false);
 		}
 		else {
-			linkAttachFile.setVisible(true);
+			hyperLinkAttachFile.setVisible(true);
 			setHyperLink();
 		}
 	}
@@ -102,6 +98,8 @@ public class BoardController implements Initializable {
 			Scene scene = new Scene(readBoardWindow);
 			stage.setScene(scene);
 			stage.show();
+			btnModify.setDisable(true);
+			stage.setOnCloseRequest(event -> btnModify.setDisable(false));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -109,8 +107,8 @@ public class BoardController implements Initializable {
 	
 	public void setHyperLink() {
 		File downloadFile = new File(board.getBoardFile());
-		linkAttachFile.setText(downloadFile.getName());
-		linkAttachFile.setOnAction(e -> {
+		hyperLinkAttachFile.setText(downloadFile.getName());
+		hyperLinkAttachFile.setOnAction(e -> {
 			handleSaveFileChooser(board.getBoardFile());
 		});
 	}
@@ -123,7 +121,7 @@ public class BoardController implements Initializable {
 //				new ExtensionFilter("오디오 파일(*.mp3)", "*.mp3"),
 				new ExtensionFilter("모든 파일(*.*)", "*.*")
 			);
-		File saveFile = fileChooser.showSaveDialog((Stage)linkAttachFile.getScene().getWindow());
+		File saveFile = fileChooser.showSaveDialog((Stage)hyperLinkAttachFile.getScene().getWindow());
 		if(saveFile != null) {
 			//파일 다운로드하는 부분
 			System.out.println("html/" + file);

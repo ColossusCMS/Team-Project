@@ -44,7 +44,6 @@ public class SystemTrayMain {
 			final ActionListener closeListener = new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("üũ");
 					LoginDao loginDao = new LoginDao();
 					loginDao.updateLoginStatus(userNo, "logout");
 					IdSaveLoad.resetUserId();

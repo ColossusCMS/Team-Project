@@ -56,6 +56,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -200,15 +201,40 @@ public class MainController implements Initializable {
 			}
 		});
 		
+		//쓰레드 2개니까 쓰레드풀 생각
+		
+		//접속중인 사용자 목록 자동으로 새로고침하는 쓰레드
+		//데몬 쓰레드로 실행
+		Thread sideUserListThread = new Thread() {
+			public void run() {
+				try {
+					while(true) {
+						Thread.sleep(60000);
+						setNotice();
+						noticeTblViewNoticeList.clear();
+						noticeDao.getAllNotice(noticeTblViewNoticeList);
+						noticeDao.getPrivateSchedule(noticeTblViewNoticeList, USER_NO);
+						noticeDao.getGroupSchedule(noticeTblViewNoticeList, USER_NO);
+						noticeDao.getRecentlyDeptBoard(noticeTblViewNoticeList, USER_NO);
+						noticeDao.getRecentlyBoard(noticeTblViewNoticeList);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		sideUserListThread.setDaemon(true);
+		sideUserListThread.start();
+		
 		// 알림 탭
 		btnNoticeRefresh.setOnAction(event -> handleBtnNoticeRefreshAction());
 		btnFold.setOnAction(event -> noticeFold(btnFold));
 		setNotice();
 		createNoticeTable(tblViewNotice);
 		
-		//목록 자동으로 새로고침하는 쓰레드
+		//새로운 알림 목록 자동으로 새로고침하는 쓰레드
 		//데몬 쓰레드로 실행
-		Thread thread = new Thread() {
+		Thread noticeThread = new Thread() {
 			public void run() {
 				try {
 					while(true) {
@@ -226,9 +252,8 @@ public class MainController implements Initializable {
 				}
 			}
 		};
-		thread.setDaemon(true);
-		thread.start();
-		
+		noticeThread.setDaemon(true);
+		noticeThread.start();
 		
 		//사용자 정보 탭
 		//내정보 띄우는 부분
@@ -259,7 +284,7 @@ public class MainController implements Initializable {
 		btnUserRefresh.setOnAction(event -> {
 			comboBoxSideFilter.getSelectionModel().selectFirst();
 			txtFieldSideFilter.clear();
-			userInfoDao.loadAllUser(sideTblViewUserList, USER_NO);
+			userInfoDao.loadAllUser("center", sideTblViewUserList, USER_NO);
 			createSideTable(tblViewSideUserList);
 		});		
 		
@@ -351,7 +376,7 @@ public class MainController implements Initializable {
 			}
 		});
 		
-		userInfoDao.loadAllUser(sideTblViewUserList, USER_NO);
+		userInfoDao.loadAllUser("right", sideTblViewUserList, USER_NO);
 		sideTable.setItems(sideTblViewUserList);
 		sideTable.getColumns().add(userInfoCol);
 	}
@@ -361,18 +386,18 @@ public class MainController implements Initializable {
 	public void sideFilterAction() {
 		if(txtFieldSideFilter.getText().isEmpty() || txtFieldSideFilter.getText().equals("")) {	//검색필드가 비어있다면
 			if(comboBoxSideFilter.getSelectionModel().getSelectedItem().equals("전체")) {		//콤보박스를 전체로 선택하면 모든 정보 불러옴
-				userInfoDao.loadAllUser(sideTblViewUserList, USER_NO);
+				userInfoDao.loadAllUser("right", sideTblViewUserList, USER_NO);
 			}
 			else {	//필드가 비어있고 콤보박스를 선택하면 콤보박스를 기준으로 결과 불러옴
-				userInfoDao.loadFilteredAllUser(sideTblViewUserList, USER_NO, comboBoxSideFilter.getSelectionModel().getSelectedItem());
+				userInfoDao.loadFilteredAllUser("right", sideTblViewUserList, USER_NO, comboBoxSideFilter.getSelectionModel().getSelectedItem());
 			}
 		}
 		else {	//필드에 무언가가 적혀있다면
 			if(comboBoxSideFilter.getSelectionModel().getSelectedItem().equals("전체")) {	//필드에 적혀있고 전체를 선택하면 필드를 기준으로 결과 불러옴
-				userInfoDao.loadFilteredAllUser(USER_NO, sideTblViewUserList, txtFieldSideFilter.getText());
+				userInfoDao.loadFilteredAllUser("right", USER_NO, sideTblViewUserList, txtFieldSideFilter.getText());
 			}
 			else {	//필드에 적혀있고 콤보박스를 선택하면 둘 다 포함한 결과 불러옴
-				userInfoDao.loadFilteredAllUser(sideTblViewUserList, USER_NO, comboBoxSideFilter.getSelectionModel().getSelectedItem(), txtFieldSideFilter.getText());
+				userInfoDao.loadFilteredAllUser("right", sideTblViewUserList, USER_NO, comboBoxSideFilter.getSelectionModel().getSelectedItem(), txtFieldSideFilter.getText());
 			}
 		}
 	}
@@ -395,18 +420,18 @@ public class MainController implements Initializable {
 		//탭 이름에 따라 다른 테이블을 생성하기 위해 작성
 		if(filterTxt.equals("")) {	//텍스트 필드에 아무것도 입력하지 않고
 			if(tabName.equals("전체")) {	//콤보박스에 전체라고 선택되어 있다면 자신을 제외한 모든 사용자 출력
-				userInfoDao.loadAllUser(userTblViewUserList, USER_NO);
+				userInfoDao.loadAllUser("center", userTblViewUserList, USER_NO);
 			}
 			else {	//탭이 선택된 상태라면 해당 탭에 맞는 테이블 생성
-				userInfoDao.loadFilteredAllUser(userTblViewUserList, USER_NO, tabName);
+				userInfoDao.loadFilteredAllUser("center", userTblViewUserList, USER_NO, tabName);
 			}
 		}
 		else {	//텍스트 필드에 무언가가 입력된 상태라면
 			if(tabName.equals("전체")) {	//필드에 입력된 값을 기준으로 모든 사용자를 출력
-				userInfoDao.loadAllUser(userTblViewUserList, USER_NO, filterTxt);
+				userInfoDao.loadAllUser("center", userTblViewUserList, USER_NO, filterTxt);
 			}
 			else {	//필드와 탭 모두 만족하는 테이블 생성
-				userInfoDao.loadFilteredAllUser(userTblViewUserList, USER_NO, tabName, filterTxt);
+				userInfoDao.loadFilteredAllUser("center", userTblViewUserList, USER_NO, tabName, filterTxt);
 			}
 		}
 		//테이블 헤더 없애는 부분
@@ -634,6 +659,7 @@ public class MainController implements Initializable {
 			stage.setResizable(false);
 			stage.setTitle(selectedCell.getBoardTitle());
 			stage.setScene(scene);
+			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -648,7 +674,12 @@ public class MainController implements Initializable {
 			Scene scene = new Scene(readBoardWindow);
 			stage.setScene(scene);
 			stage.setResizable(false);
+			stage.setOnCloseRequest(event -> btnWrite.setDisable(false));
+			stage.setOnHiding(event -> {
+				btnWrite.setDisable(false);
+			});
 			stage.show();
+			btnWrite.setDisable(true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -662,6 +693,7 @@ public class MainController implements Initializable {
 		String engName = "";
 		if(btnName.equals("전체 채팅")) {
 			engName = "all";
+			btnOpenChat.setDisable(true);
 		}
 		else {
 			String deptName = user.getUserDept();
@@ -682,6 +714,7 @@ public class MainController implements Initializable {
 				engName = "design";
 				break;
 			}
+			btnDeptChat.setDisable(true);
 		}
 		ChatController.dept = engName;
 		Stage stage = new Stage(StageStyle.UTILITY);
@@ -691,6 +724,15 @@ public class MainController implements Initializable {
 			stage.setScene(scene);
 			stage.setResizable(false);
 			stage.show();
+			stage.setTitle(btnName);
+			stage.setOnCloseRequest(event -> {
+				if(stage.getTitle().equals("전체 채팅")) {
+					btnOpenChat.setDisable(false);
+				}
+				else {
+					btnDeptChat.setDisable(false);
+				}
+			});
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -908,6 +950,7 @@ public class MainController implements Initializable {
 			Scene scene = new Scene(readBoardWindow);
 			stage.setResizable(false);
 			stage.setScene(scene);
+			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

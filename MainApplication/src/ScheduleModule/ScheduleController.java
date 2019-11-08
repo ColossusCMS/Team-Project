@@ -28,6 +28,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -130,7 +131,7 @@ public class ScheduleController implements Initializable {
 	public void createCalendar() {
 		int index = 0;
 		gridPaneCalendar.getChildren().clear();
-		scheduleDao.entryDate(thisYear, thisMonth, privateSchList, groupSchList);
+		scheduleDao.entryDate(thisYear, thisMonth, privateSchList, groupSchList, USERNO);
 		for(int i = 0; i < 6; i++) {	//행 수
 			for(int j = 0; j < 7; j++) {	//열 수
 				Button btn = new Button();
@@ -178,7 +179,7 @@ public class ScheduleController implements Initializable {
 	}
 	
 	public void colorChange() {
-		scheduleDao.entryDate(thisYear, thisMonth, privateSchList, groupSchList);
+		scheduleDao.entryDate(thisYear, thisMonth, privateSchList, groupSchList, USERNO);
 	}
 	
 	public void handleBtnPrevMonth() {
@@ -208,12 +209,13 @@ public class ScheduleController implements Initializable {
 		Schedule.year = thisYear;
 		Schedule.month = thisMonth;
 		Schedule.date = date;
-		Stage stage = new Stage(StageStyle.UNDECORATED);
+		Stage stage = new Stage(StageStyle.UTILITY);
 		try {
 			Parent anotherPane = FXMLLoader.load(getClass().getResource("createSchedule.fxml"));
 			Scene scene = new Scene(anotherPane);
 			stage.setScene(scene);
 			stage.setResizable(false);
+			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -221,12 +223,13 @@ public class ScheduleController implements Initializable {
 	}
 	
 	public void handleBtnDayOffApplyAction() {
-		Stage stage = new Stage(StageStyle.UNDECORATED);
+		Stage stage = new Stage(StageStyle.UTILITY);
 		try {
 			Parent anotherPane = FXMLLoader.load(getClass().getResource("dayOffApply.fxml"));
 			Scene scene = new Scene(anotherPane);
 			stage.setScene(scene);
 			stage.setResizable(false);
+			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.show();
 		} catch (Exception e) {
 			e.printStackTrace();

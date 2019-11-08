@@ -8,7 +8,9 @@ import ClassPackage.DayOff;
 import ClassPackage.Reg;
 import InitializePackage.InitializeDao;
 import javafx.collections.ObservableList;
-
+/*
+ * 버그 픽스(사용자에게 해당하지 않는 스케쥴까지 출력되는 부분 수정)
+*/
 public class ScheduleDao {
 	//개인 일정을 가져오는 메서드
 	public void loadPrivateSchedule(ObservableList<Reg> list, String userNo, String date) {
@@ -37,14 +39,15 @@ public class ScheduleDao {
 	
 	//단체 일정을 가져올때는 관리자 번호와 사용자의 부서 번호를 매칭해서 가져옴
 	public void loadGroupSchedule(ObservableList<Reg> list, String userNo, String date) {
-		String sql = "select * from testschedule where schuserno = 9999 and schgroup in (10, 0) and schentrydate = ?;";
+		String sql = "select * from testschedule where schuserno = 9999 and schgroup in"
+				+ "((select d.deptno from depttbl d inner join usertbl u on u.userdept = d.deptname where user = ?), 0)"
+				+ "and schentrydate = ?;";
 		PreparedStatement pstmt = null;
 		try {
 			list.clear();
 			pstmt = InitializeDao.conn.prepareStatement(sql);
-//			pstmt.setString(1, userNo);
-//			pstmt.setString(2, date);
-			pstmt.setString(1, date);
+			pstmt.setString(1, userNo);
+			pstmt.setString(2, date);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				list.add(new Reg(rs.getString("schuserno"), rs.getString("schtitle"), rs.getString("schcontent"), rs.getString("schentrydate"), rs.getString("schgroup")));
@@ -140,15 +143,18 @@ public class ScheduleDao {
 	}
 	
 	//해당 달에 일정이 등록된 날짜를 가져오는 메서드
-	public void entryDate(int year, int month, ArrayList<String> privateList, ArrayList<String> groupList) {
+	public void entryDate(int year, int month, ArrayList<String> privateList, ArrayList<String> groupList, String userNo) {
 		privateList.clear();
 		groupList.clear();
-		String sql = "select distinct day(schentrydate), schgroup from testschedule where substring(schentrydate, 1, 5) = ? and substring(schentrydate, 6, 8) = ?;";
+		String sql = "select distinct day(schentrydate), schgroup from testschedule where substring(schentrydate, 1, 5) = ? and substring(schentrydate, 6, 8) = ? " + 
+				"and (schuserno = 9999 or schuserno = ?) and (schgroup in (0, 1, (select d.deptno from depttbl d inner join usertbl u on u.userdept = d.deptname where u.userno = ?)));";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setInt(1, year);
 			pstmt.setInt(2, month);
+			pstmt.setString(3, userNo);
+			pstmt.setString(4, userNo);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				if(rs.getString("schgroup").equals("1")) {

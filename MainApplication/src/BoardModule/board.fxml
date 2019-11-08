@@ -40,7 +40,7 @@
             <Font size="13.0" />
          </font>
       </Label>
-      <Hyperlink fx:id="linkAttachFile" alignment="CENTER_RIGHT" layoutX="271.0" layoutY="136.0" prefHeight="21.0" prefWidth="113.0" text="Hyperlink" textAlignment="RIGHT" />
+      <Hyperlink fx:id="hyperLinkAttachFile" alignment="CENTER_RIGHT" layoutX="271.0" layoutY="136.0" prefHeight="21.0" prefWidth="113.0" text="Hyperlink" textAlignment="RIGHT" />
       <Label layoutX="303.0" layoutY="118.0" text="첨부파일" />
     </children>
 </AnchorPane>

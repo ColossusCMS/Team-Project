@@ -57,4 +57,31 @@ public class DeptDao {
 		}
 		return rowCnt;
 	}
+	
+	//해당 부서의 게시판 목록만 들고옴
+	public int loadAllDept(ObservableList<String> deptList, String userNo) {
+		int rowCnt = 0;
+		String sql = "select d.deptname from depttbl d inner join usertbl u on u.userdept = d.deptname where u.userno = ?;";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = InitializeDao.conn.prepareStatement(sql);
+			pstmt.setString(1, userNo);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				rowCnt++;
+				deptList.add(rs.getString("deptname"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null && !pstmt.isClosed()) {
+					pstmt.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return rowCnt;
+	}
 }

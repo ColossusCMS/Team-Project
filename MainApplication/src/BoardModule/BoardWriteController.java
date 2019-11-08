@@ -78,6 +78,7 @@ public class BoardWriteController implements Initializable {
 		btnFileAttach.setOnAction(event -> handleBtnFileAttachAction());
 		
 		//부서 테이블 긁어올것
+		deptList.add("전체");
 		deptDao.loadAllDept(deptList);
 		comboBoxHeader.setItems(deptList);
 	}
@@ -93,8 +94,11 @@ public class BoardWriteController implements Initializable {
 			ChkDialogMain.chkDialog("비밀번호를 입력하세요.");
 		}
 		else {	//모두 만족한다면 db로 전송
-			File attachedFile = new File(txtFieldFilePath.getText());
-			String filePath = FTPUploader.uploadFile("file", attachedFile);
+			String filePath = "";
+			if(!txtFieldFilePath.getText().isEmpty()) {
+				File attachedFile = new File(txtFieldFilePath.getText());
+				filePath = FTPUploader.uploadFile("file", attachedFile);
+			}
 			Date now = new Date();
 			boolean write = boardDao.insertBoardContent(new Board(null, comboBoxHeader.getSelectionModel().getSelectedItem().toString(), txtFieldTitle.getText(), txtAreaContent.getText(), txtFieldPassword.getText(), MainController.USER_NO, sdf.format(now), filePath, null));
 			if(write == true) {

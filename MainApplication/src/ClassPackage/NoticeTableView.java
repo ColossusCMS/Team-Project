@@ -3,14 +3,15 @@ package ClassPackage;
 import javafx.beans.property.SimpleStringProperty;
 
 public class NoticeTableView {
+	private SimpleStringProperty noticeNo;
 	private SimpleStringProperty noticeClass;
 	private SimpleStringProperty noticeTitle;
-	private SimpleStringProperty noticeContent;
 	
-	public NoticeTableView(String noticeClass, String noticeTitle, String noticeContent) {		
+	
+	public NoticeTableView(int noticeNo, String noticeClass, String noticeTitle) {		
 		this.noticeClass = new SimpleStringProperty(noticeClass);
 		this.noticeTitle = new SimpleStringProperty(noticeTitle);
-		this.noticeContent = new SimpleStringProperty(noticeContent);
+		this.noticeNo = new SimpleStringProperty(String.valueOf(noticeNo));
 	}
 
 	public String getNoticeClass() {
@@ -29,11 +30,11 @@ public class NoticeTableView {
 		this.noticeTitle.set(noticeTitle);
 	}
 
-	public String getNoticeContent() {
-		return noticeContent.get();
+	public String getNoticeNo() {
+		return noticeNo.get();
 	}
 
-	public void setNoticeContent(String noticeContent) {
-		this.noticeContent.set(noticeContent);
+	public void setNoticeNo(String noticeNo) {
+		this.noticeNo.set(noticeNo);
 	}
 }

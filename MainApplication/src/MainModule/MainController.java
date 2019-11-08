@@ -11,6 +11,7 @@ import ClassPackage.Notice;
 import ClassPackage.NoticeTableView;
 import ClassPackage.User;
 import CreateDialogModule.ChkDialogMain;
+import CreateDialogModule.NoticeDialogController;
 import Dao.BoardDao;
 import Dao.DeptDao;
 import Dao.LoginDao;
@@ -203,12 +204,31 @@ public class MainController implements Initializable {
 		btnNoticeRefresh.setOnAction(event -> handleBtnNoticeRefreshAction());
 		btnFold.setOnAction(event -> noticeFold(btnFold));
 		setNotice();
-		boxMainNotice.setOnMouseClicked(event -> {
-			if(event.getClickCount() >= 2) {
-				ChkDialogMain.noticeDialog();
-			}
-		});
 		createNoticeTable(tblViewNotice);
+		
+		//목록 자동으로 새로고침하는 쓰레드
+		//데몬 쓰레드로 실행
+		Thread thread = new Thread() {
+			public void run() {
+				try {
+					while(true) {
+						Thread.sleep(300000);
+						setNotice();
+						noticeTblViewNoticeList.clear();
+						noticeDao.getAllNotice(noticeTblViewNoticeList);
+						noticeDao.getPrivateSchedule(noticeTblViewNoticeList, USER_NO);
+						noticeDao.getGroupSchedule(noticeTblViewNoticeList, USER_NO);
+						noticeDao.getRecentlyDeptBoard(noticeTblViewNoticeList, USER_NO);
+						noticeDao.getRecentlyBoard(noticeTblViewNoticeList);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		thread.setDaemon(true);
+		thread.start();
+		
 		
 		//사용자 정보 탭
 		//내정보 띄우는 부분
@@ -763,18 +783,35 @@ public class MainController implements Initializable {
 	
 	//알림 탭 새로고침 버튼 액션
 	public void handleBtnNoticeRefreshAction() {
-		setNotice();
-		
+//		setNotice();
+		noticeTblViewNoticeList.clear();
+		noticeDao.getAllNotice(noticeTblViewNoticeList);
+		noticeDao.getPrivateSchedule(noticeTblViewNoticeList, USER_NO);
+		noticeDao.getGroupSchedule(noticeTblViewNoticeList, USER_NO);
+		noticeDao.getRecentlyDeptBoard(noticeTblViewNoticeList, USER_NO);
+		noticeDao.getRecentlyBoard(noticeTblViewNoticeList);
 	}
 	
 	//알림 탭 테이블 생성
 	@SuppressWarnings("unchecked")
 	public void createNoticeTable(TableView<NoticeTableView> noticeTable) {
+		// 테이블뷰의 헤더 영역을 없애는 코드
+		noticeTable.widthProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				Pane header = (Pane) noticeTable.lookup("TableHeaderRow");
+				if (header.isVisible()) {
+					header.setPrefHeight(0);
+					header.setVisible(false);
+				}
+			}
+		});
+		
 		TableColumn<NoticeTableView, String> classCol = new TableColumn<NoticeTableView, String>("구분");
-		classCol.setStyle("-fx-pref-width:60; -fx-border-width:1; -fx-pref-height:40; -fx-font-size:10px; -fx-alignment:center");
+		classCol.setStyle("-fx-pref-width:80; -fx-border-width:1; -fx-pref-height:40; -fx-font-size:10px; -fx-alignment:center");
 		classCol.setCellValueFactory(new PropertyValueFactory<NoticeTableView, String>("noticeClass"));
 		TableColumn<NoticeTableView, NoticeTableView> noticeContentCol = new TableColumn<NoticeTableView, NoticeTableView>("알림 내용");
-		noticeContentCol.setStyle("-fx-pref-width:240; -fx-border-width:1; -fx-pref-height:40; -fx-alignment:center-left");
+		noticeContentCol.setStyle("-fx-pref-width:220; -fx-border-width:1; -fx-pref-height:40; -fx-alignment:center-left");
 		//사용자 지정형태
 		noticeContentCol.setCellValueFactory(new Callback<CellDataFeatures<NoticeTableView, NoticeTableView>, ObservableValue<NoticeTableView>>() {
 			@Override
@@ -808,7 +845,7 @@ public class MainController implements Initializable {
 						}
 						else {
 							title.setText(item.getNoticeTitle());
-							content.setText(item.getNoticeContent());
+							content.setText("자세한 내용을 확인하려면 더블 클릭하세요.");
 							setGraphic(box);
 						}
 					}
@@ -825,14 +862,42 @@ public class MainController implements Initializable {
 			public void handle(MouseEvent event) {
 				if (event.getClickCount() >= 2) {
 					// 더블클릭을 했다면 게시물 열람 창을 생성
-					
+					NoticeTableView selectedCell = tblViewNotice.getSelectionModel().getSelectedItem();
+					String className = selectedCell.getNoticeClass();
+					String no = selectedCell.getNoticeNo();
+					if(className.contains("공지")) {
+						NoticeDialogController.noticeNo = no;
+						ChkDialogMain.noticeDialog();
+					}
+					else if(className.contains("게시판")) {
+						readContent(selectedCell);
+					}
+					else if(className.contains("일정")) {
+						handleBtnScheduleAction();
+					}
 				}
 			}
 		});
 		
-		noticeDao.getAllNotice(noticeTblViewNoticeList);
+		handleBtnNoticeRefreshAction();
 		noticeTable.getColumns().addAll(classCol, noticeContentCol);
 		noticeTable.setItems(noticeTblViewNoticeList);	
+	}
+	
+	//알림탭 목록에서 게시판 내용을 선택했을 때 사용하는 메서드(오버로딩 됨)
+	public void readContent(NoticeTableView selectedCell) {
+		BoardController.BBS_ID = selectedCell.getNoticeNo();
+		Stage stage = new Stage(StageStyle.UTILITY);
+		try {
+			Parent readBoardWindow = FXMLLoader.load(getClass().getResource("/BoardModule/board.fxml"));
+			Scene scene = new Scene(readBoardWindow);
+			stage.setResizable(false);
+			stage.setTitle(selectedCell.getNoticeTitle());
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	//일정 버튼을 눌렀을 때 동작

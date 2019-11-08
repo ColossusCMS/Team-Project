@@ -15,10 +15,11 @@ public class NoticeDialogController implements Initializable {
 	@FXML private Button btnClose;
 	
 	NoticeDao noticeDao = new NoticeDao();
+	public static String noticeNo;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Notice notice = noticeDao.getMainNotice();
+		Notice notice = noticeDao.getSelectedNotice(noticeNo);
 		btnClose.setOnAction(event -> {
 			btnClose.getScene().getWindow().hide();
 		});

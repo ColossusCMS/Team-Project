@@ -8,6 +8,8 @@ import CreateDialogModule.ChkDialogMain;
 import Dao.LoginDao;
 import IdSaveLoadModule.IdSaveLoad;
 import MainModule.MainController;
+import SystemTray.SystemTrayMain;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -135,13 +137,12 @@ public class LoginController implements Initializable {
 				try {
 					Parent mainPane = FXMLLoader.load(getClass().getResource("/MainModule/main.fxml"));
 					Scene scene = new Scene(mainPane);
-					stage.setOnCloseRequest(event -> {
-						loginDao.updateLoginStatus(fieldUserNo.getText(), "logout");
-						IdSaveLoad.resetUserId();
-					});
 					stage.setScene(scene);
 					stage.setResizable(false);
 					stage.show();
+					SystemTrayMain systemTray = new SystemTrayMain(stage, true, fieldUserNo.getText());
+					Platform.setImplicitExit(false);
+					systemTray.createTrayIcon();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

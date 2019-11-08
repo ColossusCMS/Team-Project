@@ -72,6 +72,7 @@ public class BoardModifyController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		deptList.add("전체");
 		deptDao.loadAllDept(deptList);	//부서 리스트 가져옴
 		board = boardDao.loadAllBoardContent(BoardController.BBS_ID);	//게시물 번호
 		comboBoxHeader.setItems(deptList);	//콤보박스 세팅

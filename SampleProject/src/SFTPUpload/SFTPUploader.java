@@ -96,18 +96,18 @@ public class SFTPUploader {
 	}
 	
 	public static void main(String[] args) {
-		String localPath = "c:/MySNS/";
+		String localPath = "e:/MySNS/";
 		String remotePathUp = "/home/pi/MySNS/";
 //		String remotePathDown = "/home/pi/MySNS/UploadedFiles/Images/";
 		String host = "";
-		Integer port = 0;
+		Integer port = 22;
 		String id = "pi";
 		String pw = "";
 		
 		System.out.println("서버 접속 중");
 		try {
 			SFTPUploader sftpUploader = new SFTPUploader(host, port, id, pw);
-			sftpUploader.upload(localPath + "armv6hf.zip", remotePathUp);
+			sftpUploader.upload(localPath + "sample.png", remotePathUp);
 //			sftpUploader.download(remotePathDown + "미니어처.png", localPath);
 		} catch (Exception e) {
 			System.out.println(e);

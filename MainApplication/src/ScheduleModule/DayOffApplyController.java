@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import ClassPackage.DayOff;
 import CreateDialogModule.ChkDialogMain;
 import Dao.ScheduleDao;
+import MainModule.MainController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -46,10 +47,11 @@ public class DayOffApplyController implements Initializable {
 			ChkDialogMain.chkDialog("휴가 사유를 입력하세요.");
 		}
 		else {
-			String userid = "1111";
+			String userid = MainController.USER_NO;
 			scheduleDao = new ScheduleDao();
 			scheduleDao.entryDayOff(new DayOff(userid, pickerDayOffStart.getPromptText(), pickerDayOffFinish.getPromptText(), txtAreaReason.getText()));
 			ChkDialogMain.chkDialog(dateStart.until(dateFinish).getDays() + "일간\n휴가신청이 완료되었습니다.");
+			btnApply.getScene().getWindow().hide();
 		}
 	}
 }

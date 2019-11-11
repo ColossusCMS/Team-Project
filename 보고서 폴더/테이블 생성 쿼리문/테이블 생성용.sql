@@ -61,6 +61,8 @@ create table dayofftbl(
     docontent varchar(128) not null
 );
 
+select * from dayofftbl;
+
 create table noticetbl(
 	noticeno int auto_increment not null primary key,
     noticeclass varchar(10) not null,

@@ -63,10 +63,10 @@ import javafx.util.Callback;
 
 /*
 프로젝트 주제 : 사내 SNS
-프로그램 버전 : 0.7.0
+프로그램 버전 : 1.0.0
 모듈 이름 : 메인 화면
 클래스 이름 : MainController
-모듈버전 : 0.6.0
+모듈버전 : 1.0.0
 해당 클래스 작성 : 최문석
 
 필요 전체 Java파일
@@ -156,6 +156,8 @@ public class MainController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		myProfile = userInfoDao.selectMyInfo(USER_NO);
 		
+		
+		
 		// 왼쪽 영역 버튼 초기화
 		selected(toggleBtnNotice);
 		notSelected(toggleBtnUser);
@@ -180,8 +182,10 @@ public class MainController implements Initializable {
 		tblViewSideUserList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);	//가로 스크롤바 없애려고 씀
 		tblViewSideUserList.setOnMouseClicked(event -> {
 			if(event.getClickCount() >= 2) {
-				String userNo = tblViewSideUserList.getSelectionModel().getSelectedItem().getUserNo();
-				ChkDialogMain.businessCardDialog(userNo);
+				if(!tblViewSideUserList.getSelectionModel().isEmpty()) {
+					String userNo = tblViewSideUserList.getSelectionModel().getSelectedItem().getUserNo();
+					ChkDialogMain.businessCardDialog(userNo);
+				}
 			}
 		});
 		
@@ -209,8 +213,8 @@ public class MainController implements Initializable {
 			public void run() {
 				try {
 					while(true) {
-						Thread.sleep(60000);
-						createSideTable(tblViewSideUserList);
+						Thread.sleep(2000);
+						userInfoDao.loadAllUser("right", sideTblViewUserList, USER_NO);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -267,6 +271,14 @@ public class MainController implements Initializable {
 		createTabPane(tabPaneUser);
 		//탭 선택에 따른 동작
 		tabPaneUser.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> centerFilterAction());
+		
+		txtFieldUserFilter.setOnKeyPressed(event -> {
+			KeyCode keyCode = event.getCode();
+			//키보드에서 엔터를 눌렀을 때 동작한다는 말
+			if(keyCode.equals(KeyCode.ENTER)) {
+				centerFilterAction();
+			}
+		});
 		
 		//사용자탭 새로고침 버튼
 		btnUserRefresh.setOnAction(event -> {

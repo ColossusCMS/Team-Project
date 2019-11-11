@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.apache.commons.io.FilenameUtils;
+
 import ClassPackage.Board;
 import CreateDialogModule.ChkDialogMain;
 import Dao.BoardDao;
@@ -125,17 +127,13 @@ public class BoardController implements Initializable {
 	
 	public void handleSaveFileChooser(String file) {
 		FileChooser fileChooser = new FileChooser();
+		String ext = FilenameUtils.getExtension(file);
 		fileChooser.getExtensionFilters().addAll(
-//				new ExtensionFilter("텍스트 파일(*.txt)", "*.txt"),
-//				new ExtensionFilter("이미지 파일(*.png, *.jpg, *.gif)", "*.png", "*.jpg", "*.gif"),
-//				new ExtensionFilter("오디오 파일(*.mp3)", "*.mp3"),
-				new ExtensionFilter("모든 파일(*.*)", "*.*")
+				new ExtensionFilter("모든 파일(*." + ext + ")", "*." + ext)
 			);
 		File saveFile = fileChooser.showSaveDialog((Stage)hyperLinkAttachFile.getScene().getWindow());
 		if(saveFile != null) {
 			//파일 다운로드하는 부분
-			System.out.println("html/" + file);
-			System.out.println(saveFile.getAbsolutePath());
 			FTPDownloader.receiveFTPServer("html/" + file, saveFile.getAbsolutePath());
 		}
 	}

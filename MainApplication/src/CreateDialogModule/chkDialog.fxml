@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,10 +18,10 @@
 해당 fxml 작성 : 최문석
  -->
 
-<AnchorPane prefHeight="100.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="130.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button id="dialogBtn" defaultButton="true" layoutX="80.0" layoutY="50.0" mnemonicParsing="false" text="확인" />
-      <Label id="dialogLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="12.0" prefHeight="38.0" prefWidth="185.0" text="Label">
+      <Button id="dialogBtn" defaultButton="true" layoutX="105.0" layoutY="97.0" mnemonicParsing="false" text="확인" />
+      <Label id="dialogLbl" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="25.0" prefHeight="57.0" prefWidth="235.0" text="Label" wrapText="true">
          <font>
             <Font size="14.0" />
          </font>

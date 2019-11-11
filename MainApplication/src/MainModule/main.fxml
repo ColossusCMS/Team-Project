@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <!-- 
 프로젝트 주제 : 사내 SNS
@@ -58,7 +59,7 @@ fxml 이름 : main
    <center>
    <StackPane prefHeight="200.0" prefWidth="300.0">
       <children>
-            <AnchorPane fx:id="anchorPaneNotice" prefHeight="200.0" visible="false">
+            <AnchorPane fx:id="anchorPaneNotice" prefHeight="200.0">
                <children>
                   <VBox prefHeight="655.0" prefWidth="305.0">
                      <children>
@@ -71,7 +72,7 @@ fxml 이름 : main
                               </Label>
                               <VBox alignment="CENTER_RIGHT" prefHeight="119.0" prefWidth="225.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Button fx:id="btnFold" mnemonicParsing="false" prefHeight="15.0" prefWidth="40.0" text="접기" />
+                                    <Button fx:id="btnFold" mnemonicParsing="false" prefHeight="23.0" prefWidth="58.0" text="접기" />
                                     <Label fx:id="lblMainNoticeTitle" prefHeight="30.0" prefWidth="236.0" style="-fx-padding: 5;" text="공지사항 제목입니다.">
                                        <font>
                                           <Font size="16.0" />

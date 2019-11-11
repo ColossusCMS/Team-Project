@@ -9,6 +9,7 @@ import ClassPackage.Board;
 import CreateDialogModule.ChkDialogMain;
 import Dao.BoardDao;
 import FTPUploadDownloadModule.FTPDownloader;
+import MainModule.MainController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -57,18 +58,22 @@ public class BoardController implements Initializable {
 	@FXML private ImageView imgViewUserImg;
 	@FXML private Hyperlink hyperLinkAttachFile;
 	
+	public static String USER_NO;
 	public static String BBS_ID;	//게시물 번호를 Dao클래스로 전달하기 위한 변수
 	public static String imgPath;
 	
 	BoardDao boardDao = new BoardDao();
 	Board board;	//게시물의 모든 내용을 담기 위한 클래스
 	
-	
 	//비밀번호 부분은 작성자와 현재 열람중인 사용자 비교가 가능하면
 	//따로 필요없는 부분이니 나중에 구현할 것
 	//사용자 번호와 게시물의 작성자 번호를 매칭해서 같을 때만 삭제버튼과 수정버튼을 활성화하도록 수정할 것
 	@Override
 	public void initialize(URL loc, ResourceBundle resources) {
+		
+		btnDelete.setDisable(true);
+		btnModify.setDisable(true);
+		
 		btnCancel.setOnAction(event -> handleBtnCancelAction());
 		btnModify.setOnAction(event -> handleBtnModifyAction());
 		btnDelete.setOnAction(event -> handleBtnDeleteAction());
@@ -88,6 +93,11 @@ public class BoardController implements Initializable {
 		else {
 			hyperLinkAttachFile.setVisible(true);
 			setHyperLink();
+		}
+		
+		if(USER_NO.equals(MainController.USER_NO)) {
+			btnDelete.setDisable(false);
+			btnModify.setDisable(false);
 		}
 	}
 	

@@ -7,13 +7,15 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
+import InitializePackage.DataProperties;
+
 public class FTPUploader {
 	//FTP서버로 파일을 업로드하는 메서드
 	public static boolean uploadFTPServer(String ftpPath, String localPath, String file) {
-		String ip = "112.175.184.69";
-		int port = 21;
-		String id = "yaahq";
-		String pw = "q1w2e3r4!";
+		String ip = DataProperties.ipAddress("FTPServer");
+		int port = DataProperties.portNumber("FTPServer");
+		String id = DataProperties.idProfile("FTPServer");
+		String pw = DataProperties.password("FTPServer");
 		
 		boolean isSuccess = false;
 		FTPClient ftp = null;

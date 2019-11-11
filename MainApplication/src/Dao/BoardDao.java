@@ -107,6 +107,7 @@ public class BoardDao {
 				board = new Board(rs.getInt("boardno"), rs.getString("boardheader"), rs.getString("boardtitle"), rs.getString("boardcontent"),
 						rs.getString("boardpassword"), rs.getString("username"), rs.getString("boarddate"), rs.getString("boardfile"), rs.getInt("boardavailable"));
 				BoardController.imgPath = rs.getString("userimgpath");
+				BoardController.USER_NO = rs.getString("boarduserno");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

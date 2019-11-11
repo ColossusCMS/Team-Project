@@ -216,6 +216,7 @@ public class ScheduleController implements Initializable {
 			stage.setScene(scene);
 			stage.setResizable(false);
 			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setOnHiding(event -> createCalendar());
 			stage.show();
 		} catch (Exception e) {
 			e.printStackTrace();

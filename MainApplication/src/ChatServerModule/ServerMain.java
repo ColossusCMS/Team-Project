@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import InitializePackage.DataProperties;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -45,6 +46,8 @@ public class ServerMain extends Application {
 		Collections.synchronizedMap(dept5);
 		HashMap<String, Client> dept6 = new HashMap<String, Client>();
 		Collections.synchronizedMap(dept6);
+		HashMap<String, Client> dept7 = new HashMap<String, Client>();
+		Collections.synchronizedMap(dept7);
 
 		hashMapDept.put("all", dept1);
 		hashMapDept.put("dev", dept2);
@@ -52,6 +55,7 @@ public class ServerMain extends Application {
 		hashMapDept.put("hr", dept4);
 		hashMapDept.put("sales", dept5);
 		hashMapDept.put("design", dept6);
+		hashMapDept.put("plan", dept7);
 	}
 	
 	public void startServer(String IP, int port) {
@@ -119,7 +123,7 @@ public class ServerMain extends Application {
 		root.setBottom(btnServerOpen);
 		
 		String IP = "127.0.0.1";
-		int port = 9991;
+		int port = DataProperties.portNumber("Server");
 		
 		btnServerOpen.setOnAction(event -> {
 			if(btnServerOpen.getText().equals("Start")) {

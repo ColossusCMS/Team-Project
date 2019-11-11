@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 /*
@@ -50,7 +51,8 @@ public class BusinessCardController implements Initializable {
 		lblUserTel.setText(user.getUserTel());
 		lblUserGreet.setText(user.getUserStatusMsg());
 		lblUserGreet.setWrapText(true);
-		
+		String url = "http://yaahq.dothome.co.kr/" + user.getUserImgPath();
+		viewImg.setImage(new Image(url));
 		lblUserGreet.setOnMouseEntered(event -> {
 			lblUserGreet.setPrefHeight(70);
 			lblUserGreet.setPrefWidth(170);

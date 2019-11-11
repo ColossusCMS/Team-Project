@@ -19,10 +19,11 @@ import java.sql.DriverManager;
  */
 public class InitializeDao {
 	public static Connection conn;
-	private static final String USERNAME = "sample";
-	private static final String PASSWORD = "9999";
-	private static final String URL = "jdbc:mysql://125.185.21.163:3306/sampledb";
-//	private static final String URL = "jdbc:mysql://192.168.219.14:3306/sampledb";
+	private static final String USERNAME = DataProperties.idProfile("MainDatabase");
+	private static final String PASSWORD = DataProperties.password("MainDatabase");
+	private static final String IP = DataProperties.ipAddress("MainDatabase");
+	private static final int PORT = DataProperties.portNumber("MainDatabase");
+	private static final String URL = "jdbc:mysql://" + IP + ":" + PORT + "/snsproject";
 	
 	static {
 		try {

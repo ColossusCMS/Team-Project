@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 /*
@@ -52,7 +53,8 @@ public class PrivateCardController implements Initializable {
 		lblPosition.setText(user.getUserPosition());
 		lblUserMail.setText(user.getUserMail());
 		lblUserTel.setText(user.getUserTel());
-		
+		String url = "http://yaahq.dothome.co.kr/" + user.getUserImgPath();
+		viewImg.setImage(new Image(url));
 		txtAreaStatus.setText(user.getUserStatusMsg());
 	}
 	

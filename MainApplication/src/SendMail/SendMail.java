@@ -10,6 +10,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import InitializePackage.DataProperties;
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 0.7.0
@@ -26,8 +28,8 @@ import javax.mail.internet.MimeMessage;
 - 데이터베이스에서 해당 사용자의 정보를 받아와서 사용자의 메일로 해당 정보를 송신
  */
 public class SendMail {
-	private final String id = "yaahqjp";
-	private final String pw = "pmxiljjcqrqrlsqd";
+	private final String id = DataProperties.idProfile("MailServer");
+	private final String pw = DataProperties.password("MailServer");
 	String to;
 	String name;
 	String userNo;

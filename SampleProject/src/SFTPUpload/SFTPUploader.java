@@ -97,19 +97,17 @@ public class SFTPUploader {
 	
 	public static void main(String[] args) {
 		String localPath = "c:/MySNS/";
-		String remotePathUp = "/home/pi/MySNS/UploadedFiles/Files";
+		String remotePathUp = "/home/pi/MySNS/";
 //		String remotePathDown = "/home/pi/MySNS/UploadedFiles/Images/";
-		
-//		String host = "192.168.219.14";
-		String host = "125.185.21.163";
-		Integer port = 2222;
+		String host = "";
+		Integer port = 0;
 		String id = "pi";
-		String pw = "yaahq90";
+		String pw = "";
 		
 		System.out.println("서버 접속 중");
 		try {
 			SFTPUploader sftpUploader = new SFTPUploader(host, port, id, pw);
-			sftpUploader.upload(localPath + "ProjectChatServer.zip", remotePathUp);
+			sftpUploader.upload(localPath + "armv6hf.zip", remotePathUp);
 //			sftpUploader.download(remotePathDown + "미니어처.png", localPath);
 		} catch (Exception e) {
 			System.out.println(e);

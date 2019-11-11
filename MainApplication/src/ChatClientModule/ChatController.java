@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import InitializePackage.DataProperties;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,11 +22,10 @@ public class ChatController implements Initializable {
 	@FXML Label lblRoomTitle;
 	
 	Socket socket;
-	String ip = "125.185.21.163";
-//	String ip = "192.168.219.14";
+	String ip = DataProperties.ipAddress("Client");
 	public static String name;
 	public static String dept;
-	int port = 10000;
+	int port = DataProperties.portNumber("Client");
 	String deptKor;
 	
 	@Override
@@ -53,6 +53,9 @@ public class ChatController implements Initializable {
 			break;
 		case "design":
 			deptKor = "디자인";
+			break;
+		case "plan":
+			deptKor = "기획";
 			break;
 		}
 		lblRoomTitle.setText(deptKor);

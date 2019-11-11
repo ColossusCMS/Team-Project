@@ -210,13 +210,7 @@ public class MainController implements Initializable {
 				try {
 					while(true) {
 						Thread.sleep(60000);
-						setNotice();
-						noticeTblViewNoticeList.clear();
-						noticeDao.getAllNotice(noticeTblViewNoticeList);
-						noticeDao.getPrivateSchedule(noticeTblViewNoticeList, USER_NO);
-						noticeDao.getGroupSchedule(noticeTblViewNoticeList, USER_NO);
-						noticeDao.getRecentlyDeptBoard(noticeTblViewNoticeList, USER_NO);
-						noticeDao.getRecentlyBoard(noticeTblViewNoticeList);
+						createSideTable(tblViewSideUserList);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -239,13 +233,7 @@ public class MainController implements Initializable {
 				try {
 					while(true) {
 						Thread.sleep(300000);
-						setNotice();
-						noticeTblViewNoticeList.clear();
-						noticeDao.getAllNotice(noticeTblViewNoticeList);
-						noticeDao.getPrivateSchedule(noticeTblViewNoticeList, USER_NO);
-						noticeDao.getGroupSchedule(noticeTblViewNoticeList, USER_NO);
-						noticeDao.getRecentlyDeptBoard(noticeTblViewNoticeList, USER_NO);
-						noticeDao.getRecentlyBoard(noticeTblViewNoticeList);
+						handleBtnNoticeRefreshAction();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -660,6 +648,14 @@ public class MainController implements Initializable {
 			stage.setTitle(selectedCell.getBoardTitle());
 			stage.setScene(scene);
 			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setOnCloseRequest(event ->{
+				boardDao.loadAllBoardList(boardTblViewBoardList);
+				tblViewBoardList.getSelectionModel().selectFirst();
+			});
+			stage.setOnHiding(event -> {
+				boardDao.loadAllBoardList(boardTblViewBoardList);
+				tblViewBoardList.getSelectionModel().selectFirst();
+			});
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -674,8 +670,14 @@ public class MainController implements Initializable {
 			Scene scene = new Scene(readBoardWindow);
 			stage.setScene(scene);
 			stage.setResizable(false);
-			stage.setOnCloseRequest(event -> btnWrite.setDisable(false));
+			stage.setOnCloseRequest(event -> {
+				boardDao.loadAllBoardList(boardTblViewBoardList);
+				tblViewBoardList.getSelectionModel().selectFirst();
+				btnWrite.setDisable(false);
+			});
 			stage.setOnHiding(event -> {
+				boardDao.loadAllBoardList(boardTblViewBoardList);
+				tblViewBoardList.getSelectionModel().selectFirst();
 				btnWrite.setDisable(false);
 			});
 			stage.show();
@@ -712,6 +714,9 @@ public class MainController implements Initializable {
 				break;
 			case "디자인":
 				engName = "design";
+				break;
+			case "기획":
+				engName = "plan";
 				break;
 			}
 			btnDeptChat.setDisable(true);
@@ -752,6 +757,8 @@ public class MainController implements Initializable {
 			anchorPaneUser.setVisible(false);
 			anchorPaneChat.setVisible(false);
 			anchorPaneBoard.setVisible(false);
+			
+			handleBtnNoticeRefreshAction();
 		}
 		//사용자 탭 버튼을 눌렀을 때
 		else if (btnName.equals("user")) {

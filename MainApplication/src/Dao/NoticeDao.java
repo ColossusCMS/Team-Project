@@ -133,7 +133,7 @@ public class NoticeDao {
 	
 	//일정에서 당일의 개인 일정을 가져오는 메서드
 	public void getPrivateSchedule(ObservableList<NoticeTableView> list, String userNo) {
-		String sql = "select schno, schtitle, schcontent from testschedule where schuserno = ? and schentrydate = date(now()) order by schentrydate desc;";
+		String sql = "select schno, schtitle, schcontent from scheduletbl where schuserno = ? and schentrydate = date(now()) order by schentrydate desc;";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
@@ -156,7 +156,7 @@ public class NoticeDao {
 	
 	//일정에서 당일의 단체 일정을 가져오는 메서드
 	public void getGroupSchedule(ObservableList<NoticeTableView> list, String userNo) {
-		String sql = "select schno, schtitle, schcontent from testschedule where (schgroup = ("
+		String sql = "select schno, schtitle, schcontent, schgroup from scheduletbl where (schgroup = ("
 				+ "select d.deptno from depttbl d inner join usertbl u on u.userdept = d.deptname where u.userno = ?)"
 				+ "or schgroup = 0) and schentrydate = date(now()) order by schentrydate desc;";
 		PreparedStatement pstmt = null;
@@ -165,7 +165,31 @@ public class NoticeDao {
 			pstmt.setString(1, userNo);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
-				list.add(new NoticeTableView(rs.getInt("schno"), "일정-단체", rs.getString("schtitle")));
+				String dept = new String();
+				switch(rs.getInt("schgroup")) {
+				case 0:
+					dept = "전체";
+					break;
+				case 10:
+					dept = "개발";
+					break;
+				case 20:
+					dept = "기획";
+					break;
+				case 30:
+					dept = "경영";
+					break;
+				case 40:
+					dept = "인사";
+					break;
+				case 50:
+					dept = "영업";
+					break;
+				case 60:
+					dept = "디자인";
+					break;
+				}
+				list.add(new NoticeTableView(rs.getInt("schno"), "일정-" + dept, rs.getString("schtitle")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -8,7 +8,21 @@ import ClassPackage.Notice;
 import ClassPackage.NoticeTableView;
 import InitializePackage.InitializeDao;
 import javafx.collections.ObservableList;
+/*
+프로젝트 주제 : 사내 SNS
+프로그램 버전 : 1.0.0
+패키지 이름 : Dao
+패키지 버전 : 1.0.0
+클래스 이름 : UserInfoDao
+해당 클래스 작성 : 최문석
 
+해당 클래스 주요 기능
+- 데이터베이스에 접속
+- 등록된 사용자들을 가져오기 위한 클래스
+- 사용자 목록, 상세 정보 등에서 정보를 출력하기 위해 사용
+
+패키지 버전 변경 사항
+ */
 public class NoticeDao {
 	Notice notice;
 	

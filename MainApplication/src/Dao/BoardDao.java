@@ -11,10 +11,10 @@ import InitializePackage.InitializeDao;
 import javafx.collections.ObservableList;
 /*
 프로젝트 주제 : 사내 SNS
-프로그램 버전 : 0.7.0
-모듈 이름 : 로그인 데이터베이스 클래스
-모듈 버전 : 0.7.0
-클래스 이름 : BoardDao
+프로그램 버전 : 1.0.0
+패키지 이름 : Dao
+패키지 버전 : 1.0.0
+클래스 이름 : UserInfoDao
 해당 클래스 작성 : 최문석
 
 필요 전체 Java파일

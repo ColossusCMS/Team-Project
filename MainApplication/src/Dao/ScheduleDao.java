@@ -9,8 +9,19 @@ import ClassPackage.Reg;
 import InitializePackage.InitializeDao;
 import javafx.collections.ObservableList;
 /*
- * 버그 픽스(사용자에게 해당하지 않는 스케쥴까지 출력되는 부분 수정)
-*/
+프로젝트 주제 : 사내 SNS
+프로그램 버전 : 1.0.0
+패키지 이름 : Dao
+패키지 버전 : 1.0.0
+클래스 이름 : ScheduleDao
+해당 클래스 작성 : 최문석
+
+해당 클래스 주요 기능
+- 등록된 일정 내용들을 가져옴.
+- 개인 일정 및 단체 일정 등을 가져옴.
+
+패키지 버전 변경 사항
+ */
 public class ScheduleDao {
 	//개인 일정을 가져오는 메서드
 	public void loadPrivateSchedule(ObservableList<Reg> list, String userNo, String date) {

@@ -22,18 +22,16 @@ public class ChatController implements Initializable {
 	@FXML Label lblRoomTitle;
 	
 	Socket socket;
-	String ip = DataProperties.ipAddress("Client");
+	String ip = DataProperties.getIpAddress();
 	public static String name;
 	public static String dept;
-	int port = DataProperties.portNumber("Client");
+	int port = DataProperties.getPortNumber("Client");
 	String deptKor;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		startClient(ip, port, name);
-		Platform.runLater(() -> {
-			txtArea.appendText("[盲泼规 立加]\n");
-		});
+		Platform.runLater(() -> txtArea.appendText("[盲泼规 立加]\n"));
 		
 		switch(dept) {
 		case "all":

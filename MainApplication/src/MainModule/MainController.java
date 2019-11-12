@@ -17,6 +17,7 @@ import Dao.DeptDao;
 import Dao.LoginDao;
 import Dao.NoticeDao;
 import Dao.UserInfoDao;
+import InitializePackage.DataProperties;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -60,30 +61,18 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
-
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 1.0.0
-모듈 이름 : 메인 화면
+패키지 이름 : MainModule
+패키지 버전 : 1.0.0
 클래스 이름 : MainController
-모듈버전 : 1.0.0
-해당 클래스 작성 : 최문석
-
-필요 전체 Java파일
-- MainController.java (로그인 이후 등장하는 프로그램의 메인화면)
-
-필요 fxml파일
-- main.fxml (메인화면 창 fxml)
-
-필요 import 사용자 정의 package
-- 
+해당 클래스 작성 : 최문석, 김도엽, 심대훈
 
 해당 클래스 주요 기능
 - 프로그램의 메인화면, 필요한 요소를 모두 만들고 초기화함
 
-버전 변경 사항
-1.0.0
-- 
+패키지 버전 변경 사항
  */
 public class MainController implements Initializable {
 	//왼쪽 영역
@@ -98,12 +87,13 @@ public class MainController implements Initializable {
 	
 	//가운데 영역
 	@FXML private AnchorPane anchorPaneNotice, anchorPaneUser, anchorPaneChat, anchorPaneBoard;
+	//가운데의 각 영역을 표시하는 팬
 	
 	//알림
-	@FXML private Label lblMainNoticeTitle, lblMainNoticeContent;
-	@FXML private Button btnNoticeRefresh;
+	@FXML private Label lblMainNoticeTitle, lblMainNoticeContent;	//최상단의 공지사항 부분
+	@FXML private Button btnNoticeRefresh;	//새로고침 버튼
 	@FXML private TableView<NoticeTableView> tblViewNotice;
-	@FXML private Button btnFold;
+	@FXML private Button btnFold;	//공지사항을 접는 버튼
 	@FXML private HBox boxMainNotice;
 	
 	//사용자정보
@@ -121,10 +111,10 @@ public class MainController implements Initializable {
 	@FXML private Button btnWrite, btnBoardRefresh;	//게시물 탭 글쓰기, 새로고침 버튼
 	@FXML private TableView<BoardTableView> tblViewBoardList;	//게시판 탭 테이블뷰
 	@FXML private ComboBox<String> comboBoxBoardFilter;
-
+	
+	//토글 버튼이 선택되었을 때 버튼색을 바꾸는 요소
 	BackgroundFill selectedFill = new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY);
 	Background selectedBack = new Background(selectedFill);
-
 	BackgroundFill notSelectedFill = new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY);
 	Background notSelectedBack = new Background(notSelectedFill);
 
@@ -154,9 +144,7 @@ public class MainController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		myProfile = userInfoDao.selectMyInfo(USER_NO);
-		
-		
+		myProfile = userInfoDao.selectMyInfo(USER_NO);	//현재 사용자의 정보를 가져옴
 		
 		// 왼쪽 영역 버튼 초기화
 		selected(toggleBtnNotice);
@@ -190,8 +178,8 @@ public class MainController implements Initializable {
 		});
 		
 		//오른쪽 영역 콤보박스 만드는 부분
-		sideComboBoxList.add("전체");
-		deptDao.loadAllDept(sideComboBoxList);
+		sideComboBoxList.add("전체");	//콤보박스 리스트에 전체 항목을 처음에 넣음
+		deptDao.loadAllDept(sideComboBoxList);	//그 다음부터 각 부서의 이름을 삽입
 		comboBoxSideFilter.setItems(sideComboBoxList);
 		comboBoxSideFilter.getSelectionModel().selectFirst();
 		//콤보박스 필터를 기준으로 동작했을 경우
@@ -206,15 +194,14 @@ public class MainController implements Initializable {
 		});
 		
 		//쓰레드 2개니까 쓰레드풀 생각
-		
 		//접속중인 사용자 목록 자동으로 새로고침하는 쓰레드
 		//데몬 쓰레드로 실행
 		Thread sideUserListThread = new Thread() {
 			public void run() {
 				try {
 					while(true) {
-						Thread.sleep(2000);
-						userInfoDao.loadAllUser("right", sideTblViewUserList, USER_NO);
+						Thread.sleep(60000);
+						sideFilterAction();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -255,7 +242,7 @@ public class MainController implements Initializable {
 		lblMyStatusMsg.setText(myProfile.getUserStatusMsg());
 		//내정보 이미지 파일 가져오는 곳
 		if(!myProfile.getUserImgPath().isEmpty() && !(myProfile.getUserImgPath() == null)) {
-			String url = "http://yaahq.dothome.co.kr/" + myProfile.getUserImgPath();
+			String url = "http://" + DataProperties.getIpAddress() + ":" + DataProperties.getPortNumber("HTTPServer") + "/images/" + myProfile.getUserImgPath();
 			imgViewUserImg.setImage(new Image(url));
 		}
 		//내정보 더블클릭 했을 때 동작
@@ -328,8 +315,8 @@ public class MainController implements Initializable {
 				header.setVisible(false);
 			}
 		});
-		
 		//테이블뷰의 열을 만드는 작업
+		//테이블 열을 사용자 지정형태로 만들기 위해 SimpleStringProperty와 같이 속성을 사용하지 않음
 		TableColumn<User, User> userInfoCol = new TableColumn<User, User>();
 		userInfoCol.setStyle("-fx-pref-width:90; -fx-border-width:1; -fx-pref-height:20; -fx-alignment:center-left");
 		userInfoCol.setCellValueFactory(new Callback<CellDataFeatures<User,User>, ObservableValue<User>>() {
@@ -338,6 +325,7 @@ public class MainController implements Initializable {
 				return new ReadOnlyObjectWrapper<User>(param.getValue());
 			}
 		});
+		//사용자 지정 형태로 열을 만듦
 		userInfoCol.setCellFactory(new Callback<TableColumn<User,User>, TableCell<User,User>>() {
 			@Override
 			public TableCell<User, User> call(TableColumn<User, User> param) {
@@ -375,7 +363,6 @@ public class MainController implements Initializable {
 				};
 			}
 		});
-		
 		userInfoDao.loadAllUser("right", sideTblViewUserList, USER_NO);
 		sideTable.setItems(sideTblViewUserList);
 		sideTable.getColumns().add(userInfoCol);
@@ -402,9 +389,10 @@ public class MainController implements Initializable {
 		}
 	}
 	
+	//사용자 정보 영역 탭 구성
 	public void createTabPane(TabPane tabPane) {
-		int rowCnt = deptDao.loadAllDept(userTabDeptList);
-		for(int i = 0; i < rowCnt; i++) {
+		int rowCnt = deptDao.loadAllDept(userTabDeptList);	//전체 부서가 몇 개인지 가져옴
+		for(int i = 0; i <= rowCnt; i++) {	//전체라는 부서를 포함하기 위해서 i < rowCnt가 아닌 i <= rowCnt로 작성
 			Tab tab = new Tab();
 			tab.setText(userTabDeptList.get(i));
 			tabPaneUser.getTabs().add(tab);
@@ -473,8 +461,7 @@ public class MainController implements Initializable {
 							setGraphic(null);
 						}
 						else {
-							//나중에 DB에서 가져와 해당 사용자의 이미지로 대체할 수 있도록
-							String url = "http://yaahq.dothome.co.kr/" + item.getUserImgPath();
+							String url = "http://" + DataProperties.getIpAddress() + DataProperties.getPortNumber("HTTPServer") + "/images/" + item.getUserImgPath();
 							imgView.setImage(new Image(url));
 							setGraphic(box);
 						}
@@ -482,7 +469,6 @@ public class MainController implements Initializable {
 				};
 			}
 		});
-		
 		
 		//사용자의 이름, 소속 등이 출력되는 열
 		TableColumn<User, User> userInfoCol = new TableColumn<User, User>();
@@ -563,7 +549,7 @@ public class MainController implements Initializable {
 			//필드값과 탭의 이름을 같이 비교해서 출력
 			table = createUserInfoTable(selectedTab.getText(), inputField);
 		}
-		selectedTab.setContent(table);
+		selectedTab.setContent(table);	//선택된 탭의 내용에 따라 탭을 구성
 	}
 
 	// 게시판 탭의 테이블 생성하는 부분
@@ -580,7 +566,7 @@ public class MainController implements Initializable {
 				}
 			}
 		});
-		
+		//머리말 영역은 속성 값을 이용해 열의 내용을 구성
 		TableColumn<BoardTableView, String> headerCol = new TableColumn<BoardTableView, String>();
 		headerCol.setStyle("-fx-pref-width:40; -fx-border-width:1; -fx-pref-height:40; -fx-font-size:10px; -fx-alignment:center");
 		headerCol.setCellValueFactory(new PropertyValueFactory<BoardTableView, String>("boardHeader"));
@@ -630,8 +616,7 @@ public class MainController implements Initializable {
 			}
 		});
 		
-		//가로 스크롤 없앰
-		boardTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);		
+		boardTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);		//가로 스크롤 없앰
 		// 테이블뷰에서 마우스 더블클릭 동작을 구현
 		// 테이블뷰에서 해당 게시물을 더블클릭하면 해당 게시물의 내용을 열람할 수 있음.
 		boardTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -643,35 +628,9 @@ public class MainController implements Initializable {
 				}
 			}
 		});
-		
 		boardDao.loadAllBoardList(boardTblViewBoardList);
 		boardTable.getColumns().addAll(headerCol, titleCol, writerDateCol);
 		boardTable.setItems(boardTblViewBoardList);	
-	}
-	
-	//게시판 탭에서 게시물을 더블클릭했을 때 게시물 열람 창을 만드는 메서드
-	public void readContent(BoardTableView selectedCell) {
-		BoardController.BBS_ID = selectedCell.getBoardNo();
-		Stage stage = new Stage(StageStyle.UTILITY);
-		try {
-			Parent readBoardWindow = FXMLLoader.load(getClass().getResource("/BoardModule/board.fxml"));
-			Scene scene = new Scene(readBoardWindow);
-			stage.setResizable(false);
-			stage.setTitle(selectedCell.getBoardTitle());
-			stage.setScene(scene);
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.setOnCloseRequest(event ->{
-				boardDao.loadAllBoardList(boardTblViewBoardList);
-				tblViewBoardList.getSelectionModel().selectFirst();
-			});
-			stage.setOnHiding(event -> {
-				boardDao.loadAllBoardList(boardTblViewBoardList);
-				tblViewBoardList.getSelectionModel().selectFirst();
-			});
-			stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	//게시판 탭에서 글쓰기 버튼을 눌렀을 때
@@ -682,6 +641,7 @@ public class MainController implements Initializable {
 			Scene scene = new Scene(readBoardWindow);
 			stage.setScene(scene);
 			stage.setResizable(false);
+			//글쓰기를 완료하고 창이 닫힐 때 게시판 목록을 자동으로 갱신하는 부분
 			stage.setOnCloseRequest(event -> {
 				boardDao.loadAllBoardList(boardTblViewBoardList);
 				tblViewBoardList.getSelectionModel().selectFirst();
@@ -701,16 +661,19 @@ public class MainController implements Initializable {
 	
 	//채팅방을 선택하고 채팅을 실행하는 메서드
 	public void handleBtnChatAction(String btnName) {
-		User user = userInfoDao.selectMyInfo(USER_NO);
-		ChatController.name = user.getUserName();
+//		User user = userInfoDao.selectMyInfo(USER_NO);
+		//채팅방으로 데이터를 넘겨주기 위해 선언
+		ChatController.name = myProfile.getUserName();
 		ChatController.dept = "";
-		String engName = "";
-		if(btnName.equals("전체 채팅")) {
-			engName = "all";
-			btnOpenChat.setDisable(true);
+		String engName = "";	//서버에서 판단하는 부서의 영어이름
+		//이 부분에서 사용자가 선택한 버튼에 따라서 다른 채팅방을 제공함
+		if(btnName.equals("전체 채팅")) {	//전체 채팅 버튼을 눌렀을 때
+			engName = "all";					//부서 이름을 all이라고 서버로 전송
+			btnOpenChat.setDisable(true);	//기존의 채팅방이 열려있다면 동일한 채팅방을 생성하지 못하게 버튼을 비활성화
 		}
-		else {
-			String deptName = user.getUserDept();
+		else {	//부서 채팅 버튼을 눌렀을 때
+			String deptName = myProfile.getUserDept();	//현재 사용자의 부서를 가져옴
+			//사용자의 부서에 따라서 다른 채팅방을 제공
 			switch(deptName) {
 			case "개발":
 				engName = "dev";
@@ -731,9 +694,9 @@ public class MainController implements Initializable {
 				engName = "plan";
 				break;
 			}
-			btnDeptChat.setDisable(true);
+			btnDeptChat.setDisable(true);	//역시 부서 채팅방이 열려있다면 새로운 창을 생성하지 못하게 버튼을 비활성화
 		}
-		ChatController.dept = engName;
+		ChatController.dept = engName;	//채팅 클라이언트 창으로 부서 이름 전송
 		Stage stage = new Stage(StageStyle.UTILITY);
 		try {
 			Parent readBoardWindow = FXMLLoader.load(getClass().getResource("/ChatClientModule/chat.fxml"));
@@ -742,6 +705,7 @@ public class MainController implements Initializable {
 			stage.setResizable(false);
 			stage.show();
 			stage.setTitle(btnName);
+			//창을 닫았다면 해당 채팅방의 버튼을 활성화함
 			stage.setOnCloseRequest(event -> {
 				if(stage.getTitle().equals("전체 채팅")) {
 					btnOpenChat.setDisable(false);
@@ -770,7 +734,7 @@ public class MainController implements Initializable {
 			anchorPaneChat.setVisible(false);
 			anchorPaneBoard.setVisible(false);
 			
-			handleBtnNoticeRefreshAction();
+			handleBtnNoticeRefreshAction();		//자동으로 목록을 갱신
 		}
 		//사용자 탭 버튼을 눌렀을 때
 		else if (btnName.equals("user")) {
@@ -836,6 +800,8 @@ public class MainController implements Initializable {
 	}
 	
 	//공지사항 부분 생성하는 메서드
+	//데이터베이스에서 가장 최신의 공지사항을 가져와
+	//최상단의 공지사항 영역을 만듦
 	public void setNotice() {
 		Notice notice = noticeDao.getMainNotice();
 		lblMainNoticeTitle.setText(notice.getNoticeTitle());
@@ -843,8 +809,9 @@ public class MainController implements Initializable {
 	}
 	
 	//알림 탭 새로고침 버튼 액션
+	//알림 탭에서는 공지사항, 개인 일정, 단체 일정, 머리말-전체 게시판, 머리말-해당 부서 게시판의 내용을 가져옴
+	//일정은 해당 날짜의 일정만 가져오고 게시판은 가장 최근의 게시물을 가져옴
 	public void handleBtnNoticeRefreshAction() {
-//		setNotice();
 		noticeTblViewNoticeList.clear();
 		noticeDao.getAllNotice(noticeTblViewNoticeList);
 		noticeDao.getPrivateSchedule(noticeTblViewNoticeList, USER_NO);
@@ -867,7 +834,7 @@ public class MainController implements Initializable {
 				}
 			}
 		});
-		
+		//구분열은 속성으로 표시
 		TableColumn<NoticeTableView, String> classCol = new TableColumn<NoticeTableView, String>("구분");
 		classCol.setStyle("-fx-pref-width:80; -fx-border-width:1; -fx-pref-height:40; -fx-font-size:10px; -fx-alignment:center");
 		classCol.setCellValueFactory(new PropertyValueFactory<NoticeTableView, String>("noticeClass"));
@@ -926,28 +893,53 @@ public class MainController implements Initializable {
 					NoticeTableView selectedCell = tblViewNotice.getSelectionModel().getSelectedItem();
 					String className = selectedCell.getNoticeClass();
 					String no = selectedCell.getNoticeNo();
-					if(className.contains("공지")) {
+					if(className.contains("공지")) {			//선택한 행의 구분에 공지가 포함되어 있다면
 						NoticeDialogController.noticeNo = no;
-						ChkDialogMain.noticeDialog();
+						ChkDialogMain.noticeDialog();		//공지사항을 출력하는 다이얼로그를 띄움
 					}
-					else if(className.contains("게시판")) {
-						readContent(selectedCell);
+					else if(className.contains("게시판")) {	//선택한 행의 구분에 게시판이 포함되어 있다면
+						readContent(selectedCell);			//해당 게시물 열람창을 띄움
 					}
-					else if(className.contains("일정")) {
-						handleBtnScheduleAction();
+					else if(className.contains("일정")) {		//선택한 행의 구분에 일정이 포함되어 있다면
+						handleBtnScheduleAction();			//일정창을 띄움
 					}
 				}
 			}
 		});
-		
 		handleBtnNoticeRefreshAction();
 		noticeTable.getColumns().addAll(classCol, noticeContentCol);
 		noticeTable.setItems(noticeTblViewNoticeList);	
 	}
+
+	//게시판 탭에서 게시물을 더블클릭했을 때 게시물 열람 창을 만드는 메서드
+	public void readContent(BoardTableView selectedCell) {
+		BoardController.BBS_ID = selectedCell.getBoardNo();	//선택한 행의 게시물 번호를 가져옴
+		Stage stage = new Stage(StageStyle.UTILITY);
+		try {
+			Parent readBoardWindow = FXMLLoader.load(getClass().getResource("/BoardModule/board.fxml"));
+			Scene scene = new Scene(readBoardWindow);
+			stage.setResizable(false);
+			stage.setTitle(selectedCell.getBoardTitle());
+			stage.setScene(scene);
+			stage.initModality(Modality.APPLICATION_MODAL);
+			//창을 닫을 때 게시판 목록을 자동으로 갱신하기 위한 부분
+			stage.setOnCloseRequest(event ->{
+				boardDao.loadAllBoardList(boardTblViewBoardList);
+				tblViewBoardList.getSelectionModel().selectFirst();
+			});
+			stage.setOnHiding(event -> {
+				boardDao.loadAllBoardList(boardTblViewBoardList);
+				tblViewBoardList.getSelectionModel().selectFirst();
+			});
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
-	//알림탭 목록에서 게시판 내용을 선택했을 때 사용하는 메서드(오버로딩 됨)
+	//알림탭 목록에서 게시판 내용을 선택했을 때 사용하는 메서드(오버로딩)
 	public void readContent(NoticeTableView selectedCell) {
-		BoardController.BBS_ID = selectedCell.getNoticeNo();
+		BoardController.BBS_ID = selectedCell.getNoticeNo();	//선택한 행의 게시물 번호를 가져옴
 		Stage stage = new Stage(StageStyle.UTILITY);
 		try {
 			Parent readBoardWindow = FXMLLoader.load(getClass().getResource("/BoardModule/board.fxml"));
@@ -955,6 +947,7 @@ public class MainController implements Initializable {
 			stage.setResizable(false);
 			stage.setTitle(selectedCell.getNoticeTitle());
 			stage.setScene(scene);
+			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

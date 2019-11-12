@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import ClassPackage.User;
 import Dao.UserInfoDao;
+import InitializePackage.DataProperties;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -53,7 +54,7 @@ public class PrivateCardController implements Initializable {
 		lblPosition.setText(user.getUserPosition());
 		lblUserMail.setText(user.getUserMail());
 		lblUserTel.setText(user.getUserTel());
-		String url = "http://yaahq.dothome.co.kr/" + user.getUserImgPath();
+		String url = "http://" + DataProperties.getIpAddress() + ":" + DataProperties.getPortNumber("HTTPServer") + "/images/" + user.getUserImgPath();
 		viewImg.setImage(new Image(url));
 		txtAreaStatus.setText(user.getUserStatusMsg());
 	}

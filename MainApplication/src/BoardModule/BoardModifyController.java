@@ -8,7 +8,8 @@ import ClassPackage.Board;
 import CreateDialogModule.ChkDialogMain;
 import Dao.BoardDao;
 import Dao.DeptDao;
-import FTPUploadDownloadModule.FTPUploader;
+import InitializePackage.DataProperties;
+import SFTPUploadDownloadModule.SFTPModule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -51,8 +52,8 @@ import javafx.scene.control.TextField;
 1.0.0
  */
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 //게시물 수정 부분 수정 필요
 public class BoardModifyController implements Initializable {
@@ -98,9 +99,14 @@ public class BoardModifyController implements Initializable {
 	
 	//수정 버튼 눌렀을 때
 	public void handleBtnModifyAction() {
+		String filePath = "";
 		if(!txtFieldFilePath.getText().isEmpty()) {
-			File attachedFile = new File(txtFieldFilePath.getText());
-			String filePath = FTPUploader.uploadFile("file", attachedFile);
+			SFTPModule sftpModule = new SFTPModule(DataProperties.getIpAddress(), DataProperties.getPortNumber("SFTPServer"), DataProperties.getIdProfile("SFTPServer"), DataProperties.getPassword("SFTPServer"));
+			try {
+				filePath = sftpModule.upload(txtFieldFilePath.getText(), "files");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			boardFile = filePath;
 		}
 		board = new Board(Integer.parseInt(BoardController.BBS_ID), comboBoxHeader.getSelectionModel().getSelectedItem().toString(), txtFieldTitle.getText(), txtAreaContent.getText(),

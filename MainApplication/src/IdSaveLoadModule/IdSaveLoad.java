@@ -12,14 +12,11 @@ import java.io.Writer;
 import EncryptionDecryption.PasswordEncryption;
 /*
 프로젝트 주제 : 사내 SNS
-프로그램 버전 : 0.7.0
-모듈 이름 : 사용자번호 저장, 불러오기
-모듈 버전 : 1.0.0
+프로그램 버전 : 1.0.0
+패키지 이름 : IdSaveLoadModule
+패키지 버전 : 1.0.0
 클래스 이름 : IdSaveLoad
 해당 클래스 작성 : 최문석
-
-필요 전체 Java파일
-- IdSaveLoad.java (사용자 번호를 해당 경로에 저장하고 불러옴.)
 
 해당 클래스 주요 기능
 - 현재 로그인한 사용자의 정보를 항상 가지고 있기 위해

@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import ClassPackage.User;
 import Dao.UserInfoDao;
+import InitializePackage.DataProperties;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -51,7 +52,7 @@ public class BusinessCardController implements Initializable {
 		lblUserTel.setText(user.getUserTel());
 		lblUserGreet.setText(user.getUserStatusMsg());
 		lblUserGreet.setWrapText(true);
-		String url = "http://yaahq.dothome.co.kr/" + user.getUserImgPath();
+		String url = "http://" + DataProperties.getIpAddress() + ":" + DataProperties.getPortNumber("HTTPServer") + "/images/" + user.getUserImgPath();
 		viewImg.setImage(new Image(url));
 		lblUserGreet.setOnMouseEntered(event -> {
 			lblUserGreet.setPrefHeight(70);

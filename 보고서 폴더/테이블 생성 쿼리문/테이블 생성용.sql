@@ -16,8 +16,8 @@ create table usertbl(
   --  foreign key (userdept) references depttbl(deptname)
 );
 select * from usertbl;
-update usertbl set userloginstatus = 0;
-update usertbl set userimgpath = 'uploadedfiles/images/default.jpg';
+update usertbl set userloginstatus = 0 where userno = 9999;
+update usertbl set userimgpath = 'projectsampledefaultimage.jpg';
 
 drop table if exists depttbl;
 create table depttbl(
@@ -25,6 +25,7 @@ create table depttbl(
     deptname varchar(4) not null
 );
 insert into depttbl values ('10', '개발'), ('20', '기획'), ('30', '경영'), ('40', '인사'), ('50', '영업'), ('60', '디자인');
+select deptname from depttbl;
 
 drop table if exists boardtbl;
 create table boardtbl(
@@ -39,6 +40,8 @@ create table boardtbl(
     boardavailable int not null default 1
 -- ,    foreign key (userno) references usertbl(userno)
 );
+select * from boardtbl;
+
 
 create table scheduletbl(
 	schno int auto_increment primary key not null,

@@ -10,8 +10,9 @@ import org.apache.commons.io.FilenameUtils;
 import ClassPackage.Board;
 import CreateDialogModule.ChkDialogMain;
 import Dao.BoardDao;
-import FTPUploadDownloadModule.FTPDownloader;
+import InitializePackage.DataProperties;
 import MainModule.MainController;
+import SFTPUploadDownloadModule.SFTPModule;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -86,7 +87,7 @@ public class BoardController implements Initializable {
 		lblDate.setText(board.getBoardDate());
 		lblTitle.setText(board.getBoardTitle());
 		lblContent.setText(board.getBoardContent());
-		String url = "http://yaahq.dothome.co.kr/" + imgPath;
+		String url = "http://" + DataProperties.getIpAddress() + ":" + DataProperties.getPortNumber("SFTPServer") + "/images/" + imgPath;
 		imgViewUserImg.setImage(new Image(url));
 		
 		if(board.getBoardFile().isEmpty()) {
@@ -134,7 +135,12 @@ public class BoardController implements Initializable {
 		File saveFile = fileChooser.showSaveDialog((Stage)hyperLinkAttachFile.getScene().getWindow());
 		if(saveFile != null) {
 			//파일 다운로드하는 부분
-			FTPDownloader.receiveFTPServer("html/" + file, saveFile.getAbsolutePath());
+			SFTPModule sftpModule = new SFTPModule(DataProperties.getIpAddress(), DataProperties.getPortNumber("SFTPServer"), DataProperties.getIdProfile("SFTPServer"), DataProperties.getPassword("SFTPServer"));
+			try {
+				sftpModule.download(file, saveFile.getAbsolutePath());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -150,7 +156,6 @@ public class BoardController implements Initializable {
 	
 	
 	public void handleBtnDeleteAction() {
-		//여기 만들어야 됨
 		boardDao.deleteBoardContent(BBS_ID);
 		ChkDialogMain.chkDialog("삭제되었습니다.");
 		btnDelete.getScene().getWindow().hide();

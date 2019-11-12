@@ -9,29 +9,18 @@ import InitializePackage.InitializeDao;
 import javafx.collections.ObservableList;
 /*
 프로젝트 주제 : 사내 SNS
-프로그램 버전 : 0.7.0
-모듈 이름 : 로그인 데이터베이스 클래스
-모듈 버전 : 0.7.0
+프로그램 버전 : 1.0.0
+패키지 이름 : Dao
+패키지 버전 : 1.0.0
 클래스 이름 : UserInfoDao
 해당 클래스 작성 : 최문석
-
-필요 전체 Java파일
-- UserInfoDao.java (사용자 테이블 데이터베이스 접속, 데이터 불러오기, 데이터 삽입 등)
-
-필요 import 사용자 정의 package
-- InitializePackage.InitializeDao (데이터 베이스 접속 초기화)
-- EncryptionDecryption.PasswordEncryption (비밀번호를 암호화하고 복호화하는 메서드를 포함하고 있음)
-- ChkDialogModule.ChkDialogMain (안내문 출력을 위한 임시 다이얼로그를 생성하는 패키지)
-- SendMail.SendMail (메일 보내는 메서드를 포함하고 있음)
 
 해당 클래스 주요 기능
 - 데이터베이스에 접속
 - 등록된 사용자들을 가져오기 위한 클래스
 - 사용자 목록, 상세 정보 등에서 정보를 출력하기 위해 사용
 
-버전 변경 사항
-1.0.1
-- 
+패키지 버전 변경 사항
  */
 public class UserInfoDao {
 	public User selectMyInfo(String myNo) {

@@ -10,8 +10,9 @@ import ClassPackage.Board;
 import CreateDialogModule.ChkDialogMain;
 import Dao.BoardDao;
 import Dao.DeptDao;
-import FTPUploadDownloadModule.FTPUploader;
+import InitializePackage.DataProperties;
 import MainModule.MainController;
+import SFTPUploadDownloadModule.SFTPModule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -96,8 +97,12 @@ public class BoardWriteController implements Initializable {
 		else {	//모두 만족한다면 db로 전송
 			String filePath = "";
 			if(!txtFieldFilePath.getText().isEmpty()) {
-				File attachedFile = new File(txtFieldFilePath.getText());
-				filePath = FTPUploader.uploadFile("file", attachedFile);
+				SFTPModule sftpModule = new SFTPModule(DataProperties.getIpAddress(), DataProperties.getPortNumber("SFTPServer"), DataProperties.getIdProfile("SFTPServer"), DataProperties.getPassword("SFTPServer"));
+				try {
+					filePath = sftpModule.upload(txtFieldFilePath.getText(), "files");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			Date now = new Date();
 			boolean write = boardDao.insertBoardContent(new Board(null, comboBoxHeader.getSelectionModel().getSelectedItem().toString(), txtFieldTitle.getText(), txtAreaContent.getText(), txtFieldPassword.getText(), MainController.USER_NO, sdf.format(now), filePath, null));

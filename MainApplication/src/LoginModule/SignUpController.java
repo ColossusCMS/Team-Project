@@ -11,7 +11,8 @@ import ClassPackage.User;
 import CreateDialogModule.ChkDialogMain;
 import Dao.DeptDao;
 import Dao.LoginDao;
-import FTPUploadDownloadModule.FTPUploader;
+import InitializePackage.DataProperties;
+import SFTPUploadDownloadModule.SFTPModule;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -34,36 +35,17 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 /*
 프로젝트 주제 : 사내 SNS
-프로그램 버전 : 0.7.0
-모듈 이름 : 로그인
-모듈 버전 : 1.1.2
+프로그램 버전 : 1.0.0
+패키지 이름 : LoginModule
+패키지 버전 : 1.2.0
 클래스 이름 : SignUpController
 해당 클래스 작성 : 최문석
-
-필요 모듈 Java파일
-- LoginMain.java (로그인 화면이 실행되는 메인 클래스)
-- LoginController.java (로그인 창 컨트롤러)
-- SignUpController.java (사용자 등록 창 컨트롤러)
-- FindAccountController.java (계정 찾기 창 컨트롤러)
-- User.java (사용자 등록에 사용하는 사용자 정보 클래스[사용자의 모든 정보를 담고 있음])
-- UserData.java (계정 찾기에서 사용하는 사용자 정보 클래스[사용자번호, 이름, 이메일, 비밀번호])
-
-필요 fxml파일
-- login.fxml (로그인 창 fxml)
-- signUp.fxml (사용자등록 창 fxml)
-- findAccount.fxml (계정 찾기 창 fxml)
-
-필요 import 사용자 정의 package
-- Dao.LoginDao (로그인 정보를 데이터 베이스로 처리할 수 있는 메서드)
-- EncryptionDecryption.PasswordEncryption (비밀번호를 암호화하고 복호화하는 메서드를 포함하고 있음)
-- ChkDialogModule.ChkDialogMain (안내문 출력을 위한 임시 다이얼로그를 생성하는 패키지)
-- SendMail.SendMail (메일 보내는 메서드를 포함하고 있음)
 
 해당 클래스 주요 기능 요약
 - singUp.fxml의 주 컨트롤러로 사용자 등록 창을 생성하고 입력받은 값들의 상태를 체크,
 - 데이터베이스로 접속해 입력한 값들을 데이터베이스에 저장함.
 
-모듈 버전 변경 사항
+패키지 버전 변경 사항
 1.1.0
 - DAO 인스턴스를 필요시에만 생성해 페이지 이동 간의 로딩 시간을 줄임.
 - 사용자 등록창에서 이메일 중복체크 버튼 추가 및 이메일 중복체크 액션 추가
@@ -76,16 +58,20 @@ import javafx.stage.Stage;
 
 1.1.2
 - 전화번호 중복체크 버튼, 기능 추가
+- 중복로그인 방지 기능 추가
+
+1.2.0
+- 사용자 프로필용 이미지 업로드 기능 추가, SFTP서버를 이용해 구현
  */
 public class SignUpController implements Initializable {
-	@FXML private TextField fieldUserNo, fieldUserName, fieldUserTel, fieldUserMail, fieldImgPath;
+	@FXML private TextField txtFieldUserNo, txtFieldUserName, txtFieldUserTel, txtFieldUserMail, txtFieldImgPath;
 	@FXML private Button btnUserNoChk, btnImg, btnSubmit, btnCancel, btnUserMailChk, btnUserTelChk;
-	@FXML private PasswordField fieldPassword, fieldPasswordChk;
+	@FXML private PasswordField pwFieldPassword, pwFieldPasswordChk;
 	@FXML private Label lblPwChk;
-	@FXML private ImageView viewImg;
+	@FXML private ImageView imageViewImg;
 	@FXML private ComboBox<String> comboBoxDept;
 	
-	private ObservableList<String> comboList = FXCollections.observableArrayList();
+	private ObservableList<String> comboList = FXCollections.observableArrayList();		//콤보박스에 가져올 부서 목록
 	
 	LoginDao loginDao = new LoginDao();	//로그인시 사용하는 Dao
 	DeptDao deptDao = new DeptDao();	//부서정보 가져올 때 사용하는 Dao
@@ -105,11 +91,11 @@ public class SignUpController implements Initializable {
 		btnSubmit.setOnAction(event -> handleBtnSubmitAction());
 		btnCancel.setOnAction(event -> handleBtnCancelAction());
 		
-		fieldImgPath.setEditable(false);
+		txtFieldImgPath.setEditable(false);
 		
 		//만약 중복체크를 하고나서 사원번호를 새로 입력하면 다시 중복체크 버튼을 원상복구시켜야 해야하니
 		//속성 감시를 해서 값이 바뀐다면 버튼을 원복시킴
-		fieldUserNo.textProperty().addListener(new ChangeListener<String>() {
+		txtFieldUserNo.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if(!oldValue.equals(newValue)) {
@@ -122,10 +108,10 @@ public class SignUpController implements Initializable {
 		
 		//비밀번호확인 필드의 속성을 항상 체크하면서 앞서 입력한 비밀번호와 동일한지 계속해서 체크
 		//만약 같아진다면 일치한다고 출력하고 그렇지 않으면 불일치로 계속 출력
-		fieldPasswordChk.textProperty().addListener(new ChangeListener<String>() {
+		pwFieldPasswordChk.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if(newValue.equals(fieldPassword.getText())) {
+				if(newValue.equals(pwFieldPassword.getText())) {
 					lblPwChk.setText("일치");
 					lblPwChk.setTextFill(Color.GREEN);
 				}
@@ -139,14 +125,14 @@ public class SignUpController implements Initializable {
 	
 	//사원번호 중복체크 버튼을 눌렀을 때의 이벤트
 	public void handleBtnUserNoChkAction() {
-		if(fieldUserNo.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
+		if(txtFieldUserNo.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
 			ChkDialogMain.chkDialog("사원번호를 입력하세요.");
 		}
 		else {	//그게 아니라면 정상적으로 진행
-			boolean overlap = loginDao.chkUserNo(fieldUserNo.getText());	//DB에서 중복되는 번호가 있는지 체크함
+			boolean overlap = loginDao.chkUserNo(txtFieldUserNo.getText());	//DB에서 중복되는 번호가 있는지 체크함
 			if(overlap) {		//만약 true라면 중복된 값이 있다는 뜻이니 사용할 수 없다는 다이얼로그를 띄움
 				ChkDialogMain.chkDialog("이미 등록된 사원번호입니다.");
-				fieldUserNo.clear();
+				txtFieldUserNo.clear();
 				overlapChkNum = 0;
 			}
 			else {					//false라면 중복되는 값이 없다는 뜻이니 중복체크 버튼의 텍스트를 사용가능으로 바꿔줌
@@ -160,17 +146,17 @@ public class SignUpController implements Initializable {
 	
 	//이메일 중복체크 버튼을 눌렀을 때의 이벤트
 	public void handleBtnUserMailChkAction() {
-		if(fieldUserMail.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
+		if(txtFieldUserMail.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
 			ChkDialogMain.chkDialog("이메일을 입력하세요.");
 		}
-		else if(!mailPattern.matcher(fieldUserMail.getText()).matches()) {	//만약 이메일 형식에 맞지 않다면 다이얼로그를 띄움
+		else if(!mailPattern.matcher(txtFieldUserMail.getText()).matches()) {	//만약 이메일 형식에 맞지 않다면 다이얼로그를 띄움
 			ChkDialogMain.chkDialog("이메일 형식에 맞지 않습니다.");
 		}
 		else {	//그게 아니라면 정상적으로 진행
-			boolean overlap = loginDao.chkUserMail(fieldUserMail.getText());	//DB에서 중복되는 이메일이 있는지 체크함
+			boolean overlap = loginDao.chkUserMail(txtFieldUserMail.getText());	//DB에서 중복되는 이메일이 있는지 체크함
 			if(overlap) {		//만약 true라면 중복된 값이 있다는 뜻이니 사용할 수 없다는 다이얼로그를 띄움
 				ChkDialogMain.chkDialog("이미 등록된 이메일입니다.");
-				fieldUserMail.clear();
+				txtFieldUserMail.clear();
 				overlapChkNum = 0;
 			}
 			else {					//false라면 중복되는 값이 없다는 뜻이니 중복체크 버튼의 텍스트를 사용가능으로 바꿔줌
@@ -184,17 +170,17 @@ public class SignUpController implements Initializable {
 	
 	//전화번호 중복체크 버튼을 눌렀을 때의 이벤트
 	public void handleBtnUserTelChkAction() {
-		if(fieldUserTel.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
+		if(txtFieldUserTel.getText().equals("")) {		//만약 필드에 아무 값도 입력하지 않고 버튼을 눌렀다면 값을 입력하라고 다이얼로그를 띄움
 			ChkDialogMain.chkDialog("전화번호를 입력하세요.");
 		}
-		else if(!telPattern.matcher(fieldUserTel.getText()).matches()) {	//만약 전화번호 형식에 맞지 않다면 다이얼로그를 띄움
+		else if(!telPattern.matcher(txtFieldUserTel.getText()).matches()) {	//만약 전화번호 형식에 맞지 않다면 다이얼로그를 띄움
 			ChkDialogMain.chkDialog("전화번호 형식에 맞지 않습니다.");
 		}
 		else {	//그게 아니라면 정상적으로 진행
-			boolean overlap = loginDao.chkUserTel(fieldUserTel.getText());	//DB에서 중복되는 전화번호가 있는지 체크함
+			boolean overlap = loginDao.chkUserTel(txtFieldUserTel.getText());	//DB에서 중복되는 전화번호가 있는지 체크함
 			if(overlap) {		//만약 true라면 중복된 값이 있다는 뜻이니 사용할 수 없다는 다이얼로그를 띄움
 				ChkDialogMain.chkDialog("이미 등록된 전화번호입니다.");
-				fieldUserTel.clear();
+				txtFieldUserTel.clear();
 				overlapChkNum = 0;
 			}
 			else {					//false라면 중복되는 값이 없다는 뜻이니 중복체크 버튼의 텍스트를 사용가능으로 바꿔줌
@@ -224,11 +210,11 @@ public class SignUpController implements Initializable {
 			//이미지 생성
 			Image img = new Image(bis);
 			//경로 필드에 선택한 이미지의 경로를 출력하고
-			fieldImgPath.setText(selectedFile.getAbsolutePath());
+			txtFieldImgPath.setText(selectedFile.getAbsolutePath());
 			//이미지뷰에 선택한 이미지를 띄움
-			viewImg.setImage(img);
-			viewImg.setFitHeight(133);
-			viewImg.setFitWidth(100);
+			imageViewImg.setImage(img);
+			imageViewImg.setFitHeight(133);
+			imageViewImg.setFitWidth(100);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -247,8 +233,8 @@ public class SignUpController implements Initializable {
 	public void handleBtnSubmitAction() {
 		//필수항목을 체크한다.
 		//만약 입력하지 않은 값이 있다면 다시 입력하라고 다이얼로그를 띄움
-		if(fieldUserNo.getText().isEmpty() || fieldUserName.getText().isEmpty() || fieldPassword.getText().isEmpty() || fieldUserTel.getText().isEmpty()
-				|| fieldUserMail.getText().isEmpty()) {
+		if(txtFieldUserNo.getText().isEmpty() || txtFieldUserName.getText().isEmpty() || pwFieldPassword.getText().isEmpty() || txtFieldUserTel.getText().isEmpty()
+				|| txtFieldUserMail.getText().isEmpty()) {
 			ChkDialogMain.chkDialog("필수항목을 입력하세요.");
 		}
 		//중복체크했는지 안했는지 체크
@@ -265,16 +251,24 @@ public class SignUpController implements Initializable {
 		}
 		//모두 만족했다면 데이터베이스에 저장한다.
 		else {
+			//이미지 경로를 지정하는 부분
 			String imagePath = new String();
-			if(!fieldImgPath.getText().isEmpty()) {
-				File imageFile = new File(fieldImgPath.getText());	//선택한 이미지를 File객체로 하나 만듦
-				imagePath = FTPUploader.uploadFile("image", imageFile);
+			if(!txtFieldImgPath.getText().isEmpty()) {	//프로필 이미지를 선택했다면
+				//SFTP서버로 접속해
+				SFTPModule sftpModule = new SFTPModule(DataProperties.getIpAddress(), DataProperties.getPortNumber("SFTPServer"), DataProperties.getIdProfile("SFTPServer"), DataProperties.getPassword("SFTPServer"));
+				try {
+					//해당 파일을 업로드하고 해당 파일명을 가져옴
+					imagePath = sftpModule.upload(txtFieldImgPath.getText(), "images");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-			else {
-				imagePath = "uploadedfiles/images/default.jpg";
+			else {	//프로필 사진을 선택하지 않았다면
+				imagePath = "projectsampledefaultimage.jpg";	//기본 프로필 사진으로 설정
 			}
-			User user = new User(fieldUserNo.getText(), fieldUserName.getText(), fieldPassword.getText(), fieldUserMail.getText(), fieldUserTel.getText(), imagePath, comboBoxDept.getSelectionModel().getSelectedItem().toString(), "", "", 0);
-			loginDao.insertUserData(user);
+			//데이터베이스로 전송하기 위해 User 객체를 생성
+			User user = new User(txtFieldUserNo.getText(), txtFieldUserName.getText(), pwFieldPassword.getText(), txtFieldUserMail.getText(), txtFieldUserTel.getText(), imagePath, comboBoxDept.getSelectionModel().getSelectedItem().toString(), "", "", 0);
+			loginDao.insertUserData(user);	//입력한 데이터들을 데이터베이스로 전송
 			ChkDialogMain.chkDialog("등록이 완료되었습니다.");
 			Stage stage = (Stage)btnSubmit.getScene().getWindow();
 			try {

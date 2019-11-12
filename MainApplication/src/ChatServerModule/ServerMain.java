@@ -123,7 +123,7 @@ public class ServerMain extends Application {
 		root.setBottom(btnServerOpen);
 		
 		String IP = "127.0.0.1";
-		int port = DataProperties.portNumber("Server");
+		int port = DataProperties.getPortNumber("Server");
 		
 		btnServerOpen.setOnAction(event -> {
 			if(btnServerOpen.getText().equals("Start")) {

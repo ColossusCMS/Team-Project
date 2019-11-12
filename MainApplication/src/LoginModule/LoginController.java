@@ -24,30 +24,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 /*
 프로젝트 주제 : 사내 SNS
-프로그램 버전 : 0.7.0
-모듈 이름 : 로그인
-모듈 버전 : 1.1.2
+프로그램 버전 : 1.0.0
+패키지 이름 : LoginModule
+패키지 버전 : 1.2.0
 클래스 이름 : LoginController
 해당 클래스 작성 : 최문석, 김도엽
-
-필요 모듈 Java파일
-- LoginMain.java (로그인 화면이 실행되는 메인 클래스)
-- LoginController.java (로그인 창 컨트롤러)
-- SignUpController.java (사용자 등록 창 컨트롤러)
-- FindAccountController.java (계정 찾기 창 컨트롤러)
-- User.java (사용자 등록에 사용하는 사용자 정보 클래스[사용자의 모든 정보를 담고 있음])
-- UserData.java (계정 찾기에서 사용하는 사용자 정보 클래스[사용자번호, 이름, 이메일, 비밀번호])
-
-필요 fxml파일
-- login.fxml (로그인 창 fxml)
-- signUp.fxml (사용자등록 창 fxml)
-- findAccount.fxml (계정 찾기 창 fxml)
-
-필요 import 사용자 정의 package
-- Dao.LoginDao (로그인 정보를 데이터 베이스로 처리할 수 있는 메서드)
-- EncryptionDecryption.PasswordEncryption (비밀번호를 암호화하고 복호화하는 메서드를 포함하고 있음)
-- ChkDialogModule.ChkDialogMain (안내문 출력을 위한 임시 다이얼로그를 생성하는 패키지)
-- SendMail.SendMail (메일 보내는 메서드를 포함하고 있음)
 
 해당 클래스 주요 기능
 - 로그인 메인화면 컨트롤러
@@ -55,7 +36,7 @@ import javafx.stage.Stage;
 - 일치한다면 메인화면으로 전환하고 그렇지 않다면 에러를 띄워준다.
 - 사용자 등록 또는 계정 찾기 버튼을 누를 경우 해당하는 페이지로 전환
 
-모듈 버전 변경 사항
+패키지 버전 변경 사항
 1.1.0
 - DAO 인스턴스를 필요시에만 생성해 페이지 이동 간의 로딩 시간을 줄임.
 - 사용자 등록창에서 이메일 중복체크 버튼 추가 및 이메일 중복체크 액션 추가
@@ -68,11 +49,16 @@ import javafx.stage.Stage;
 
 1.1.2
 - 전화번호 중복체크 버튼, 기능 추가
+- 중복로그인 방지 기능 추가
+
+1.2.0
+- 사용자 프로필용 이미지 업로드 기능 추가, SFTP서버를 이용해 구현
  */
+
 public class LoginController implements Initializable {	
 	@FXML private Button btnLogin, btnFindAccount, btnSignUp;
-	@FXML private TextField fieldUserNo;
-	@FXML private PasswordField fieldPassword;
+	@FXML private TextField txtFieldUserNo;
+	@FXML private PasswordField pwFieldPassword;
 	
 	LoginDao loginDao = new LoginDao();
 	
@@ -83,7 +69,7 @@ public class LoginController implements Initializable {
 		btnSignUp.setOnAction(event -> handleBtnSignUpAction());
 		
 		//비밀번호를 입력하고 로그인 버튼을 누르지않고 엔터키를 눌러서 로그인을 시도할 수 있게 만듦.
-		fieldPassword.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		pwFieldPassword.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				KeyCode keyCode = event.getCode();
@@ -105,20 +91,20 @@ public class LoginController implements Initializable {
 	//3_5. 만약 해당 사원의 현재 로그인 상태가 1이라면 다른 곳에서 로그인되어 있다는 뜻이니 로그인을 할 수 없다는 다이얼로그 띄움
 	public void handleBtnLoginAction() {
 		String labelText = new String();
-		if(fieldUserNo.getText().isEmpty() || fieldPassword.getText().isEmpty()) {	//사원번호, 비밀번호 둘 중 하나라도 입력하지 않았다면
-			if(fieldUserNo.getText().isEmpty()) {
+		if(txtFieldUserNo.getText().isEmpty() || pwFieldPassword.getText().isEmpty()) {	//사원번호, 비밀번호 둘 중 하나라도 입력하지 않았다면
+			if(txtFieldUserNo.getText().isEmpty()) {
 				labelText = "사원번호를 입력하세요.";
-				fieldUserNo.requestFocus();
+				txtFieldUserNo.requestFocus();
 			}
 			else {
 				labelText = "비밀번호를 입력하세요.";
-				fieldPassword.requestFocus();
+				pwFieldPassword.requestFocus();
 			}
 			ChkDialogMain.chkDialog(labelText);
 		}
 		else {	//값을 입력했다면 일단 넘어감
-			String name = loginDao.chkUserData(fieldUserNo.getText(), fieldPassword.getText());
-			int status = loginDao.getLoginStatus(fieldUserNo.getText());
+			String name = loginDao.chkUserData(txtFieldUserNo.getText(), pwFieldPassword.getText());
+			int status = loginDao.getLoginStatus(txtFieldUserNo.getText());
 			if(name == null) {	//입력한 정보가 맞지 않다는 뜻
 				ChkDialogMain.chkDialog("일치하는 회원정보가 없습니다.");
 			}
@@ -130,9 +116,9 @@ public class LoginController implements Initializable {
 //				labelText = name + "님\n어서오세요!";
 //				ChkDialogMain.chkDialog(labelText);
 				//사용자번호를 텍스트파일로 저장
-				IdSaveLoad.saveUserId(fieldUserNo.getText());
-				loginDao.updateLoginStatus(fieldUserNo.getText(), "login");
-				MainController.USER_NO = IdSaveLoad.loadUserId();
+				IdSaveLoad.saveUserId(txtFieldUserNo.getText());
+				loginDao.updateLoginStatus(txtFieldUserNo.getText(), "login");
+				MainController.USER_NO = IdSaveLoad.loadUserId();	//이 부분을 왜 이렇게 만들었는지 생각
 				Stage stage = (Stage)btnLogin.getScene().getWindow();
 				try {
 					Parent mainPane = FXMLLoader.load(getClass().getResource("/MainModule/main.fxml"));
@@ -140,7 +126,8 @@ public class LoginController implements Initializable {
 					stage.setScene(scene);
 					stage.setResizable(false);
 					stage.show();
-					SystemTrayMain systemTray = new SystemTrayMain(stage, true, fieldUserNo.getText());
+					//시스템 트레이 생성하는 부분
+					SystemTrayMain systemTray = new SystemTrayMain(stage, true, txtFieldUserNo.getText());
 					Platform.setImplicitExit(false);
 					systemTray.createTrayIcon();
 				} catch (IOException e) {

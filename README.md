@@ -73,16 +73,16 @@ JavaFX를 이용해 UI를 구현했고 라즈베리파이를 사용해 서버를
 
 외부 라이브러리
 ------
-1. mysql-connector-java-5.1.47
+1. mysql-connector-java-5.1.47.jar
 > jdbc드라이버, 데이터베이스 접속을 위해 사용
 
-2. mail-1.4.7
+2. javax.mail-1.4.7.jar
 > smtp 서버에 접속해 메일을 송신하기 위해 사용
 
-3. jsch-0.1.55
+3. jsch-0.1.55.jar
 > SFTP 서버에 접속해 업로드와 다운로드를 하기 위해 사용
 
-4. commons-io-2.6
+4. commons-io-2.6.jar
 > 파일명에서 확장자만 추출하기 위해 사용
 > String exp = FilenameUtils.getExtension(file)을 이용하면 파일명에서 확장자만 저장이 가능
 

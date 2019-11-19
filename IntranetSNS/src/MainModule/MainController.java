@@ -482,7 +482,7 @@ public class MainController implements Initializable {
 						if (item == null) {
 							setGraphic(null);
 						} else {
-							String url = "http://" + DataProperties.getIpAddress()
+							String url = "http://" + DataProperties.getIpAddress() + ":"
 									+ DataProperties.getPortNumber("HTTPServer") + "/images/" + item.getUserImgPath();
 							imgView.setImage(new Image(url));
 							setGraphic(box);

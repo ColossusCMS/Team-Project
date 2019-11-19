@@ -81,7 +81,7 @@ public class BoardController implements Initializable {
 		lblDate.setText(board.getBoardDate());
 		lblTitle.setText(board.getBoardTitle());
 		lblContent.setText(board.getBoardContent());
-		String url = "http://" + DataProperties.getIpAddress() + ":" + DataProperties.getPortNumber("SFTPServer")
+		String url = "http://" + DataProperties.getIpAddress() + ":" + DataProperties.getPortNumber("HTTPServer")
 				+ "/images/" + imgPath;
 		imgViewUserImg.setImage(new Image(url));
 

@@ -88,8 +88,7 @@ public class BoardWriteController implements Initializable {
 						DataProperties.getPortNumber("SFTPServer"), DataProperties.getIdProfile("SFTPServer"),
 						DataProperties.getPassword("SFTPServer"));
 				try {
-					filePath = sftpModule.upload(txtFieldFilePath.getText(), "files"); // SFTP서버의 files경로에 첨부한 파일을 업로드하고
-																						// 파일명을 리턴
+					filePath = sftpModule.upload(txtFieldFilePath.getText(), "files"); // SFTP서버의 files경로에 첨부한 파일을 업로드하고 파일명을 리턴
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -34,6 +34,21 @@ JavaFX를 이용해 UI를 구현했고 라즈베리파이를 사용해 서버를
 데모 구동 영상
 ------
 
+<div>
+  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/main.PNG?raw=true" width="30%">
+  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/user.PNG?raw=true" width="30%">
+  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/chat.PNG?raw=true" width="30%">
+  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/chatroom.PNG?raw=true" width="30%">
+</div>
+<div>
+  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/board.png" width="30%">
+  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/write.png" width="30%">
+</div>
+<div>
+  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/schedule.png" width="30%">
+  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/entry.png" width="30%">
+</div>
+
 주요 기능 설명
 ------
 - Login

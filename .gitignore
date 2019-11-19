@@ -1,3 +1,6 @@
 /.metadata/
 
 DataProperties.java
+/.settings/
+.classpath
+.project

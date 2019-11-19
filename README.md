@@ -4,6 +4,7 @@
 - [프로젝트 소개](#프로젝트-소개)
 - [프로젝트 설계 및 계획](#프로젝트-설계-및-계획)
 - [데모 구동 영상](#데모-구동-영상)
+- [모듈 정보](#모듈-정보)
 - [외부 라이브러리](#외부-라이브러리)
 - 
 
@@ -34,6 +35,29 @@ JavaFX를 이용해 UI를 구현했고 라즈베리파이를 사용해 서버를
 데모 구동 영상
 ------
 
+모듈 정보
+------
+- Login
+ - 1
+- Notice
+
+- User Info
+
+- Chat Client
+
+- Chat Server
+
+- Board
+
+- Schedule
+
+- Encryption_Decryption
+
+- Create Dialog
+
+- Send Mail
+
+- SFTP Uploader_Downloader
 
 외부 라이브러리
 ------

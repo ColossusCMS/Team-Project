@@ -8,6 +8,7 @@ import ClassPackage.User;
 import ClassPackage.UserData;
 import EncryptionDecryption.PasswordEncryption;
 import InitializePackage.InitializeDao;
+
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 1.0.0
@@ -28,8 +29,8 @@ import InitializePackage.InitializeDao;
 public class LoginDao {
 	UserData userData;
 
-	//로그인을 시도했을 때 DB에서 검색해서 동일한 값이 있는지 체크해줌
-	//있으면 true, 없으면 false리턴
+	// 로그인을 시도했을 때 DB에서 검색해서 동일한 값이 있는지 체크해줌
+	// 있으면 true, 없으면 false리턴
 	public String chkUserData(String userNo, String userPassword) {
 		String sql = "select username from usertbl where userno = ? and userpassword = ?;";
 		String encPassword = PasswordEncryption.pwEncryption(userPassword);
@@ -39,23 +40,23 @@ public class LoginDao {
 			pstmt.setString(1, userNo);
 			pstmt.setString(2, encPassword);
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {	//검색했는데 만약 값이 출력이 되었다면 정보가 맞다는 뜻이니 이름을 리턴함
+			if (rs.next()) { // 검색했는데 만약 값이 출력이 되었다면 정보가 맞다는 뜻이니 이름을 리턴함
 				return rs.getString("username");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-            try {
-                if (pstmt != null && !pstmt.isClosed())
-                    pstmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+			try {
+				if (pstmt != null && !pstmt.isClosed())
+					pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return null;
 	}
-	
-	//확인 메일을 보내기 위해 데이터베이스에서 사용자 정보를 검색하고 결과를 가져옴
+
+	// 확인 메일을 보내기 위해 데이터베이스에서 사용자 정보를 검색하고 결과를 가져옴
 	public UserData chkUserNameMail(String userName, String userMail) {
 		String sql = "select userno, username, userpassword, usermail from usertbl where username = ? and usermail = ?;";
 		PreparedStatement pstmt = null;
@@ -64,25 +65,26 @@ public class LoginDao {
 			pstmt.setString(1, userName);
 			pstmt.setString(2, userMail);
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {	//검색했는데 만약 값이 출력이 되었다면 정보가 맞다는 뜻이니 true를 리턴함
+			if (rs.next()) { // 검색했는데 만약 값이 출력이 되었다면 정보가 맞다는 뜻이니 true를 리턴함
 				String decPassword = PasswordEncryption.pwDecryption(rs.getString("userpassword"));
-				userData = new UserData(rs.getString("userno"), rs.getString("username"), decPassword, rs.getString("usermail"));
+				userData = new UserData(rs.getString("userno"), rs.getString("username"), decPassword,
+						rs.getString("usermail"));
 				return userData;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-            try {
-                if (pstmt != null && !pstmt.isClosed())
-                    pstmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+			try {
+				if (pstmt != null && !pstmt.isClosed())
+					pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return null;
 	}
-	
-	//사용자번호가 중복인지 데이터베이스에서 확인하는 메서드
+
+	// 사용자번호가 중복인지 데이터베이스에서 확인하는 메서드
 	public boolean chkUserNo(String userNo) {
 		String sql = "select userno from usertbl where userno = ?;";
 		PreparedStatement pstmt = null;
@@ -90,23 +92,23 @@ public class LoginDao {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, userNo);
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {	//만약 db로 검색했는데 결과가 나왔다면(중복된 사원번호가 존재한다는 의미)
+			if (rs.next()) { // 만약 db로 검색했는데 결과가 나왔다면(중복된 사원번호가 존재한다는 의미)
 				return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-            try {
-                if (pstmt != null && !pstmt.isClosed())
-                    pstmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+			try {
+				if (pstmt != null && !pstmt.isClosed())
+					pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
-	
-	//사용자번호가 중복인지 데이터베이스에서 확인하는 메서드
+
+	// 사용자번호가 중복인지 데이터베이스에서 확인하는 메서드
 	public boolean chkUserMail(String userMail) {
 		String sql = "select userno from usertbl where usermail = ?;";
 		PreparedStatement pstmt = null;
@@ -114,23 +116,23 @@ public class LoginDao {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, userMail);
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {	//만약 db로 검색했는데 결과가 나왔다면(중복된 이메일이 존재한다는 의미)
+			if (rs.next()) { // 만약 db로 검색했는데 결과가 나왔다면(중복된 이메일이 존재한다는 의미)
 				return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-            try {
-                if (pstmt != null && !pstmt.isClosed())
-                    pstmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+			try {
+				if (pstmt != null && !pstmt.isClosed())
+					pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
-	
-	//전화번호 중복인지 체크하는 메서드
+
+	// 전화번호 중복인지 체크하는 메서드
 	public boolean chkUserTel(String userTel) {
 		String sql = "select userno from usertbl where usertel = ?;";
 		PreparedStatement pstmt = null;
@@ -138,23 +140,23 @@ public class LoginDao {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, userTel);
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {	//만약 db로 검색했는데 결과가 나왔다면(중복된 전화번호가 존재한다는 의미)
+			if (rs.next()) { // 만약 db로 검색했는데 결과가 나왔다면(중복된 전화번호가 존재한다는 의미)
 				return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-            try {
-                if (pstmt != null && !pstmt.isClosed())
-                    pstmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+			try {
+				if (pstmt != null && !pstmt.isClosed())
+					pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
-	
-	//데이터베이스에 사용자 정보를 등록하는 메서드
+
+	// 데이터베이스에 사용자 정보를 등록하는 메서드
 	public void insertUserData(User user) {
 		String sql = "insert into usertbl values (?, ?, ?, ?, ?, ?, ?, default, ?, default, default);";
 		String encPassword = PasswordEncryption.pwEncryption(user.getUserPassword());
@@ -173,16 +175,16 @@ public class LoginDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-            try {
-                if (pstmt != null && !pstmt.isClosed())
-                    pstmt.close();
-            } catch (SQLException e) {                
-                e.printStackTrace();
-            }
-        }
+			try {
+				if (pstmt != null && !pstmt.isClosed())
+					pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-	
-	//중복 로그인 방지용. userLoginStatus를 가져옴
+
+	// 중복 로그인 방지용. userLoginStatus를 가져옴
 	public int getLoginStatus(String userNo) {
 		String sql = "select userloginstatus from usertbl where userno = ?;";
 		int status = 0;
@@ -191,32 +193,31 @@ public class LoginDao {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, userNo);
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				status = rs.getInt("userloginstatus");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-            try {
-                if (pstmt != null && !pstmt.isClosed())
-                    pstmt.close();
-            } catch (SQLException e) {                
-                e.printStackTrace();
-            }
-        }
+			try {
+				if (pstmt != null && !pstmt.isClosed())
+					pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return status;
 	}
-	
-	//로그인할 때 로그인 상태를 1로, 로그아웃할 때 로그인 상태를 0으로 업데이트하는 메서드
+
+	// 로그인할 때 로그인 상태를 1로, 로그아웃할 때 로그인 상태를 0으로 업데이트하는 메서드
 	public void updateLoginStatus(String userNo, String status) {
 		String sql = "update usertbl set userloginstatus = ? where userno = ?;";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
-			if(status.equals("login")) {	//로그인하는 거라면 0을 1로 바꿔야 함
+			if (status.equals("login")) { // 로그인하는 거라면 0을 1로 바꿔야 함
 				pstmt.setInt(1, 1);
-			}
-			else if(status.equals("logout")) {	//로그아웃하는 거라면 1을 0으로 바꿔야 함
+			} else if (status.equals("logout")) { // 로그아웃하는 거라면 1을 0으로 바꿔야 함
 				pstmt.setInt(1, 0);
 			}
 			pstmt.setString(2, userNo);
@@ -224,12 +225,12 @@ public class LoginDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-            try {
-                if (pstmt != null && !pstmt.isClosed())
-                    pstmt.close();
-            } catch (SQLException e) {                
-                e.printStackTrace();
-            }
-        }
+			try {
+				if (pstmt != null && !pstmt.isClosed())
+					pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -25,7 +25,7 @@ public class BoardTableView {
 	private SimpleStringProperty boardTitle;
 	private SimpleStringProperty boardWriter;
 	private SimpleStringProperty boardDate;
-	
+
 	public BoardTableView(String boardNo, String boardHeader, String boardTitle, String boardWriter, String boardDate) {
 		this.boardNo = new SimpleStringProperty(boardNo);
 		this.boardHeader = new SimpleStringProperty(boardHeader);
@@ -33,33 +33,43 @@ public class BoardTableView {
 		this.boardWriter = new SimpleStringProperty(boardWriter);
 		this.boardDate = new SimpleStringProperty(boardDate);
 	}
+
 	public String getBoardNo() {
 		return boardNo.get();
 	}
+
 	public void setBoardNo(String boardNo) {
 		this.boardNo.set(boardNo);
 	}
+
 	public String getBoardHeader() {
 		return boardHeader.get();
 	}
+
 	public void setBoardHeader(String boardHeader) {
 		this.boardHeader.set(boardHeader);
 	}
+
 	public String getBoardTitle() {
 		return boardTitle.get();
 	}
+
 	public void setBoardTitle(String boardTitle) {
 		this.boardTitle.set(boardTitle);
 	}
+
 	public String getBoardWriter() {
 		return boardWriter.get();
 	}
+
 	public void setBoardWriter(String boardWriter) {
 		this.boardWriter.set(boardWriter);
 	}
+
 	public String getBoardDate() {
 		return boardDate.get();
 	}
+
 	public void setBoardDate(String boardDate) {
 		this.boardDate.set(boardDate);
 	}

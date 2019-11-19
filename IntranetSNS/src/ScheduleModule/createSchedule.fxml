@@ -12,29 +12,42 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="267.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScheduleModule.CreateScheduleController">
-   <children>
-      <TextField fx:id="txtFieldTitle" layoutX="12.0" layoutY="57.0" prefHeight="25.0" prefWidth="170.0" promptText="일정 제목" />
-      <TextArea fx:id="txtAreaContent" layoutX="12.0" layoutY="90.0" prefHeight="137.0" prefWidth="170.0" promptText="일정 상세 내용" />
-      <Button fx:id="btnReg" layoutX="14.0" layoutY="234.0" mnemonicParsing="false" text="일정등록" />
-      <Button fx:id="btnCancel" layoutX="138.0" layoutY="234.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="취소" />
-      <Label fx:id="lblDate" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="19.0" prefHeight="25.0" prefWidth="170.0" text="2019년 10월 29일" textAlignment="CENTER">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Button fx:id="btnDel" layoutX="88.0" layoutY="234.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="삭제" />
-      <Label layoutX="186.0" layoutY="16.0" text="개인일정 목록">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tblViewPrivateSch" layoutX="187.0" layoutY="38.0" prefHeight="112.0" prefWidth="177.0" />
-      <Label layoutX="186.0" layoutY="157.0" text="단체일정 목록">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tblViewGroupSch" layoutX="187.0" layoutY="179.0" prefHeight="79.0" prefWidth="177.0" />
-   </children>
+<AnchorPane prefHeight="267.0" prefWidth="375.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="ScheduleModule.CreateScheduleController">
+	<children>
+		<TextField fx:id="txtFieldTitle" layoutX="12.0"
+			layoutY="57.0" prefHeight="25.0" prefWidth="170.0" promptText="일정 제목" />
+		<TextArea fx:id="txtAreaContent" layoutX="12.0"
+			layoutY="90.0" prefHeight="137.0" prefWidth="170.0"
+			promptText="일정 상세 내용" />
+		<Button fx:id="btnReg" layoutX="14.0" layoutY="234.0"
+			mnemonicParsing="false" text="일정등록" />
+		<Button fx:id="btnCancel" layoutX="138.0" layoutY="234.0"
+			mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="취소" />
+		<Label fx:id="lblDate" alignment="CENTER"
+			contentDisplay="CENTER" layoutX="12.0" layoutY="19.0"
+			prefHeight="25.0" prefWidth="170.0" text="2019년 10월 29일"
+			textAlignment="CENTER">
+			<font>
+				<Font size="15.0" />
+			</font>
+		</Label>
+		<Button fx:id="btnDel" layoutX="88.0" layoutY="234.0"
+			mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="삭제" />
+		<Label layoutX="186.0" layoutY="16.0" text="개인일정 목록">
+			<font>
+				<Font size="13.0" />
+			</font>
+		</Label>
+		<TableView fx:id="tblViewPrivateSch" layoutX="187.0"
+			layoutY="38.0" prefHeight="112.0" prefWidth="177.0" />
+		<Label layoutX="186.0" layoutY="157.0" text="단체일정 목록">
+			<font>
+				<Font size="13.0" />
+			</font>
+		</Label>
+		<TableView fx:id="tblViewGroupSch" layoutX="187.0"
+			layoutY="179.0" prefHeight="79.0" prefWidth="177.0" />
+	</children>
 </AnchorPane>

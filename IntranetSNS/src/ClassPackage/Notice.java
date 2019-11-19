@@ -1,4 +1,5 @@
 package ClassPackage;
+
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 1.0.0
@@ -16,8 +17,8 @@ public class Notice {
 	private String noticeClass;
 	private String noticeTitle;
 	private String noticeContent;
-	
-	public Notice(String noticeClass, String noticeTitle, String noticeContent) {		
+
+	public Notice(String noticeClass, String noticeTitle, String noticeContent) {
 		this.noticeClass = noticeClass;
 		this.noticeTitle = noticeTitle;
 		this.noticeContent = noticeContent;

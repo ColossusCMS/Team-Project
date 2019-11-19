@@ -1,6 +1,7 @@
 package EncryptionDecryption;
 
 import java.io.UnsupportedEncodingException;
+
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 1.0.0
@@ -13,18 +14,18 @@ import java.io.UnsupportedEncodingException;
 - 비밀번호를 암호화하거나 복호화하는 메서드를 포함
  */
 public class PasswordEncryption {
-	//비밀번호를 암호화하는 메서드
+	// 비밀번호를 암호화하는 메서드
 	public static String pwEncryption(String plainPw) {
 		String cipherPw = new String();
 		byte[] encByte;
 		try {
 			encByte = plainPw.getBytes("UTF-8");
-			for(int i = 0; i < encByte.length / 2; i++) {
+			for (int i = 0; i < encByte.length / 2; i++) {
 				byte tmp = 0;
 				tmp = encByte[i];
 				encByte[i] = encByte[encByte.length - (i + 1)];
 				encByte[encByte.length - (i + 1)] = tmp;
-				for(int j = 0; j < encByte.length; j++) {
+				for (int j = 0; j < encByte.length; j++) {
 					encByte[i] += 1;
 				}
 			}
@@ -34,15 +35,15 @@ public class PasswordEncryption {
 		}
 		return cipherPw;
 	}
-	
-	//비밀번호를 복호화하는 메서드
+
+	// 비밀번호를 복호화하는 메서드
 	public static String pwDecryption(String cipherPw) {
 		String plainPw = new String();
 		byte[] decByte;
 		try {
 			decByte = cipherPw.getBytes("UTF-8");
-			for(int i = 0; i < decByte.length / 2; i++) {
-				for(int j = 0; j < decByte.length; j++) {
+			for (int i = 0; i < decByte.length / 2; i++) {
+				for (int j = 0; j < decByte.length; j++) {
 					decByte[i] -= 1;
 				}
 				byte tmp = 0;

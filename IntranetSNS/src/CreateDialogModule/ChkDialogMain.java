@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 1.0.0
@@ -26,18 +27,18 @@ import javafx.stage.StageStyle;
 패키지 버전 변경 사항
  */
 public class ChkDialogMain {
-	//안내용 임시 다이얼로그를 띄우는 메서드
-	//매개변수로 해당 안내문을 입력받아 각각 다른 상황에서 다른 다이얼로그 안내문을 출력
+	// 안내용 임시 다이얼로그를 띄우는 메서드
+	// 매개변수로 해당 안내문을 입력받아 각각 다른 상황에서 다른 다이얼로그 안내문을 출력
 	public static void chkDialog(String labelText) {
 		Stage chkDialog = new Stage(StageStyle.UTILITY);
 		Parent another;
 		try {
-			another = (Parent)FXMLLoader.load(ChkDialogMain.class.getResource("chkDialog.fxml"));
+			another = (Parent) FXMLLoader.load(ChkDialogMain.class.getResource("chkDialog.fxml"));
 			Scene scene = new Scene(another);
-			Label dialogLbl = (Label)another.lookup("#dialogLbl");
+			Label dialogLbl = (Label) another.lookup("#dialogLbl");
 			dialogLbl.setText(labelText);
 			dialogLbl.setFont(new Font(12));
-			Button dialogBtn = (Button)another.lookup("#dialogBtn");
+			Button dialogBtn = (Button) another.lookup("#dialogBtn");
 			dialogBtn.setOnAction(e -> chkDialog.hide());
 			chkDialog.initModality(Modality.APPLICATION_MODAL);
 			chkDialog.setAlwaysOnTop(true);
@@ -48,8 +49,8 @@ public class ChkDialogMain {
 			e.printStackTrace();
 		}
 	}
-	
-	//다른 상세정보를 띄워주는 다이얼로그
+
+	// 다른 상세정보를 띄워주는 다이얼로그
 	public static void businessCardDialog(String userNo) {
 		BusinessCardController.userNo = userNo;
 		Stage businessCard = new Stage(StageStyle.UNDECORATED);
@@ -65,8 +66,8 @@ public class ChkDialogMain {
 			e.printStackTrace();
 		}
 	}
-	
-	//본인 상세정보를 띄워주는 다이얼로그
+
+	// 본인 상세정보를 띄워주는 다이얼로그
 	public static void privateCardDialog() {
 		Stage businessCard = new Stage(StageStyle.UNDECORATED);
 		Parent another;
@@ -81,8 +82,8 @@ public class ChkDialogMain {
 			e.printStackTrace();
 		}
 	}
-	
-	//공지사항을 띄우는 창
+
+	// 공지사항을 띄우는 창
 	public static void noticeDialog() {
 		Stage noticeDialog = new Stage(StageStyle.UTILITY);
 		Parent another;

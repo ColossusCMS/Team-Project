@@ -1,5 +1,5 @@
 package LoginModule;
-    
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,17 +38,17 @@ import javafx.stage.Stage;
 
 //프로그램의 시작점
 public class LoginMain extends Application {
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-    	Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-        primaryStage.setTitle("로그인");
-    }
-    
-    public static void main(String[] args) {
-    	Application.launch(args);
-    }
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
+		primaryStage.show();
+		primaryStage.setTitle("로그인");
+	}
+
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
 }

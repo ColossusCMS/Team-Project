@@ -29,7 +29,7 @@ import EncryptionDecryption.PasswordEncryption;
 //사원번호를 txt파일로 지정한 폴더에 저장해둠.
 //(로그아웃하거나) 프로그램을 완전히 종료하면 txt파일의 내용을 전부 지움.
 public class IdSaveLoad {
-	//로그인을 하고 나면 로그인된 사용자번호를 계속해서 가지고 있기 위해 저장함.
+	// 로그인을 하고 나면 로그인된 사용자번호를 계속해서 가지고 있기 위해 저장함.
 	public static void saveUserId(String id) {
 //		String path = System.getProperty("user.home") + "/Documents/MySNS/id.txt";
 //		String path = "e:/MySNS/id.txt";
@@ -38,15 +38,15 @@ public class IdSaveLoad {
 		File filePath = new File("c:/MySNS/");
 		File fileName = new File("c:/MySNS/id.txt");
 		try {
-			if(!filePath.exists()) {
+			if (!filePath.exists()) {
 				filePath.mkdirs();
 			}
-			if(!fileName.exists()) {
+			if (!fileName.exists()) {
 				fileName.createNewFile();
 			}
 			FileOutputStream fos = new FileOutputStream(fileName);
 			Writer writer = new OutputStreamWriter(fos);
-			//텍스트파일에 저장할 때 암호화해서 저장한다.
+			// 텍스트파일에 저장할 때 암호화해서 저장한다.
 			id = PasswordEncryption.pwEncryption(id);
 			writer.write(id);
 			writer.flush();
@@ -56,9 +56,9 @@ public class IdSaveLoad {
 			e.printStackTrace();
 		}
 	}
-	
-	//사용자번호가 필요한 모듈이나 메서드에서 이 메서드를 호출해서 현재 로그인 중인 사용자의 번호를
-	//언제든지 가져올 수 있음.
+
+	// 사용자번호가 필요한 모듈이나 메서드에서 이 메서드를 호출해서 현재 로그인 중인 사용자의 번호를
+	// 언제든지 가져올 수 있음.
 	public static String loadUserId() {
 //		String path = System.getProperty("user.home") + "/Documents/MySNS/id.txt";
 		String path = "c:/MySNS/id.txt";
@@ -72,19 +72,19 @@ public class IdSaveLoad {
 			br = new BufferedReader(fr);
 			sw = new StringWriter();
 			int ch = 0;
-			while((ch = br.read()) != -1) {
+			while ((ch = br.read()) != -1) {
 				sw.write(ch);
 			}
 			br.close();
-			//복호화해서 id를 가져옴
+			// 복호화해서 id를 가져옴
 			id = PasswordEncryption.pwDecryption(sw.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return id;
 	}
-	
-	//로그아웃이나 프로그램을 완전히 종료할 경우 저장했던 사용자번호를 지우고 txt파일을 초기화함
+
+	// 로그아웃이나 프로그램을 완전히 종료할 경우 저장했던 사용자번호를 지우고 txt파일을 초기화함
 	public static void resetUserId() {
 //		String path = System.getProperty("user.home") + "/My Documents/MySNS/id.txt";
 		String path = "c:/MySNS/id.txt";

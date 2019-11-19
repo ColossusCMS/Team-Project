@@ -11,143 +11,196 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="536.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScheduleModule.ScheduleController">
-   <children>
-      <GridPane fx:id="gridPaneCalendar" gridLinesVisible="true" layoutY="135.0" prefHeight="400.0" prefWidth="700.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints maxHeight="91.0" minHeight="65.0" prefHeight="0.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="87.0" minHeight="65.0" prefHeight="0.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="65.0" prefHeight="0.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="65.0" prefHeight="0.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="65.0" prefHeight="0.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="65.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-      <AnchorPane layoutY="44.0" prefHeight="63.0" prefWidth="700.0" style="-fx-background-color: ad6194;">
-         <children>
-            <Button fx:id="btnPrevMonth" layoutX="475.0" layoutY="5.0" mnemonicParsing="false" style="-fx-background-color: ad6194; -fx-border-color: black;" text="전월" textFill="WHITE">
-               <font>
-                  <Font size="27.0" />
-               </font>
-            </Button>
-            <Label fx:id="lblMonth" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="14.0" layoutY="6.0" prefHeight="57.0" prefWidth="61.0" text="0">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
-            <Label layoutX="75.0" layoutY="3.0" prefHeight="60.0" prefWidth="48.0" text="월">
-               <font>
-                  <Font size="42.0" />
-               </font>
-            </Label>
-            <Button fx:id="btnNextMonth" layoutX="577.0" layoutY="5.0" mnemonicParsing="false" style="-fx-background-color: ad6194; -fx-border-color: black;" text="후월" textFill="WHITE">
-               <font>
-                  <Font size="27.0" />
-               </font>
-            </Button>
-            <Label fx:id="lblMonthTxt" alignment="CENTER" layoutX="123.0" layoutY="32.0" prefHeight="21.0" prefWidth="103.0" text="SEPTEMBER">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblYear" alignment="CENTER" layoutX="227.0" layoutY="32.0" text="2019">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <GridPane alignment="CENTER" gridLinesVisible="true" layoutY="106.0" style="-fx-background-color: a66a8e;">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="106.0" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="88.0" text="Sun" textFill="RED">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="87.0" text="Mon" textFill="WHITE" GridPane.columnIndex="1">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="91.0" text="Wed" textFill="WHITE" GridPane.columnIndex="3">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="90.0" text="Thu" textFill="WHITE" GridPane.columnIndex="4">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="91.0" text="Fri" textFill="WHITE" GridPane.columnIndex="5">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="91.0" text="Sat" textFill="#000dff" GridPane.columnIndex="6">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="91.0" text="Tue" textFill="WHITE" GridPane.columnIndex="2">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </Label>
-         </children>
-      </GridPane>
-      <Button fx:id="btnDayOffApply" layoutX="608.0" layoutY="7.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="휴가신청">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Button>
-      <RadioButton fx:id="radioBtnAll" layoutX="280.0" layoutY="14.0" mnemonicParsing="false" selected="true" text="전체 일정 표시">
-         <toggleGroup>
-            <ToggleGroup fx:id="radioGroupSchedule" />
-         </toggleGroup></RadioButton>
-      <RadioButton fx:id="radioBtnPrivate" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text=" 개인 일정만 표시" textFill="RED" toggleGroup="$radioGroupSchedule" />
-      <RadioButton fx:id="radioBtnGroup" layoutX="149.0" layoutY="14.0" mnemonicParsing="false" text="단체 일정만 표시" textFill="#1000ff" toggleGroup="$radioGroupSchedule" />
-   </children>
+<AnchorPane prefHeight="536.0" prefWidth="700.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="ScheduleModule.ScheduleController">
+	<children>
+		<GridPane fx:id="gridPaneCalendar" gridLinesVisible="true"
+			layoutY="135.0" prefHeight="400.0" prefWidth="700.0">
+			<columnConstraints>
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints maxHeight="91.0" minHeight="65.0"
+					prefHeight="0.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="87.0" minHeight="65.0"
+					prefHeight="0.0" vgrow="SOMETIMES" />
+				<RowConstraints minHeight="65.0" prefHeight="0.0"
+					vgrow="SOMETIMES" />
+				<RowConstraints minHeight="65.0" prefHeight="0.0"
+					vgrow="SOMETIMES" />
+				<RowConstraints minHeight="65.0" prefHeight="0.0"
+					vgrow="SOMETIMES" />
+				<RowConstraints minHeight="65.0" prefHeight="30.0"
+					vgrow="SOMETIMES" />
+			</rowConstraints>
+		</GridPane>
+		<AnchorPane layoutY="44.0" prefHeight="63.0"
+			prefWidth="700.0" style="-fx-background-color: ad6194;">
+			<children>
+				<Button fx:id="btnPrevMonth" layoutX="475.0" layoutY="5.0"
+					mnemonicParsing="false"
+					style="-fx-background-color: ad6194; -fx-border-color: black;"
+					text="전월" textFill="WHITE">
+					<font>
+						<Font size="27.0" />
+					</font>
+				</Button>
+				<Label fx:id="lblMonth" alignment="CENTER_RIGHT"
+					contentDisplay="RIGHT" layoutX="14.0" layoutY="6.0"
+					prefHeight="57.0" prefWidth="61.0" text="0">
+					<font>
+						<Font size="48.0" />
+					</font>
+				</Label>
+				<Label layoutX="75.0" layoutY="3.0" prefHeight="60.0"
+					prefWidth="48.0" text="월">
+					<font>
+						<Font size="42.0" />
+					</font>
+				</Label>
+				<Button fx:id="btnNextMonth" layoutX="577.0" layoutY="5.0"
+					mnemonicParsing="false"
+					style="-fx-background-color: ad6194; -fx-border-color: black;"
+					text="후월" textFill="WHITE">
+					<font>
+						<Font size="27.0" />
+					</font>
+				</Button>
+				<Label fx:id="lblMonthTxt" alignment="CENTER" layoutX="123.0"
+					layoutY="32.0" prefHeight="21.0" prefWidth="103.0" text="SEPTEMBER">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<Label fx:id="lblYear" alignment="CENTER" layoutX="227.0"
+					layoutY="32.0" text="2019">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+			</children>
+		</AnchorPane>
+		<GridPane alignment="CENTER" gridLinesVisible="true"
+			layoutY="106.0" style="-fx-background-color: a66a8e;">
+			<columnConstraints>
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					maxWidth="106.0" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints minHeight="10.0" prefHeight="30.0"
+					vgrow="SOMETIMES" />
+			</rowConstraints>
+			<children>
+				<Label alignment="CENTER" prefHeight="20.0" prefWidth="88.0"
+					text="Sun" textFill="RED">
+					<font>
+						<Font name="Arial Rounded MT Bold" size="14.0" />
+					</font>
+					<GridPane.margin>
+						<Insets left="5.0" />
+					</GridPane.margin>
+				</Label>
+				<Label alignment="CENTER" prefHeight="20.0" prefWidth="87.0"
+					text="Mon" textFill="WHITE" GridPane.columnIndex="1">
+					<font>
+						<Font name="Arial Rounded MT Bold" size="14.0" />
+					</font>
+					<GridPane.margin>
+						<Insets left="5.0" />
+					</GridPane.margin>
+				</Label>
+				<Label alignment="CENTER" prefHeight="20.0" prefWidth="91.0"
+					text="Wed" textFill="WHITE" GridPane.columnIndex="3">
+					<font>
+						<Font name="Arial Rounded MT Bold" size="14.0" />
+					</font>
+					<GridPane.margin>
+						<Insets left="5.0" />
+					</GridPane.margin>
+				</Label>
+				<Label alignment="CENTER" prefHeight="20.0" prefWidth="90.0"
+					text="Thu" textFill="WHITE" GridPane.columnIndex="4">
+					<font>
+						<Font name="Arial Rounded MT Bold" size="14.0" />
+					</font>
+					<GridPane.margin>
+						<Insets left="5.0" />
+					</GridPane.margin>
+				</Label>
+				<Label alignment="CENTER" prefHeight="20.0" prefWidth="91.0"
+					text="Fri" textFill="WHITE" GridPane.columnIndex="5">
+					<font>
+						<Font name="Arial Rounded MT Bold" size="14.0" />
+					</font>
+					<GridPane.margin>
+						<Insets left="5.0" />
+					</GridPane.margin>
+				</Label>
+				<Label alignment="CENTER" prefHeight="20.0" prefWidth="91.0"
+					text="Sat" textFill="#000dff" GridPane.columnIndex="6">
+					<font>
+						<Font name="Arial Rounded MT Bold" size="14.0" />
+					</font>
+					<GridPane.margin>
+						<Insets left="5.0" />
+					</GridPane.margin>
+				</Label>
+				<Label alignment="CENTER" prefHeight="20.0" prefWidth="91.0"
+					text="Tue" textFill="WHITE" GridPane.columnIndex="2">
+					<font>
+						<Font name="Arial Rounded MT Bold" size="14.0" />
+					</font>
+					<GridPane.margin>
+						<Insets left="5.0" />
+					</GridPane.margin>
+				</Label>
+			</children>
+		</GridPane>
+		<Button fx:id="btnDayOffApply" layoutX="608.0" layoutY="7.0"
+			mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0"
+			text="휴가신청">
+			<font>
+				<Font size="13.0" />
+			</font>
+		</Button>
+		<RadioButton fx:id="radioBtnAll" layoutX="280.0"
+			layoutY="14.0" mnemonicParsing="false" selected="true"
+			text="전체 일정 표시">
+			<toggleGroup>
+				<ToggleGroup fx:id="radioGroupSchedule" />
+			</toggleGroup>
+		</RadioButton>
+		<RadioButton fx:id="radioBtnPrivate" layoutX="14.0"
+			layoutY="14.0" mnemonicParsing="false" text=" 개인 일정만 표시"
+			textFill="RED" toggleGroup="$radioGroupSchedule" />
+		<RadioButton fx:id="radioBtnGroup" layoutX="149.0"
+			layoutY="14.0" mnemonicParsing="false" text="단체 일정만 표시"
+			textFill="#1000ff" toggleGroup="$radioGroupSchedule" />
+	</children>
 </AnchorPane>

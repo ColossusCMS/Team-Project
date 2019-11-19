@@ -15,6 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 1.0.0
@@ -30,37 +31,43 @@ import javafx.scene.layout.AnchorPane;
 패키지 버전 변경 사항
  */
 public class PrivateCardController implements Initializable {
-	@FXML private Label lblDept, lblPosition, lblUserName, lblUserMail, lblUserTel;
-	@FXML private ImageView imageViewImg;
-	@FXML private AnchorPane paneProfile;
-	@FXML private Button btnCancel, btnStatusSave;
-	@FXML private TextArea txtAreaStatus;
-	
+	@FXML
+	private Label lblDept, lblPosition, lblUserName, lblUserMail, lblUserTel;
+	@FXML
+	private ImageView imageViewImg;
+	@FXML
+	private AnchorPane paneProfile;
+	@FXML
+	private Button btnCancel, btnStatusSave;
+	@FXML
+	private TextArea txtAreaStatus;
+
 	User user;
 	UserInfoDao userInfoDao = new UserInfoDao();
-	
+
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {		
-		user = userInfoDao.selectMyInfo(MainController.USER_NO);	//자기 자신의 사용자 번호로 데이터를 가져옴
+	public void initialize(URL location, ResourceBundle resources) {
+		user = userInfoDao.selectMyInfo(MainController.USER_NO); // 자기 자신의 사용자 번호로 데이터를 가져옴
 		btnCancel.setOnAction(event -> handleBtnCancelAction());
 		btnStatusSave.setOnAction(event -> handleBtnStatusSaveAction());
-		
+
 		lblDept.setText(user.getUserDept());
 		lblUserName.setText(user.getUserName());
 		lblPosition.setText(user.getUserPosition());
 		lblUserMail.setText(user.getUserMail());
 		lblUserTel.setText(user.getUserTel());
-		String url = "http://" + DataProperties.getIpAddress() + ":" + DataProperties.getPortNumber("HTTPServer") + "/images/" + user.getUserImgPath();
+		String url = "http://" + DataProperties.getIpAddress() + ":" + DataProperties.getPortNumber("HTTPServer")
+				+ "/images/" + user.getUserImgPath();
 		imageViewImg.setImage(new Image(url));
 		txtAreaStatus.setText(user.getUserStatusMsg());
 	}
-	
-	//상태 메시지 갱신하는 메서드
+
+	// 상태 메시지 갱신하는 메서드
 	public void handleBtnStatusSaveAction() {
 		userInfoDao.updateStatusMsg(txtAreaStatus.getText(), MainController.USER_NO);
 		ChkDialogMain.chkDialog("등록되었습니다.");
 	}
-	
+
 	public void handleBtnCancelAction() {
 		btnCancel.getScene().getWindow().hide();
 	}

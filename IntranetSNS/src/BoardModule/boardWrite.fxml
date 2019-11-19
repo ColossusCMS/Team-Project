@@ -12,23 +12,37 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BoardModule.BoardWriteController">
-   <children>
-      <ComboBox fx:id="comboBoxHeader" layoutX="14.0" layoutY="23.0" prefHeight="33.0" prefWidth="370.0" promptText="게시판을 선택하세요" />
-      <TextField fx:id="txtFieldTitle" layoutX="14.0" layoutY="67.0" prefHeight="33.0" prefWidth="370.0" promptText="제목을 입력하세요" />
-      <TextArea fx:id="txtAreaContent" layoutX="14.0" layoutY="111.0" prefHeight="400.0" prefWidth="370.0" promptText="내용을 입력하세요" />
-      <PasswordField fx:id="txtFieldPassword" layoutX="14.0" layoutY="558.0" prefHeight="33.0" prefWidth="137.0" promptText="비밀번호" />
-      <Button fx:id="btnReg" layoutX="334.0" layoutY="561.0" mnemonicParsing="false" text="등록">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="btnCancel" layoutX="263.0" layoutY="561.0" mnemonicParsing="false" text="취소">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="btnFileAttach" layoutX="14.0" layoutY="520.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="64.0" text="파일첨부" />
-      <TextField fx:id="txtFieldFilePath" layoutX="89.0" layoutY="520.0" prefHeight="28.0" prefWidth="295.0" />
-   </children>
+<AnchorPane prefHeight="600.0" prefWidth="400.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="BoardModule.BoardWriteController">
+	<children>
+		<ComboBox fx:id="comboBoxHeader" layoutX="14.0"
+			layoutY="23.0" prefHeight="33.0" prefWidth="370.0"
+			promptText="게시판을 선택하세요" />
+		<TextField fx:id="txtFieldTitle" layoutX="14.0"
+			layoutY="67.0" prefHeight="33.0" prefWidth="370.0"
+			promptText="제목을 입력하세요" />
+		<TextArea fx:id="txtAreaContent" layoutX="14.0"
+			layoutY="111.0" prefHeight="400.0" prefWidth="370.0"
+			promptText="내용을 입력하세요" />
+		<PasswordField fx:id="txtFieldPassword" layoutX="14.0"
+			layoutY="558.0" prefHeight="33.0" prefWidth="137.0" promptText="비밀번호" />
+		<Button fx:id="btnReg" layoutX="334.0" layoutY="561.0"
+			mnemonicParsing="false" text="등록">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Button>
+		<Button fx:id="btnCancel" layoutX="263.0" layoutY="561.0"
+			mnemonicParsing="false" text="취소">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Button>
+		<Button fx:id="btnFileAttach" layoutX="14.0" layoutY="520.0"
+			mnemonicParsing="false" prefHeight="28.0" prefWidth="64.0"
+			text="파일첨부" />
+		<TextField fx:id="txtFieldFilePath" layoutX="89.0"
+			layoutY="520.0" prefHeight="28.0" prefWidth="295.0" />
+	</children>
 </AnchorPane>

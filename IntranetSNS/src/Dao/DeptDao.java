@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import InitializePackage.InitializeDao;
 import javafx.collections.ObservableList;
+
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 1.0.0
@@ -22,8 +23,8 @@ import javafx.collections.ObservableList;
 
 패키지 버전 변경 사항
  */
-public class DeptDao {	
-	//부서를 전부 가져옴
+public class DeptDao {
+	// 부서를 전부 가져옴
 	public int loadAllDept(ObservableList<String> deptList) {
 		int rowCnt = 0;
 		String sql = "select deptname from depttbl;";
@@ -31,7 +32,7 @@ public class DeptDao {
 		try {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				rowCnt++;
 				deptList.add(rs.getString("deptname"));
 			}
@@ -39,7 +40,7 @@ public class DeptDao {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pstmt != null && !pstmt.isClosed()) {
+				if (pstmt != null && !pstmt.isClosed()) {
 					pstmt.close();
 				}
 			} catch (Exception e2) {
@@ -48,8 +49,8 @@ public class DeptDao {
 		}
 		return rowCnt;
 	}
-	
-	//해당 부서의 게시판 목록만 들고옴
+
+	// 해당 부서의 게시판 목록만 들고옴
 	public int loadAllDept(ObservableList<String> deptList, String userNo) {
 		int rowCnt = 0;
 		String sql = "select d.deptname from depttbl d inner join usertbl u on u.userdept = d.deptname where u.userno = ?;";
@@ -58,7 +59,7 @@ public class DeptDao {
 			pstmt = InitializeDao.conn.prepareStatement(sql);
 			pstmt.setString(1, userNo);
 			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				rowCnt++;
 				deptList.add(rs.getString("deptname"));
 			}
@@ -66,7 +67,7 @@ public class DeptDao {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pstmt != null && !pstmt.isClosed()) {
+				if (pstmt != null && !pstmt.isClosed()) {
 					pstmt.close();
 				}
 			} catch (Exception e2) {

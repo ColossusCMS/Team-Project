@@ -11,20 +11,26 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScheduleModule.DayOffApplyController">
-   <children>
-      <DatePicker fx:id="pickerDayOffStart" layoutX="14.0" layoutY="77.0" prefHeight="25.0" prefWidth="177.0" />
-      <DatePicker fx:id="pickerDayOffFinish" layoutX="223.0" layoutY="77.0" />
-      <TextArea fx:id="txtAreaReason" layoutX="14.0" layoutY="125.0" prefHeight="64.0" prefWidth="375.0" />
-      <Button fx:id="btnApply" layoutX="325.0" layoutY="16.0" mnemonicParsing="false" text="신청하기" />
-      <Label layoutX="152.0" layoutY="15.0" text="휴가 신청">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="223.0" layoutY="62.0" text="휴가 종료일" />
-      <Label layoutX="15.0" layoutY="62.0" text="휴가 시작일" />
-      <Label layoutX="203.0" layoutY="81.0" text="~" />
-      <Label layoutX="15.0" layoutY="106.0" text="휴가 사유" />
-   </children>
+<AnchorPane prefHeight="200.0" prefWidth="400.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="ScheduleModule.DayOffApplyController">
+	<children>
+		<DatePicker fx:id="pickerDayOffStart" layoutX="14.0"
+			layoutY="77.0" prefHeight="25.0" prefWidth="177.0" />
+		<DatePicker fx:id="pickerDayOffFinish" layoutX="223.0"
+			layoutY="77.0" />
+		<TextArea fx:id="txtAreaReason" layoutX="14.0"
+			layoutY="125.0" prefHeight="64.0" prefWidth="375.0" />
+		<Button fx:id="btnApply" layoutX="325.0" layoutY="16.0"
+			mnemonicParsing="false" text="신청하기" />
+		<Label layoutX="152.0" layoutY="15.0" text="휴가 신청">
+			<font>
+				<Font size="18.0" />
+			</font>
+		</Label>
+		<Label layoutX="223.0" layoutY="62.0" text="휴가 종료일" />
+		<Label layoutX="15.0" layoutY="62.0" text="휴가 시작일" />
+		<Label layoutX="203.0" layoutY="81.0" text="~" />
+		<Label layoutX="15.0" layoutY="106.0" text="휴가 사유" />
+	</children>
 </AnchorPane>

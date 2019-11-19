@@ -1,4 +1,5 @@
 package ClassPackage;
+
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 1.0.0
@@ -35,11 +36,12 @@ public class User {
 	private String userPosition;
 	private String userStatusMsg;
 	private Integer adminAvailable;
-	
-	public User() {}
-	
-	public User(String userNo, String userName, String userPassword, String userMail, String userTel, String userImgPath, String userDept,
-			String userPosition, String userStatusMsg, Integer adminAvailable) {
+
+	public User() {
+	}
+
+	public User(String userNo, String userName, String userPassword, String userMail, String userTel,
+			String userImgPath, String userDept, String userPosition, String userStatusMsg, Integer adminAvailable) {
 		this.userNo = userNo;
 		this.userName = userName;
 		this.userPassword = userPassword;
@@ -55,60 +57,79 @@ public class User {
 	public String getUserNo() {
 		return userNo;
 	}
+
 	public void setUserNo(String userNo) {
 		this.userNo = userNo;
 	}
+
 	public String getUserName() {
 		return userName;
 	}
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
 	public String getUserPassword() {
 		return userPassword;
 	}
+
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
+
 	public String getUserPosition() {
 		return userPosition;
 	}
+
 	public void setUserPosition(String userPosition) {
 		this.userPosition = userPosition;
 	}
+
 	public String getUserStatusMsg() {
 		return userStatusMsg;
 	}
+
 	public void setUserStatusMsg(String userStatusMsg) {
 		this.userStatusMsg = userStatusMsg;
 	}
+
 	public String getUserTel() {
 		return userTel;
 	}
+
 	public void setUserTel(String userTel) {
 		this.userTel = userTel;
 	}
+
 	public String getUserMail() {
 		return userMail;
 	}
+
 	public void setUserMail(String userMail) {
 		this.userMail = userMail;
 	}
+
 	public String getUserImgPath() {
 		return userImgPath;
 	}
+
 	public void setUserImgPath(String userImgPath) {
 		this.userImgPath = userImgPath;
 	}
+
 	public String getUserDept() {
 		return userDept;
 	}
+
 	public void setUserDept(String userDept) {
 		this.userDept = userDept;
 	}
+
 	public Integer getAdminAvailable() {
 		return adminAvailable;
 	}
+
 	public void setAdminAvailable(Integer adminAvailable) {
 		this.adminAvailable = adminAvailable;
 	}

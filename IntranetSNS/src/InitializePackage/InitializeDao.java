@@ -2,6 +2,7 @@ package InitializePackage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+
 /*
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 1.0.0
@@ -26,7 +27,7 @@ public class InitializeDao {
 	private static final String IP = DataProperties.getIpAddress();
 	private static final int PORT = DataProperties.getPortNumber("MainDatabase");
 	private static final String URL = "jdbc:mysql://" + IP + ":" + PORT + "/snsproject";
-	
+
 	static {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");

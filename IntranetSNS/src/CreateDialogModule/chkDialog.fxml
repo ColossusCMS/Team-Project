@@ -9,13 +9,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="130.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Button id="dialogBtn" defaultButton="true" layoutX="105.0" layoutY="97.0" mnemonicParsing="false" text="확인" />
-      <Label id="dialogLbl" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="25.0" prefHeight="57.0" prefWidth="235.0" text="Label" wrapText="true">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-   </children>
+<AnchorPane prefHeight="130.0" prefWidth="250.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<Button id="dialogBtn" defaultButton="true" layoutX="105.0"
+			layoutY="97.0" mnemonicParsing="false" text="확인" />
+		<Label id="dialogLbl" alignment="TOP_CENTER"
+			contentDisplay="CENTER" layoutX="8.0" layoutY="25.0"
+			prefHeight="57.0" prefWidth="235.0" text="Label" wrapText="true">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Label>
+	</children>
 </AnchorPane>

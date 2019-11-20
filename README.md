@@ -33,47 +33,48 @@ JavaFX를 이용해 UI를 구현했고 라즈베리파이를 사용해 서버를
 
 데모 구동 영상
 ------
-<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/login.PNG" width="200px">&nbsp;
-<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/signUp.PNG" width="200px">&nbsp;
-<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/findAccount.PNG" width="200px"><br>
-<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/main.PNG" width="250px">&nbsp;
-<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/userInfo.PNG" width="250px">&nbsp;
-<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/myProfile.PNG" width="250px"><br>
-<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/chat.PNG" width="250px">&nbsp;
-<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/chatroom.PNG" width="300px">&nbsp;
-<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/boardRead.PNG" width="250px"><br>
-<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/scheduleEntry.PNG" width="400px">
+
 
 주요 기능 설명
 ------
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/login.PNG" width="200px">&nbsp;
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/signUp.PNG" width="200px">&nbsp;
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/findAccount.PNG" width="200px"><br>
 - Login
 > 로그인 모듈에서는 로그인 관리, 사용자 등록, 계정 찾기를 실행할 수 있습니다.<br>
 > 사용자 번호와 비밀번호를 이용해 로그인이 가능합니다.<br>
 > 계정이 없다면 사용자 등록을 통해 계정 등록이 가능하고 계정을 분실했을 경우<br>
-> 계정 찾기를 통해 이메일로 사용자 번호와 비밀번호를 전송받을 수 있습니다.
+> 계정 찾기를 통해 이메일로 사용자 번호와 비밀번호를 전송받을 수 있습니다.<br>
 
+<br><img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/main.PNG" width="250px">&nbsp;
 - Notice
 > 알림 탭에서는 가장 최근 내용을 리스트로 출력합니다.<br>
 > 가장 최신 공지사항을 최상단에 보여줍니다. 접거나 펼쳐서 내용을 확인할 수도 있습니다.<br>
 > 리스트에는 공지사항과 해당 사용자의 소속의 게시판 및 전체 게시판의 가장 최신글,<br>
-> 해당 날짜의 개인이 등록한 일정 및 단체 일정을 출력해 가장 최신의 내용을 확인할 수 있습니다.
+> 해당 날짜의 개인이 등록한 일정 및 단체 일정을 출력해 가장 최신의 내용을 확인할 수 있습니다.<br>
 
+<br><img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/userInfo.PNG" width="250px">&nbsp;
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/myProfile.PNG" width="250px"><br>
 - User Info
 > 사용자의 상세 정보를 확인할 수 있습니다.<br>
 > 화면 상단에는 자신의 프로필을 출력하고 여기에서는 자신의 상태 메시지를 변경할 수 있습니다.<br>
 > 리스트에는 사용자들이 탭 형식으로 소속별로 구분되어 있습니다.<br>
 > 리스트에서 사용자를 선택하면 해당 사용자의 자세한 정보를 확인할 수 있습니다.<br>
-> 사용자의 이름과 소속을 이용해 검색이 가능합니다.
+> 사용자의 이름과 소속을 이용해 검색이 가능합니다.<br>
 
+<br><img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/chat.PNG" width="250px">&nbsp;
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/chatroom.PNG" width="300px">&nbsp;
 - Chatting
 > 사용자는 2개의 채팅방을 선택해 입장할 수 있습니다.<br>
-> 모든 구성원들이 소속에 구분없이 접속이 가능한 전체 채팅방과 각 소속별로 구분되어 있는 그룹 채팅방입니다.
+> 모든 구성원들이 소속에 구분없이 접속이 가능한 전체 채팅방과 각 소속별로 구분되어 있는 그룹 채팅방입니다.<br>
 
+<br><img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/boardRead.PNG" width="250px"><br>
 - Board
 > 게시판은 모든 소속을 포함하는 '전체'리스트와 각 소속별로 구분된 리스트를 제공합니다.<br>
 > 사용자는 해당 게시판을 선택해 글을 작성할 수 있으며 파일 첨부도 가능합니다.<br>
-> 게시물 수정이나 삭제는 작성한 사용자가 아니라면 불가능합니다.
+> 게시물 수정이나 삭제는 작성한 사용자가 아니라면 불가능합니다.<br>
 
+<br><img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/scheduleEntry.PNG" width="400px">
 - Schedule
 > 일정관리는 달력 형태로 새로운 창이 생성됩니다.<br>
 > 일정을 등록하려면 해당 날짜를 선택하고 개인 일정을 등록하면 됩니다.<br>

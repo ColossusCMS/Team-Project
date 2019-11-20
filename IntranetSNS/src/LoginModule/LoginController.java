@@ -10,6 +10,8 @@ import IdSaveLoadModule.IdSaveLoad;
 import MainModule.MainController;
 import SystemTray.SystemTrayMain;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +28,7 @@ import javafx.stage.Stage;
 프로젝트 주제 : 사내 SNS
 프로그램 버전 : 1.0.0
 패키지 이름 : LoginModule
-패키지 버전 : 1.2.0
+패키지 버전 : 1.2.1
 클래스 이름 : LoginController
 해당 클래스 작성 : 최문석, 김도엽
 
@@ -53,6 +55,10 @@ import javafx.stage.Stage;
 
 1.2.0
 - 사용자 프로필용 이미지 업로드 기능 추가, SFTP서버를 이용해 구현
+
+1.2.1
+- 메인화면 제목표시줄 수정
+- 로그인 버튼 활성화 / 비활성화 기능 추가
  */
 
 public class LoginController implements Initializable {
@@ -67,10 +73,31 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		btnLogin.setDisable(true);
+		
 		btnLogin.setOnAction(event -> handleBtnLoginAction());
 		btnFindAccount.setOnAction(event -> handleBtnFindAccountAction());
 		btnSignUp.setOnAction(event -> handleBtnSignUpAction());
-
+		
+		// 사용자 번호나 비밀번호를 입력하면 로그인 버튼이 활성화됨
+		txtFieldUserNo.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(!newValue.isEmpty()) {
+					btnLogin.setDisable(false);
+				}
+			}
+		});
+		
+		pwFieldPassword.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(!newValue.isEmpty()) {
+					btnLogin.setDisable(false);
+				}
+			}
+		});
+		
 		// 비밀번호를 입력하고 로그인 버튼을 누르지않고 엔터키를 눌러서 로그인을 시도할 수 있게 만듦.
 		pwFieldPassword.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -124,6 +151,7 @@ public class LoginController implements Initializable {
 				try {
 					Parent mainPane = FXMLLoader.load(getClass().getResource("/MainModule/main.fxml"));
 					Scene scene = new Scene(mainPane);
+					stage.setTitle("인트라넷 SNS");
 					stage.setScene(scene);
 					stage.setResizable(false);
 					stage.show();

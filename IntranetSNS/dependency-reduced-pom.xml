@@ -7,7 +7,6 @@
   <url>http://maven.apache.org</url>
   <build>
     <sourceDirectory>src</sourceDirectory>
-    <defaultGoal>install</defaultGoal>
     <resources>
       <resource>
         <directory>src</directory>
@@ -27,8 +26,27 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer>
+                  <mainClass>LoginModule.LoginMain</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
+  <properties>
+    <deloy.target.dir>D:/Java 작업/Team_Project/IntranetSNS/target</deloy.target.dir>
+  </properties>
 </project>
+

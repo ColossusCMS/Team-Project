@@ -16,9 +16,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/Eclipse/Repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>
-	<classpathentry kind="lib" path="E:/Eclipse/Repository/commons-io/commons-io/2.6/commons-io-2.6.jar"/>
-	<classpathentry kind="lib" path="E:/Eclipse/Repository/com/jcraft/jsch/0.1.55/jsch-0.1.55.jar"/>
-	<classpathentry kind="lib" path="E:/Eclipse/Repository/javax/mail/javax.mail-api/1.4.7/javax.mail-api-1.4.7.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

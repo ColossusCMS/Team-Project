@@ -33,7 +33,6 @@ JavaFX를 이용해 UI를 구현했고 라즈베리파이를 사용해 서버를
 
 데모 구동 영상
 ------
-
 <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/login.PNG" width="200px">&nbsp;
 <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/signUp.PNG" width="200px">&nbsp;
 <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/findAccount.PNG" width="200px"><br>

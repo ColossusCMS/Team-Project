@@ -6,7 +6,7 @@
 - [데모 구동 영상](#데모-구동-영상)
 - [주요 기능 설명](#주요-기능-설명)
 - [외부 라이브러리](#외부-라이브러리)
-- [버전 변경 사항](#버전-변경-)
+- [버전 변경 사항](#버전-변경-사항)
 - [마치며](#마치며)
 - [추가](#추가)
 
@@ -34,20 +34,16 @@ JavaFX를 이용해 UI를 구현했고 라즈베리파이를 사용해 서버를
 데모 구동 영상
 ------
 
-<div>
-  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/main.PNG?raw=true" width="30%">
-  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/user.PNG?raw=true" width="30%">
-  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/chat.PNG?raw=true" width="30%">
-  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/chatroom.PNG?raw=true" width="30%">
-</div>
-<div>
-  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/board.png" width="30%">
-  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/write.png" width="30%">
-</div>
-<div>
-  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/schedule.png" width="30%">
-  <img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/entry.png" width="30%">
-</div>
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/login.PNG" width="200px">&nbsp;
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/signUp.PNG" width="200px">&nbsp;
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/findAccount.PNG" width="200px"><br>
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/main.PNG" width="250px">&nbsp;
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/userInfo.PNG" width="250px">&nbsp;
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/myProfile.PNG" width="250px"><br>
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/chat.PNG" width="250px">&nbsp;
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/chatroom.PNG" width="300px">&nbsp;
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/boardRead.PNG" width="250px"><br>
+<img src="https://github.com/ColossusCMS/IntranetSNS/blob/master/Screenshot/scheduleEntry.PNG" width="400px">
 
 주요 기능 설명
 ------

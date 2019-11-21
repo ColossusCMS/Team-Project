@@ -36,9 +36,9 @@ import javafx.stage.Stage;
 
 /*
 프로젝트 주제 : 사내 SNS
-프로그램 버전 : 1.0.0
+프로그램 버전 : 1.1.0
 패키지 이름 : LoginModule
-패키지 버전 : 1.2.1
+패키지 버전 : 1.3.0
 클래스 이름 : SignUpController
 해당 클래스 작성 : 최문석
 
@@ -67,6 +67,9 @@ import javafx.stage.Stage;
 1.2.1
 - 메인화면 제목표시줄 수정
 - 로그인 버튼 활성화 / 비활성화 기능 추가
+
+1.3.0
+- 프로필 사진 파일명이 한글일 경우 url용으로 변환하는 기능 추가
  */
 public class SignUpController implements Initializable {
 	@FXML

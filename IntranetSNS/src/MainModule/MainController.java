@@ -484,6 +484,7 @@ public class MainController implements Initializable {
 						} else {
 							String url = "http://" + DataProperties.getIpAddress() + ":"
 									+ DataProperties.getPortNumber("HTTPServer") + "/images/" + item.getUserImgPath();
+							System.out.println(url);
 							imgView.setImage(new Image(url));
 							setGraphic(box);
 						}

@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.net.URLEncoder;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -98,8 +97,7 @@ public class SFTPModule {
 			sftpChannel.cd(remoteDir); // 서버 측의 채널위치를 지정한 경로로 변경
 			file = new File(fileName); // 파일 전송에 쓰일 파일 객체 생성
 			fis = new FileInputStream(file);
-			String fileGetName = URLEncoder.encode(file.getName(), "UTF-8");
-			sftpChannel.put(fis, fileGetName); // 해당 채널에 파일을 전송하면서 해당 파일명으로 저장
+			sftpChannel.put(fis, file.getName()); // 해당 채널에 파일을 전송하면서 해당 파일명으로 저장
 			fis.close();
 			System.out.println("파일 업로드 완료 - " + file.getAbsolutePath());
 		} catch (Exception e) {

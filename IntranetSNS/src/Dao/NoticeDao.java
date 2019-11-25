@@ -104,7 +104,7 @@ public class NoticeDao {
 
 	// 게시판의 구분이 사용자의 부서인 게시물 중 가장 최신글을 가져오는 메서드
 	public void getRecentlyDeptBoard(ObservableList<NoticeTableView> list, String userno) {
-		String sql = "select b.boardno, u.userdept, b.boardtitle from boardtbl b inner join usertbl u on b.boarduserno = u.userno\r\n"
+		String sql = "select b.boardno, b.boardheader, b.boardtitle from boardtbl b inner join usertbl u on b.boarduserno = u.userno\r\n"
 				+ "where b.boardheader = (select d.deptname from depttbl d inner join usertbl u on u.userdept = d.deptname where u.userno = ?)"
 				+ "and b.boardavailable = 1 order by b.boardno desc limit 1;";
 		PreparedStatement pstmt = null;
@@ -113,7 +113,7 @@ public class NoticeDao {
 			pstmt.setString(1, userno);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-				list.add(new NoticeTableView(rs.getInt("boardno"), "게시판-" + rs.getString("userdept"),
+				list.add(new NoticeTableView(rs.getInt("boardno"), "게시판-" + rs.getString("boardheader"),
 						rs.getString("b.boardtitle")));
 			}
 		} catch (SQLException e) {

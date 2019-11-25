@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -266,7 +267,7 @@ public class SignUpController implements Initializable {
 						DataProperties.getPassword("SFTPServer"));
 				try {
 					// 해당 파일을 업로드하고 해당 파일명을 가져옴
-					imagePath = sftpModule.upload(txtFieldImgPath.getText(), "images");
+					imagePath = URLEncoder.encode(sftpModule.upload(txtFieldImgPath.getText(), "images"), "UTF-8");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
